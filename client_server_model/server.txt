@@ -1,0 +1,16 @@
+✅ Server:
+A server is a device or program that waits for and responds to 
+requests from clients. 
+It provides services or resources.
+
+Examples:
+
+Web server (e.g., Nginx, Apache)
+Database server (e.g., MySQL)
+Mail server
+
+Role:
+
+Always running and listening for requests
+Processes client requests  
+Returns results or responses
