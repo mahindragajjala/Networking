@@ -1,0 +1,71 @@
+🔹 1. Web Server
+                Purpose: Serves HTTP/HTTPS content (web pages, APIs).
+                Examples: Apache, Nginx, Microsoft IIS
+                Clients: Browsers, mobile apps, etc.
+
+🔹 2. Application Server
+                        Purpose: Executes business logic and processes dynamic content.
+                        Examples: Node.js, Tomcat, JBoss, .NET Core
+                        Works with: Web servers and databases
+
+🔹 3. Database Server
+                    Purpose: Manages databases and handles queries.
+                    Examples: MySQL, PostgreSQL, Oracle, MongoDB
+                    Clients: Application servers or directly via DB clients
+
+🔹 4. File Server
+                  Purpose: Stores and manages files in a shared location.
+                  Examples: Samba, FTP servers, NFS
+                  Used for: Document management, backups, remote access
+
+🔹 5. Mail Server
+                Purpose: Sends, receives, and stores emails.
+                Examples: Microsoft Exchange, Postfix, Sendmail
+                Protocols: SMTP, IMAP, POP3
+
+🔹 6. Proxy Server
+                  Purpose: Intermediary between client and other servers to provide anonymity, security, or caching.
+                  Examples: Squid, Nginx (as reverse proxy), HAProxy
+
+🔹 7. DNS Server (Domain Name System)
+                      Purpose: Translates domain names (e.g., google.com) into IP addresses.
+                      Examples: BIND, PowerDNS, Unbound
+
+🔹 8. DHCP Server (Dynamic Host Configuration Protocol)
+                        Purpose: Automatically assigns IP addresses to devices on a network.
+                        Examples: ISC DHCP Server, Windows DHCP Server
+
+🔹 9. Authentication Server
+                Purpose: Verifies credentials and controls access to resources.
+                Examples: RADIUS, LDAP (Active Directory), OAuth servers
+
+🔹 10. Game Server
+            Purpose: Hosts multiplayer online game environments.
+            Examples: Minecraft Server, Counter-Strike Dedicated Server
+
+🔹 11. FTP Server (File Transfer Protocol)
+            Purpose: Transfers files using FTP.
+            Examples: vsftpd, FileZilla Server
+
+🔹 12. Media Streaming Server
+              Purpose: Streams video/audio content in real time.
+              Examples: Wowza, Red5, VLC, Plex
+
+🔹 13. Print Server
+              Purpose: Manages print jobs and connects printers to clients over a network.
+
+🔹 14. Virtual Server / Hypervisor
+              Purpose: Hosts virtual machines (VMs).
+              Examples: VMware ESXi, Microsoft Hyper-V, KVM
+
+🔹 15. Cloud Server
+              Purpose: Provides compute, storage, and services in the cloud.
+              Examples: AWS EC2, Azure VM, Google Cloud Compute
+
+🔹 16. Backup Server
+            Purpose: Manages data backups and restores.
+            Used in: Disaster recovery planning
+
+🔹 17. Time Server (NTP Server)
+              Purpose: Synchronizes time across networked systems.
+              Protocol: NTP (Network Time Protocol)
