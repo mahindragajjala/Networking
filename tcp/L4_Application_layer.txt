@@ -1,0 +1,49 @@
+The Application Layer provides network services directly to user 
+applications. 
+It's the interface between userlevel software (like browsers, email 
+clients) and the transport/network stack.
+
+It corresponds to the Application + Presentation + Session Layers (Layers 5–7) 
+in the OSI model.
+
+PURPOSE:
+Enable userlevel programs to send and receive meaningful data over 
+the network using standard protocols.
+
+INPUT :
+
+➡ Data from the user or application (e.g., a typed message, a file, 
+   a webpage request)
+
+
+
+
+OPERATIONS AND FUNCTIONS IN THE APPLICATION LAYER
+
+ Operation                          Description                                                                              
+ 1. Protocol Execution          Runs standard protocols like HTTP, FTP, SMTP, DNS, etc.                                  
+ 2. User Interface Integration  Interfaces with user apps like web browsers, mail clients, or CLI tools.                 
+ 3. Data Formatting & Encoding  (Optional) Convert data into the correct format for transfer (e.g., HTML, JSON, XML).    
+ 4. Session Management          Manages conversations between applications (e.g., multiple HTTP requests).               
+ 5. Error Reporting             If something fails (e.g., server not found), this layer can handle it or alert the user. 
+
+
+
+
+PROTOCOLS: 
+
+ Protocol            Purpose                     
+ HTTP/HTTPS      Web browsing                
+ FTP/SFTP        File transfers              
+ SMTP/POP3/IMAP  Email sending and receiving 
+ DNS             Domain name resolution      
+ DHCP            IP address assignment       
+ SNMP            Network monitoring          
+ SSH             Secure shell access         
+ Telnet          Remote login (insecure)     
+ NTP             Time synchronization        
+
+
+OUTPUT:
+➡ Transport Layer segment (like TCP with HTTP payload)
+This segment is passed to the Transport Layer, which takes care of delivery.
