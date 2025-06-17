@@ -65,7 +65,7 @@
 | Data Link Layer         | ↔  | Network Access Layer       |
 | Physical Layer          | ↔  | Network Access Layer       |
 
-TCP/IP
+##TCP/IP
 | 🧱 Layer (Bottom → Top)      | 📜 Protocols (Examples)                         | ⚙️ Key Operations in Layer                                                                                             | 🔽 Input from Above Layer               | 🔄 Processing Done in the Layer                                                                                                        | 🔼 Output to Lower Layer                    |
 | ---------------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
 | **1. Link / Network Access** | Ethernet (IEEE 802.3), Wi-Fi (802.11), PPP, ARP | - Frame creation<br>- MAC addressing<br>- Media access (CSMA/CD)<br>- Error detection (CRC)<br>- Physical signaling    | IP Packet                               | ➤ Add MAC addresses<br>➤ Wrap in Ethernet frame<br>➤ Perform error check (CRC)<br>➤ Transmit as bits on physical medium                | Bits sent over wire or wireless media       |
