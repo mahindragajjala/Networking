@@ -1,0 +1,13 @@
+✅ Client:
+A client is a device or program that initiates a request to another 
+program or service (the server) for resources or actions.
+
+Examples:
+          Web browser (e.g., Chrome requesting a webpage)
+          Mobile app (requesting data from a backend)
+          FTP client (downloading files)
+
+Role:
+      Initiates communication
+      Sends request messages
+      Waits for and processes responses
