@@ -1,0 +1,39 @@
+This concept refers to how the server handles client requests 
+— whether it "remembers" previous interactions or not.
+
+                      
+
+                      ✅ Stateless Communication
+Definition: Each request is treated as independent, and the server 
+does not retain any memory of previous requests from the same client.
+
+Example: HTTP protocol (by default)
+
+If you refresh a web page, the server doesn’t remember what you did 
+before.
+
+Pros:
+    Scalable
+    Easy to implement
+    Low memory usage
+Cons:
+      Repeated work for every request
+      Need to resend credentials or session info
+
+                    ✅ Stateful Communication
+Definition: The server remembers the previous interactions and 
+maintains session state over multiple requests.
+
+Example: Online banking, multiplayer games, FTP
+
+Once logged in, the server keeps your session active across pages.
+
+Pros:
+More efficient interactions
+Personalized experience
+Easier for multi-step operations
+
+Cons:
+Complex to manage
+Requires memory and session management
+Harder to scale
