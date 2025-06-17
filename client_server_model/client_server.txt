@@ -43,39 +43,26 @@ Maintainability: Easier to update/maintain servers.
                           Stateless vs Stateful communication
 
 🔹 2. Types of Servers
-Web server (e.g., Apache, Nginx)
-
-Database server (e.g., MySQL, PostgreSQL)
-
-File server
-
-Mail server
-
-Proxy server
-
-Game server
+                        Web server (e.g., Apache, Nginx)
+                        Database server (e.g., MySQL, PostgreSQL)
+                        File server
+                        Mail server
+                        Proxy server
+                        Game server
 
 🔹 3. Types of Clients
-Web browsers
-
-Mobile applications
-
-Desktop applications
-
-Embedded systems
+                        Web browsers
+                        Mobile applications
+                        Desktop applications
+                        Embedded systems
 
 🔹 4. Communication Protocols
-TCP vs UDP (Transport Layer)
-
-HTTP/HTTPS
-
-FTP
-
-SMTP/IMAP/POP
-
-WebSocket
-
-gRPC
+                        TCP vs UDP (Transport Layer)
+                        HTTP/HTTPS
+                        FTP
+                        SMTP/IMAP/POP
+                        WebSocket
+                        gRPC
 
 🔹 5. Socket Programming
 TCP Sockets
