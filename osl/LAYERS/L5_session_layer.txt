@@ -1,0 +1,185 @@
+🧭 "Establishes, manages, and terminates communication sessions between applications."
+
+                      🧠 What is a Session?
+A session is like a dialog box or a meeting between two applications.
+                It begins when a connection is established.
+                It continues while both sides exchange data.
+                It ends when one side closes the session or it times out.
+
+
+
+
+
+
+
+The Session Layer makes sure this "conversation" is:
+                Initiated properly,
+                Maintained (even if interrupted),
+                Terminated cleanly.
+
+
+
+
+
+
+
+
+                    🎯 Responsibilities of the Session Layer
+| Function              | Description                                                               |
+| Session Establishment | Begins a dialog between apps (like logging into a server)                 |
+| Session Maintenance   | Keeps the communication alive, even across disruptions                    |
+| Session Termination   | Ends the session gracefully                                               |
+| Synchronization       | Adds checkpoints or markers in a long transmission (for recovery)     |
+| Dialog Control        | Controls who speaks when in two-way communications (half/full duplex) |
+
+
+
+
+
+
+
+
+                  Real-Time Example
+
+Example 1: Remote Login via SSH
+- You log in to a remote server.
+- SSH (Application Layer) establishes a session.
+- The Session Layer tracks:
+          The state of your login
+          Whether you’re authenticated
+          If the session times out or disconnects
+
+Example 2: Video Conferencing (Zoom, Skype)
+The session layer maintains the voice and video session:
+          Detects if one party disconnects
+          Keeps the call state
+          Restores the session if interrupted (in some apps)
+
+
+
+
+
+
+
+
+            ⚡ Dialog Control: Half vs Full Duplex
+
+| Mode        | Meaning                             | Example       |
+| Half Duplex | One side speaks at a time           | Walkie-talkie |
+| Full Duplex | Both sides can speak simultaneously | Phone call    |
+The Session Layer may manage and switch these modes based on network or app behavior.
+
+
+
+
+
+
+
+               🧱 Protocols & APIs Used at This Layer
+There are no famous standalone protocols purely at Layer 5, 
+but it's embedded in many high-level frameworks and APIs:
+| Protocol / API                  | Use                                 |
+| RPC (Remote Procedure Call) | Session-based remote function calls |
+| NetBIOS Session Service     | Windows LAN communication           |
+| Sockets API (via TCP)       | Session tracking via program logic  |
+| RTP/RTCP (used in VoIP)     | Session timing and control          |
+
+
+
+
+
+
+
+
+                🛠 Why It Matters
+Web session → Maintains your login state on a website
+Banking → Ends session after inactivity (secure session timeout)
+Video call → Maintains state if network drops briefly
+File transfer → Allows resume from last checkpoint instead of restarting
+
+
+
+
+
+
+
+
+                  OSI Stack Visual 
+        L7 - Application      ← Chrome, Zoom, WhatsApp
+        L6 - Presentation     ← Data formatting (e.g. JSON, TLS encryption)
+        👉 L5 - Session        ← Controls & maintains sessions
+        L4 - Transport        ← TCP/UDP
+        L3 - Network          ← IP Address, Routing
+        L2 - Data Link        ← MAC, Framing
+        L1 - Physical         ← Cables, WiFi, signals
+
+
+
+
+
+
+
+
+                  Real-Life Analogy
+Think of the Session Layer like a meeting room coordinator:
+                Books the room (establish session)
+                Ensures both sides are present and speaking in turns
+                Reschedules or resumes if interrupted
+                Ends the meeting cleanly
+
+
+
+
+
+
+
+| Feature             | Role                                                  |
+| ------------------- | ----------------------------------------------------- |
+| Session Creation    | Starts a dialogue between two systems                 |
+| Session Maintenance | Maintains continuity and monitors connectivity        |
+| Recovery            | Can use checkpoints to resume after interruptions |
+| Control             | Manages who sends/receives and when                   |
+
+
+
+✅ In Reality:
+The Session Layer is not a standalone layer implemented by the OS like TCP/IP.
+Instead, session management is handled by:
+
+🔶 1. The Application Itself
+Most modern applications manage their own sessions.
+
+Example	Who manages the session?
+Web app (like Amazon, Gmail)	The web server and browser (via cookies, tokens)
+SSH Client	SSH protocol session logic
+Database Client (e.g., MySQL Workbench)	DB client and server maintain session state
+Video call (e.g., Zoom)	Application’s internal session manager
+
+📌 Programmers or developers write code that:
+
+Initiates sessions (e.g., login)
+Tracks session state (e.g., user activity, authentication)
+Ends sessions after logout or timeout
+
+🔶 2. The Application Frameworks / Middleware
+          Frameworks often include built-in session layer logic, such as:
+          HTTP frameworks (like Express.js, Django, Spring Boot):
+          Use cookies, headers, or session IDs
+          Remote Procedure Call frameworks (like gRPC, Thrift):
+          Handle session channels
+          Socket libraries (like WebSocket, ZeroMQ):
+          Maintain bi-directional communication sessions
+
+🔶 3. Underlying Protocols with Session-Like Features
+          Although TCP itself is a Transport Layer protocol, it assists with session-like behavior:
+          Connection establishment (3-way handshake)
+          Maintains the link until closed
+          Used as a foundation for application-layer sessions
+
+
+➡️ Session is created by the SSH protocol, 
+    handled at Application + Transport Layer together.
+
+
+
+

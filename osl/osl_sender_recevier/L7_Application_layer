@@ -1,0 +1,23 @@
+The Application Layer is the interface between the "user" and "the network". 
+
+It provides services and protocols that allow users and applications to access 
+the "network" and "communicate" over it.
+
+📌 It doesn’t mean the actual software application (like Chrome or Skype), 
+but the network services that support those applications (like HTTP, DNS, FTP).
+
+📤 SENDER SIDE – Application Layer Responsibilities
+Function / Operation	                       Description
+1. Provide Network Services to Applications	 Offers network access to user                                                  applications (e.g., web browsers,                                              email clients).
+2. Service Requests	                         Accepts input from the user or                                                 application and prepares it for                                                transmission.
+3. Resource Sharing & File Transfer	         Allows file downloads, uploads, remote access, etc.
+4. Identify Communication Partners	         Determines the identity and availability of communication peers.
+
+
+
+📥 RECEIVER SIDE – Application Layer Responsibilities
+Function / Operation	                 Description
+1. Data Display to User/Application	   Converts received data into readable                                           form for the end user.
+2. Network Service Response	           Responds to requests like opening a                                             webpage or replying to an email.
+3. Error Messages or Replies	         Sends messages back (e.g., “404 Not                                             Found”, “Access Denied”).
+4. File or Message Delivery	           Provides received files, messages, or                                          streams to the requesting software.

@@ -1,0 +1,75 @@
+🔗 "Reliable transfer of frames over a physical medium"
+
+What It Does.
+The Data Link Layer is responsible for node-to-node delivery—ensuring that 
+data transferred between two directly connected devices is error-free and
+well-structured.
+
+It takes raw bits from "the Physical Layer and organizes them into frames".
+
+                                            HANDLES 
+"MAC addressing", 
+"error detection", and 
+"flow control".
+
+                                            SUBLAYERS
+LLC (Logical Link Control)
+Manages communication and error handling.
+Talks to the Network Layer (Layer 3).
+MAC (Media Access Control)
+Assigns and recognizes MAC addresses.
+Controls access to the physical transmission medium.
+
+                                            ADVANCED CONCEPTS
+🔹 MAC Address (Media Access Control Address)
+                                        A 48-bit unique hardware address assigned to every NIC.
+                                        Example: 00:1A:2B:3C:4D:5E
+                                        Used to identify devices on the same network segment.
+
+🔹 Frame Structure
+                    A typical Ethernet frame includes:
+                    [ Preamble | Dest MAC | Src MAC | Type | Payload | CRC ]
+
+🔹 Error Detection: CRC
+                        CRC adds a checksum to detect data corruption.
+                        If mismatch happens, the frame is discarded.
+
+🔹 CSMA/CD (Carrier Sense Multiple Access with Collision Detection)
+                      Ethernet uses this to avoid multiple devices transmitting at the same time.
+                      If collision detected → Back off, wait, try again.
+
+🔹 Switches operate at Layer 2
+                        They forward frames using MAC addresses.
+                        Build a MAC address table to make frame forwarding decisions.
+
+                                          💻 REAL-TIME EXAMPLE
+📱 WhatsApp on Wi-Fi (continued from Layer 1)
+
+Your mobile wants to send voice packets over your Wi-Fi router.
+
+It wraps each packet in a frame with:
+Your phone’s MAC as source,
+Router’s MAC as destination.
+The router gets the frame, reads the MAC address, checks for errors, and 
+forwards the data to the next device.
+
+                TOOLS/DEVICES:
+                Switches: Forward frames using MAC.
+                NIC (Network Interface Card): Adds/removes MAC addresses.
+                Wireshark: Tool to analyze Layer 2 frames.
+
+                ARP:
+                ARP (Address Resolution Protocol): Maps IP ↔ MAC (though it belongs to Layer 3, 
+                it supports Layer 2)
+
+Troubleshooting Examples
+| Symptom                                       | Possible Layer 2 Issue        |
+| --------------------------------------------- | ----------------------------- |
+| Devices can’t ping each other on the same LAN | Wrong or duplicate MACs       |
+| Slow LAN communication                        | Switch flooding or loops      |
+| Packet loss in Wi-Fi                          | Frame collision, interference |
+
+✅ This layer ensures the data reaches the next hop on the path without corruption 
+and with the correct MAC address.
+
+

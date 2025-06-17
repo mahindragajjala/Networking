@@ -1,0 +1,69 @@
+🎭 "The translator and stylist of the OSI model — ensures 
+     that data is in a usable and secure format."
+
+                      🧠 Purpose of the Presentation Layer
+This layer is all about data representation — it makes sure that:
+    Sender’s data format is understood by the receiver.
+    Data is encrypted/decrypted securely.
+    Data is compressed/decompressed efficiently.
+    Think of it as the translator, compressor, and encrypter of the network stack.
+
+Key functions :
+| Feature                         | Description                                                                                |
+| Data Translation                | Converts between different formats (e.g., ASCII ↔ EBCDIC, XML ↔ JSON)                      |
+| Encryption / Decryption         | Secures data using algorithms (e.g., TLS, SSL, AES)                                        |
+| Compression / Decompression     | Reduces data size for faster transmission (e.g., ZIP, GZIP)                                |
+| Serialization / Deserialization | Converts complex data (e.g., structs, objects) to/from byte streams (e.g., JSON, Protobuf) |
+
+
+                            🔐 Encryption in Presentation Layer
+🔒 When you send:
+You type your credit card info on a website → It is encrypted using TLS.
+Hacker sees only: 3aR9d$@f%@3# (gibberish).
+
+🔓 When received:
+The server decrypts it → gets your actual credit card number.
+
+🔐 TLS (Transport Layer Security) works between the Application and Transport layers, 
+    but conceptually belongs to the Presentation Layer.
+
+
+🗜️ Compression
+Why send 100 KB when you can send 30 KB?
+| Protocols      | Compression Types               |
+| HTTP/2, HTTP/3 | Uses `gzip`, `brotli`           |
+| VoIP / Video   | Uses codecs like Opus, H.264    |
+| File Transfer  | `.zip`, `.tar.gz` at this layer |
+
+
+
+
+🔁 Data Formatting / Serialization
+                    Format	Use Case
+                    JSON	Web APIs (human-readable)
+                    XML	SOAP APIs, configs
+                    Protobuf / gRPC	High-performance APIs
+                    ASN.1	Telecom, SNMP
+                    YAML	Configuration
+
+Your app might generate a complex object like:
+
+{
+  "user": {
+    "id": 101,
+    "name": "Mahindra"
+  }
+}
+The Presentation Layer logic ensures it's properly converted to a byte stream and 
+then reversed at the receiver.
+
+
+                  L7 - Application       ← App logic (HTTP, DNS, FTP)
+                  👉 L6 - Presentation    ← Format, encrypt, compress
+                  L5 - Session           ← Manage sessions (logins, calls)
+                  L4 - Transport         ← TCP/UDP
+                  L3 - Network           ← IP, Routing
+                  L2 - Data Link         ← MAC, Frame control
+                  L1 - Physical          ← Cables, WiFi, voltage
+
+

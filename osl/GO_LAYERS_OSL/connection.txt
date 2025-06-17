@@ -1,0 +1,126 @@
+Create a very simple GoLang application that behaves like a basic version of 
+Chrome, meaning:
+
+* It sends an HTTP request to a website.
+* Receives the HTTP response.
+* Displays the raw HTML page.
+
+Then, for each OSI layer, I will explain what Go or your system is doing under the hood 
+      — so you can map application logic to OSI layers.
+
+ ✅ Step 1: GoLang Code – Mini Chrome (Basic Browser Client)
+                                    package main
+                                    
+                                    import (
+                                    	"fmt"
+                                    	"io"
+                                    	"net/http"
+                                    )
+                                    
+                                    func main() {
+                                    	// Application Layer - Sending HTTP request
+                                    	resp, err := http.Get("https://www.flipkart.com")
+                                    	if err != nil {
+                                    		fmt.Println("Error:", err)
+                                    		return
+                                    	}
+                                    	defer resp.Body.Close()
+                                    
+                                    	// Application Layer - Reading HTTP response
+                                    	body, err := io.ReadAll(resp.Body)
+                                    	if err != nil {
+                                    		fmt.Println("Error reading body:", err)
+                                    		return
+                                    	}
+                                    
+                                    	// Application Layer - Displaying HTML
+                                    	fmt.Println(string(body))
+                                    }
+
+
+ 🔧 How to Run:
+go run main.go
+
+This is your simple Chrome-like browser that:
+
+* Sends request to Flipkart
+* Gets response
+* Prints raw HTML
+
+ 🌐 OSI Layer Breakdown (What Happens Internally)
+
+Let’s walk through what happens when this Go program runs — layer by layer.
+  
+                     🔹 Layer 7: Application Layer (Go: `http.Get(...)`)
+* Protocol: HTTP/HTTPS
+* You make an HTTP GET request.
+* Go standard library handles the formatting of HTTP headers.
+* You also read the HTTP response.
+
+✅ Code:
+http.Get("https://www.flipkart.com")
+io.ReadAll(resp.Body)
+  
+                   🔹 Layer 6: Presentation Layer
+* Protocol: TLS/SSL (for HTTPS)
+* If the URL is `https://`, Go automatically uses TLS encryption.
+* The Go `http` package uses `crypto/tls` internally.
+* Data gets encrypted before sending.
+
+✅ Happens behind the scenes:
+// TLS handshake, encryption handled by net/http + crypto/tls
+
+                   🔹 Layer 5: Session Layer
+* Maintains a secure session between client and server.
+* TLS also manages session states, re-handshakes, etc.
+* Session is invisible in code, but controlled by TLS.
+
+✅ Hidden in Go's HTTP stack.
+
+                   🔹 Layer 4: Transport Layer (TCP)
+
+* Protocol: TCP
+* Go uses `net.TCPConn` to make reliable connections.
+* Ensures order, retransmission, flow control.
+
+✅ Abstracted inside:
+http.Transport (uses TCP connection pool)
+
+                  🔹 Layer 3: Network Layer (IP)
+
+* Protocol: IP
+* Adds source/destination IP.
+* Chooses best route.
+* Your OS uses Go’s `net.Dial` under the hood → sends to DNS, then uses the resolved IP.
+
+✅ Go uses:
+net.Dial("tcp", "flipkart.com:443")
+
+                 🔹 Layer 2: Data Link Layer (Ethernet/Wi-Fi)
+
+* Adds MAC addresses.
+* This is done by your OS + NIC driver (Go does not handle this).
+* Converts IP packet into a frame.
+
+✅ OSI layer handled by your OS kernel + hardware driver.
+
+             🔹 Layer 1: Physical Layer
+
+* Transmits raw binary (0s and 1s) as electrical/wireless signals.
+* Happens through Ethernet card or Wi-Fi chip.
+
+✅ Handled by hardware layer (not Go).
+
+
+
+ 📦 Layer Mapping Table
+
+| OSI Layer    | Role                    | GoLang Code / System Call |
+| App (7)      | HTTP request/response   | `http.Get`, `io.ReadAll`  |
+| Presentation | Encryption (TLS)        | via `crypto/tls`          |
+| Session      | Secure session mgmt     | via TLS session (auto)    |
+| Transport    | Reliable delivery (TCP) | via `net.TCPConn`         |
+| Network      | IP addressing/routing   | via `net.Dial`, DNS       |
+| Data Link    | MAC addressing/frame    | OS kernel + NIC driver    |
+| Physical     | Bit transmission        | Ethernet/Wi-Fi hardware   |
+

@@ -1,0 +1,110 @@
+It ensures reliable data transfer between two directly connected devices over 
+the physical layer. 
+
+It packages raw bits into frames, handles MAC addressing, 
+and detects/corrects errors that may occur during transmission.
+
+
+
+SENDER SIDE – Data Link Layer Responsibilities
+
+ Function / Operation      Description                                                                                         
+ 1. Framing            Takes packets from the Network Layer and encapsulates them into frames (adds headers/trailers). 
+ 2. MAC Addressing     Adds source and destination MAC addresses to help identify the devices on a LAN.                
+ 3. Error Detection    Adds errorchecking code like CRC (Cyclic Redundancy Check) to detect transmission errors.          
+ 4. Flow Control       Prevents fast sender from overwhelming a slow receiver (in some protocols).                         
+ 5. Access Control     Decides who gets to send on a shared medium (important in Ethernet/WiFi).                      
+ 6. Protocol Handling  Uses protocols like Ethernet, PPP, HDLC, or WiFi (802.11).     
+
+RECEIVER SIDE – Data Link Layer Responsibilities
+ Function / Operation                   Description                                                                       
+    
+ 1. Frame Reception                 Accepts the signal from the physical layer and interprets it as a data frame. 
+ 2. MAC Address Filtering           Checks if the destination MAC address matches the device's address.           
+ 3. Error Checking                  Uses CRC or checksum to detect errors in the received frame.                  
+ 4. Frame Synchronization           Ensures the start and end of the frame are correctly recognized.                  
+ 5. Acknowledgments (if supported)  Some DLL protocols send ACK/NACK for error recovery.                              
+ 6. Passes Data Up                  Sends the frame payload (packet) to the Network Layer (Layer 3).          
+
+EXAMPLES OF THE DATA LINK LAYER
+ Technology                         DLL Role                                                        
+ Ethernet (IEEE 802.3)          Adds MAC addresses and frames the packet for LAN communication. 
+ WiFi (IEEE 802.11)            Handles frame delivery over wireless and resolves collisions.   
+ PPP (PointtoPoint Protocol)  Used in dialup and VPNs to frame and manage direct links.      
+ Switch                         A Layer 2 device that uses MAC addresses to forward frames. 
+
+
+
+🎯 Example
+You open "www.amazon.com" on your laptop via Wi-Fi:
+The Data Link Layer on your laptop:
+Takes the IP packet from Layer 3,
+Adds source and destination MAC addresses (e.g., your laptop and your router),
+Adds CRC bits for error detection,
+Sends the frame down to the Physical Layer, which sends it as RF signals over air.
+
+At the router:
+DLL checks CRC and destination MAC.
+Accepts it if MAC matches.
+Passes it up to Layer 3 (Network Layer) for routing to Amazon.
+
+
+✅ Switch → Data Link Layer (Layer 2)
+Feature	Explanation
+Role - A switch forwards frames between devices within the same LAN using MAC addresses.
+Layer - 	Layer 2 – Data Link Layer
+Address Used - MAC address
+Function -	Builds a MAC address table and sends frames only to the intended device (unlike hubs, which broadcast).
+Example -	Your laptop sends data to a printer over Ethernet. 
+          The switch checks the destination MAC and forwards the frame only to the printer port.
+
+✅ Router → Network Layer (Layer 3)
+Feature	Explanation
+Role - A router connects multiple networks and decides the best path to send packets based on IP addresses.
+Layer - Layer 3 – Network Layer
+Address Used - IP address
+Function - Uses routing tables, protocols (like OSPF, BGP), and forwards packets to their next hop.
+Example	 - When you access www.google.com, your router forwards the request 
+            from your home network to the internet based on IP routing.
+
+
+
+
+
+
+
+PHYSICAL LAYER AND DATA LINK LAYER COMMUNICATION (SENDER SIDE AND RECEIVER SIDE...)
+                       Sender Side: Communication Flow
+                          Data Link Layer (Layer 2)
+Takes the network layer packet and creates a frame.
+Add s MAC header (source and destination MAC addresses).
+Adds CRC (error checking).
+Passes the frame to the Physical Layer.
+
+                         Physical Layer (Layer 1)
+Converts the frame (binary data) into electrical/optical/radio signals.
+Sends the raw bits (01010101...) over the medium (cable/wireless).
+Doesn’t understand structure; only cares about signals and bits.
+
+                    Receiver Side: Communication Flow
+                      Physical Layer (Layer 1)
+Receives the electrical/optical/radio signals.
+Converts signals back into bit stream (0s and 1s).
+Passes raw bits to the Data Link Layer.
+
+                    Data Link Layer (Layer 2)
+Receives the bitstream and reconstructs the frame.
+Checks for errors (CRC check).
+Reads the destination MAC address.
+If it matches the device, removes the Data Link header and passes the payload (network packet) to Layer 3 (Network Layer).
+
+
+
+Communication Between Data Link and Physical
+
+What it sends	-> Frames (structured, includes headers) ->	Bits (raw 1s and 0s as signals)
+What it expects	-> Bit-level transmission and reliability -> 	No framing knowledge, just transmission
+Interface between them	-> NIC (Network Interface Card)	-> Converts frames to signals and vice versa
+
+
+

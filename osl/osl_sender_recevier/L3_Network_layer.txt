@@ -1,0 +1,114 @@
+📌 Primary Role:
+                The Network Layer is responsible for:
+                Routing data between different networks.
+                Assigning logical addresses (IP addresses).
+                Determining the best path for data to reach its destination.
+
+
+📤 SENDER SIDE – Network Layer Responsibilities
+ Function / Operation       Description                                                                                      
+ 1. Logical Addressing  Adds the source and destination IP addresses to each packet.                                 
+ 2. Packetizing         Encapsulates the segment from the Transport Layer into a packet.                             
+ 3. Routing Decision    Determines the next hop/router the packet should go through.                                 
+ 4. Fragmentation       Breaks large packets into smaller pieces to match the network's MTU (Maximum Transmission Unit). 
+ 5. Routing Protocols   Uses protocols like OSPF, RIP, BGP to discover network paths.                                
+
+📥 RECEIVER SIDE – Network Layer Responsibilities
+ Function / Operation            Description                                                  
+ 1. Packet Reception         Receives the packet from the Data Link Layer.               
+ 2. IP Address Check         Checks whether the destination IP address matches the host. 
+ 3. Packet Reassembly        Reassembles fragments (if any) into the full packet.        
+ 4. Pass to Transport Layer  Sends the payload (segment) to the Transport Layer.         
+
+
+
+
+🌐 Real Example (Network Layer in Action)
+You type www.amazon.com in a browser:
+Your system queries DNS and gets an IP for Amazon.
+The Network Layer adds:
+Source IP: Your device's IP (e.g., 192.168.0.10)
+Destination IP: Amazon's server IP (e.g., 205.251.242.103)
+A router reads the IP header, checks its routing table, and forwards the 
+packet toward Amazon’s data center.
+
+
+
+
+
+You send a WhatsApp message on your phone (WiFi):
+
+Network Layer:
+IP Header: Source IP = your phone, Destination IP = WhatsApp server.
+Data Link Layer (WiFi):
+MAC Header: Source MAC = your phone’s WiFi card, Destination MAC = WiFi router.
+
+At the router:
+L2 MAC addresses are changed (because it’s a new local network).
+L3 IP headers remain the same (endtoend delivery).
+
+
+" Routers operate at the OSI Layer 3: the Network Layer."
+
+                          ✅ What Routers Do at Layer 3:
+Inspect IP Header of incoming packets.
+Determine Next Hop using the routing table.
+Forward the Packet to the next router or final destination.
+Update the Layer 2 Info:
+                          MAC addresses (L2) are updated for each hop.
+                          IP addresses (L3) stay the same (endtoend).
+
+
+
+
+                      📦 Example: When a packet moves across routers
+Imagine this flow:
+                      Your PC → Router1 → Router2 → Server
+                      The IP packet stays the same at every hop (L3 unchanged).
+                      The Ethernet frame (L2) is recreated at each hop with:
+                      New source MAC = current router
+                      New destination MAC = next hop/router
+
+                                  ROUTER VS SWITCH
+📌 Switches operate at Layer 2 (Data Link Layer)
+📌 Routers operate at Layer 3 (Network Layer)
+
+But:
+🔄 Switches and routers often work together, and data flow can go either 
+way depending on the context and network topology.
+
+
+Common Scenario: Who Sends to Whom?
+ Context                                                  Flow                 Reason                                                                                       
+      
+ User sends packet to a remote IP (e.g., google.com)  Switch → Router  Switch delivers the frame to the router because the destination IP is outside local network. 
+ Router sends a packet to a device in local LAN       Router → Switch  Router sends the packet to the switch to reach the correct MAC/device in local network.      
+ PC1 communicates with PC2 (same LAN)                 Switch only      Router not involved. Switch forwards directly using MAC addresses.                           
+
+
+EXAMPLES OF THE BOTH ROUTER VS SWITCH
+🎯 Case: You are accessing google.com from a PC at home
+
+Your PC creates an IP packet with:
+                        Source IP = your PC
+                        Destination IP = google.com (public IP)
+Since this IP is outside your local network, your PC:
+                        Uses default gateway = your router
+Builds an Ethernet frame with:
+                        Destination MAC = your router's MAC
+                        Source MAC = your PC’s MAC
+This frame is sent to the switch:
+                        The switch looks at the destination MAC (router's MAC)
+                        It forwards the frame to the router port.
+
+✅ So in this case:
+PC → Switch → Router
+Now when the router sends data back to you:
+Router gets a response from Google and wants to send it back to your PC:
+                Builds a frame with your PC's MAC as destination
+                Forwards the frame
+Router connects to the switch:
+                Sends frame → Switch forwards to your PC.
+
+✅ In this case:
+Router → Switch → PC

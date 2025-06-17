@@ -1,0 +1,56 @@
+The Transport Layer ensures endtoend communication between two systems. It handles:
+
+Reliable delivery
+Error recovery
+Segmentation and reassembly
+Flow and congestion control
+
+
+
+SENDER SIDE – Transport Layer Responsibilities
+ Function / Operation       Description                                                                                     
+    
+ 1. Segmentation        Breaks large data from the Application Layer into smaller chunks called "segments".       
+ 2. Port Addressing     Adds source and destination port numbers to identify applications (e.g., port 80 for HTTP). 
+ 3. Sequence Numbering  Numbers each segment to allow reordering and reassembly at the receiver.                
+ 4. Reliability (TCP)   Ensures segments arrive without errors, in order, and only once.                    
+ 5. Flow Control        Manages how much data can be sent before needing acknowledgment.                                
+ 6. Protocol Used       Uses TCP (reliable) or UDP (fast, unreliable).                                          
+
+📥 RECEIVER SIDE – Transport Layer Responsibilities
+Function / Operation	              Description
+1. Reassembly	                      Reorders the received segments using "sequence numbers".
+2. Error Checking	Verifies          checksums to "detect corruption".
+3. Acknowledgments (TCP)	          Sends ACK (or retransmit request) for each segment received.
+4. Deliver to Correct Application	  Uses the destination port number to deliver the data to the right program (e.g., web browser, video player).
+
+
+
+
+Real-World Protocols in Transport Layer
+Protocol	Description
+TCP (Transmission Control Protocol)	Reliable, ordered, connection-oriented. 
+                                    Used by HTTP, HTTPS, FTP.
+UDP (User Datagram Protocol)	Unreliable, connectionless, faster. 
+                                    Used by DNS, VoIP, video streaming.
+
+
+          📦 Real-Life Example (Transport Layer in Action)
+                You open www.flipkart.com in your browser:
+
+The browser sends an HTTP request.
+The Transport Layer on your computer:
+                  Segments the request,
+                  Adds TCP headers with sequence numbers and port 
+                  (e.g., port 80),
+                  Sends to the Network Layer.
+
+The Transport Layer on Flipkart’s server:
+                  Reassembles segments,
+                  Acknowledges received data,
+                  Passes complete request to the web server software
+
+
+
+
+

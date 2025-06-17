@@ -1,0 +1,87 @@
+🌐 "Responsible for delivering packets across multiple networks 
+    — from source to destination IP address."
+
+
+                        🧠 WAHT IT DOES ?
+The Network Layer is in charge of:
+
+- End-to-end delivery of packets between devices on different networks 
+  (even across the globe).
+
+- Uses IP addresses, routing, and subnetting to figure out the best path.
+
+- Unlike Layer 2, which only works within the local network, 
+  Layer 3 routes data across networks.
+
+                      KEY RESPONSIBILITIES
+| Feature                | Description                                                            |
+| Logical addressing     | Assigns IP addresses (e.g., `192.168.1.10`) to devices.            |
+| Routing                | Finds the best path from sender to receiver across different networks. |
+| Packet forwarding      | Delivers packets from hop to hop through routers.                      |
+| Fragmentation          | Breaks large packets into smaller ones if needed.                      |
+| Error handling and TTL | Uses TTL (Time To Live) to prevent infinite loops.                 |
+
+
+                     IMPORTANT CONCEPTS
+1. IP Addressing
+                Every device gets a unique IP address.
+                Example: 192.168.0.10 (IPv4), 2001:db8::1 (IPv6)
+                It helps to identify the sender and receiver globally.
+
+2. Routing
+          Routers forward packets based on destination IP.
+          They use routing tables to decide:
+          Which path or next hop to take.
+          Whether to go inside local network or toward internet.
+
+3. Subnetting
+            Divides a big network into smaller logical networks.
+            Helps organize devices and manage traffic efficiently.
+            Example:
+            Network: 192.168.1.0/24
+            Subnet 1: 192.168.1.0 - 192.168.1.127
+            Subnet 2: 192.168.1.128 - 192.168.1.255
+
+4. TTL (Time To Live)
+                    A number that decreases on every hop (router).
+                    Prevents packets from circulating forever.
+
+5. ICMP (Internet Control Message Protocol)
+                    Used for network diagnostics (e.g., ping, traceroute).
+                    Works under IP.
+
+                   DEVICES AT NETWORK LAYER
+| Device         | Role                                           |
+| Router         | Connects different networks and routes packets |
+| Layer 3 Switch | Performs switching based on IP                 |
+| Firewall       | Filters traffic based on IP, ports, etc.       |
+
+
+                  REAL TIME EXAMPLE - NETWORK LAYER
+Let’s say you're visiting www.google.com on your browser.
+
+Your device sends a packet with:
+                              Source IP: 192.168.0.2
+                              Destination IP: 142.250.195.68 (Google’s IP)
+Your router sees that the destination is outside the local network.
+                It forwards the packet to your ISP.
+                The ISP’s routers pass it along the best path (using BGP/OSPF/etc.).
+                Eventually, it reaches Google’s data center.
+                Google responds, and the packet follows the reverse route back to you.
+
+💬 This delivery is managed by the Network Layer — not by MAC, but by IP address.
+
+                 TROUBLESHOOTING AT NETWORK LAYER
+| Problem                      | Tool                   | Reason                      |
+| Can’t reach external website | `ping`, `traceroute`   | Bad route, IP block         |
+| IP conflict                  | `ipconfig`, `ifconfig` | Two devices with same IP    |
+| Dropped packets              | TTL expired            | Routing loops or misconfigs |
+
+LAYER2(DATA LINK LAYER) - LAYER3(NETWORK LAYER)
+| Topic        | Layer 2 (Data Link) | Layer 3 (Network)    |
+| ------------ | ------------------- | -------------------- |
+| Address Type | MAC Address         | IP Address           |
+| Scope        | Local Network       | Global/Inter-Network |
+| Device       | Switch              | Router               |
+| Unit of Data | Frame               | Packet               |
+

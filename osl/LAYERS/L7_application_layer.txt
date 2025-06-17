@@ -1,0 +1,86 @@
+🌐 "The interface between the user and the network — where real-world applications live."
+
+                                🧠 What Does It Do?
+The Application Layer is the closest to the user.
+It does not mean the application itself, but rather the services that enable 
+network-based applications to work.
+
+It interacts with software applications to:
+
+Open websites
+Send emails
+Transfer files
+Stream videos
+Communicate with servers
+
+📌 It provides network services to end-user applications.
+
+
+
+
+🧠 Example to Understand:
+Let’s say you open Gmail in Chrome and send an email.
+You (the user) are using Gmail — that’s your application.
+But behind the scenes, Gmail uses a network service called 
+SMTP (Simple Mail Transfer Protocol) to send your email to someone else.
+➡️ This SMTP is what lives in the Application Layer, not Gmail itself.
+
+🔄 Another Example:
+You open a website like amazon.in.
+The browser (Chrome) is your application.
+Chrome uses HTTP (HyperText Transfer Protocol) to request and receive web pages.
+➡️ That HTTP protocol is the part of the Application Layer, not Chrome itself.
+
+
+
+                    🎯 Key Responsibilities
+ Feature                   Description                                   
+ Network Services          Offers protocols for app-to-app communication 
+ User Authentication       Login forms, API keys                         
+ Service Advertising       DNS resolving, server discovery               
+ Data Exchange Initiation  Client makes requests, server responds        
+ Error Messages            Provides meaningful errors (e.g., 404, 503)   
+
+
+
+
+
+
+
+
+                      COMMON LAYER 7 PROTOCOLS
+ Protocol         Use                           
+ HTTP/HTTPS       Browsing websites             
+ DNS              Resolving domain names        
+ FTP/SFTP         File transfer                 
+ SMTP/IMAP/POP3   Sending/receiving emails      
+ Telnet / SSH     Remote login                  
+ SNMP             Network device monitoring     
+ WebSockets       Real-time 2-way communication 
+ gRPC / REST API  App-to-app API communication  
+
+
+            DIFFERENT TYPES OF THE SERVICES PRESENT IN THE APPLICATION LAYER
+
+ 1. Network Virtual Terminal (NVT) -  Provides a virtual terminal so that remote  login (like Telnet) is possible regardless of hardware/software differences. 
+
+ 2. File Transfer, Access, and Management (FTAM) - Enables users to access files on a remote host, retrieve files, and manage them (e.g., FTP).                            
+
+ 3. Mail Services - Supports email transmission, forwarding, storage,and access (e.g., SMTP, POP3, IMAP).
+
+ 4. Directory Services  - Helps applications find other services and users over the network (e.g., LDAP, DNS).  
+
+ 5. Remote Job Entry - Allows submitting jobs (e.g., programs or data) to be processed on a remote computer. 
+
+ 6. Message Handling Services - Manages the sending, receiving, and queuing of messages (e.g., X.400, email protocols).    
+
+ 7. Authentication Services -  Validates the identity of a user or device for secure communication.                                                        
+ 8. Data Exchange Services  -  Manages structured data exchange between applications (e.g., EDI, RPC).     
+
+ 9. Resource Sharing  Allows applications to request access to shared resources over the network (like printers or files).     
+
+ 10. Web Services  Enables access to and interaction with web-based content (HTTP, HTTPS, SOAP, REST).        
+
+ 11. Name Resolution - Resolves domain names into IP addresses (via DNS).                                                                      
+ 12. Network Management Services - Facilitates management of devices on a network (like SNMP).                                                                 
+ 13. Time Services - Synchronizes time among systems (via NTP).                                                                              

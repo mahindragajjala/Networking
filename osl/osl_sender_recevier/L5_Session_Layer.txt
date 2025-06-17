@@ -1,0 +1,52 @@
+                                    🎯 Primary Role:
+The Session Layer manages and controls dialogues (sessions) between two computers. 
+It establishes, maintains, and terminates communication sessions between 
+applications.
+
+
+                    📤 SENDER SIDE – Session Layer Responsibilities
+Function / Operation	           Description
+1. Session Establishment	       Initiates a session between local and remote applications.
+2. Authentication	               Can verify the identity of the sender and receiver (e.g., login session).
+3. Authorization	               Checks if a user has permission to access certain resources or services.
+4. Session Management	           Ensures only one session per task and tracks session activity.
+5. Dialog Control	               Manages who sends/receives and when (fullduplex/halfduplex).
+
+                  
+                  📥 RECEIVER SIDE – Session Layer Responsibilities
+Function / Operation	      Description
+1. Session Acceptance	      Accepts the session request from the sender.
+2. Resynchronization	      Restores a session if it was interrupted (by crash, timeout, etc.).
+3. Checkpointing	          Allows recovery by marking points to resume transmission if broken.
+4. Session Termination	    Ends the session when communication is complete.
+
+
+
+                  🌐 RealWorld Examples of Session Layer
+Example Scenario	                  Session Layer Role
+Login to a website	                Starts a secure session for your interaction.
+Video conferencing (Zoom, Teams)	  Manages active session between participants.
+Remote desktop	                    Maintains session state for desktop control.
+Streaming media	                    Keeps a session active with the server (buffering checkpoints).
+Online banking	                    Ends session after inactivity for security.
+
+🔐 Session Layer Protocols
+Protocol	                                Description
+RPC (Remote Procedure Call)      	        Allows execution of code on a remote system.
+NetBIOS	                                  Establishes and manages sessions in Windows networks.
+PPTP (PointtoPoint Tunneling Protocol)	Used in VPNs for session tunneling.
+SOCKS	                                    Proxybased session control.
+
+
+
+
+
+
+
+ OSI Layer       Data Unit  Address Used     Key Function                     
+        
+ 1. Physical     Bits       None             Transmits raw signals            
+ 2. Data Link    Frames     MAC Address      Reliable link within LAN         
+ 3. Network      Packets    IP Address       Routing between networks         
+ 4. Transport    Segments   Port Number      Endtoend reliable delivery     
+ 5. Session      Data       None (internal)  Session start/end, control, sync 
