@@ -1,0 +1,48 @@
+The Internet Layer is responsible for delivering data packets across 
+different networks.
+It determines how data travels from the source host to the destination 
+host, potentially across multiple networks or routers.
+
+It roughly corresponds to Layer 3 (Network Layer) in the OSI model.
+                  🔧 Main Responsibilities / Operations
+ Operation                          Description                                                                                     
+ 1. Logical Addressing          Assigns and uses IP addresses (not MAC addresses) to identify devices across networks.      
+ 2. Packet Routing              Chooses the best path for data through multiple networks (via routers).                     
+ 3. Packet Encapsulation        Takes segments from Transport Layer and wraps them into IP packets.                         
+ 4. Fragmentation & Reassembly  Splits large packets if they’re too big for a network, and reassembles them at the destination. 
+ 5. Error Reporting (ICMP)      Uses ICMP to report delivery issues (e.g., “host unreachable”).                                 
+
+
+                      📦 Data Unit: Packet
+Data handled at this layer is called a packet (specifically, 
+an IP packet).
+
+📬 Input to Internet Layer
+➡ Transport Layer Segment (e.g., TCP or UDP segment)
+Contains source/destination port numbers
+Application data payload
+
+ Process - Steps Performed in the Internet Layer
+ Step                         Description                                                               
+ 1. IP Header Creation    Adds fields like source IP, destination IP, TTL, protocol (TCP/UDP), etc. 
+ 2. Routing Decision      Determines the next hop (or final destination) using routing tables.      
+ 3. Packet Fragmentation  If needed, breaks the packet into smaller fragments (based on MTU).       
+ 4. Encapsulation         Wraps the segment into an IP packet.                                      
+ 5. Send to Link Layer    Passes the packet to the Link Layer for framing and transmission.         
+
+Protocols in the Internet Layer
+ Protocol                                          Purpose                                                                                             
+ IPv4 / IPv6                                   Main protocol for addressing and routing.                                                        
+ ICMP (Internet Control Message Protocol)      Used for diagnostics and error reporting (e.g., ping, traceroute).                               
+ IGMP (Internet Group Management Protocol)     Used for multicast group communication.                                                          
+ ARP (used between Internet and Link Layer)    Resolves IP addresses to MAC addresses (not part of pure Internet Layer, but interacts with it). 
+
+📤 Output of Internet Layer
+➡ IP Packet ("to be encapsulated into a Link Layer frame")
+
+Layer Name          -	Internet Layer
+Main Role           -	Logical addressing and routing of data packets
+Key Protocols	      - IPv4, IPv6, ICMP, IGMP
+Input               -	Transport Layer Segment (TCP/UDP)
+Output              -	IP Packet (for Link Layer)
+Devices             -	Routers operate at this layer
