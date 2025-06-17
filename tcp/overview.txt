@@ -1,0 +1,11 @@
+The TCP/IP model (Transmission Control Protocol/Internet Protocol model) 
+is a conceptual framework used to understand how data travels across a 
+network, like the internet. 
+It breaks down communication into four abstraction layers, each with 
+its own set of responsibilities.
+
+ Layer  Name                     Protocols Examples              Function                                                                 
+ 4      Application          HTTP, FTP, DNS, SMTP, DHCP      Provides services to end-user apps (e.g., browsers, email clients)       
+ 3      Transport            TCP, UDP                        Ensures reliable/unreliable delivery of data between systems             
+ 2      Internet             IP, ICMP, ARP, IGMP             Handles addressing, routing, and packet delivery                         
+ 1      Link/Network Access  Ethernet, Wi-Fi, MAC, PPP, DSL  Deals with hardware-level transmission of data over the physical network 
