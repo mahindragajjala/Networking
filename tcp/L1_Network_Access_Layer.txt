@@ -1,0 +1,113 @@
+                    Link/Network Access Layer
+The Link Layer (also called Network Access Layer or Network Interface Layer) is the lowest layer of the TCP/IP model. 
+
+It corresponds roughly to the combination of the Data Link Layer and Physical Layer in the OSI model.
+
+                DATA LINK LAYER + PHYSICAL LAYER 
+
+              🔹 Overview of the Link/Network Access Layer
+
+It handles how data is physically transmitted over the network.
+
+Responsible for connecting the device to the local network (LAN or WAN).
+
+Deals with MAC addressing, framing, error detection, and hardwarespecific communication.
+
+         🔹  MAIN RESPONSIBILITIES / OPERATION OF THE LINK LAYER
+ Operation                            Description                  
+ 1. Framing                       Divides data from the Network Layer into manageable frames for transmission.             
+ 2. MAC Addressing                Adds source and destination MAC (Media Access Control) addresses.                        
+ 3. Physical Addressing           Maps IP addresses to physical addresses (via ARP).                                       
+ 4. Access Control                Decides when and how a device can access the network medium (e.g., CSMA/CD in Ethernet). 
+ 5. Error Detection and Handling  Detects errors in frames (using CRC, checksum).                                          
+ 6. Encapsulation/Decapsulation   Adds and removes headers and trailers to/from the data.                                  
+ 7. Media Handling                Interfaces with network media like cables, wireless signals, etc.                        
+
+            🧩 Protocols in the Link/Network Access Layer
+ Protocol                                     Function                                                    
+ Ethernet (IEEE 802.3)                    Most common wired LAN protocol.                             
+ WiFi (IEEE 802.11)                       Wireless LAN protocol.                                      
+ PPP (PointtoPoint Protocol)              Used over serial links like dialup.                        
+ HDLC (HighLevel Data Link Control)       Used in leased lines, often in routers.                     
+ Frame Relay                              WAN protocol for packetswitched networks.                  
+ ATM (Asynchronous Transfer Mode)         Highspeed networking protocol.                             
+ FDDI (Fiber Distributed Data Interface)  Older highspeed LAN protocol using fiber optics.           
+ Token Ring (IEEE 802.5)                  Legacy LAN protocol using tokenpassing.                    
+ SLIP (Serial Line Internet Protocol)     Very basic protocol used over serial lines.                 
+ ARINC 429, CAN, Modbus                   Industrial fieldbus protocols (used in avionics, vehicles). 
+
+
+            🧬 How Data Looks Like at the Link Layer
+Data at this layer is called a frame. 
+A typical Ethernet Frame looks like this:
+
+ Preamble  Destination MAC  Source MAC  Type  Payload  CRC 
+
+Preamble: Sync bits for receiver
+MAC addresses: Hardware addresses of source and destination
+Type/Length: Indicates protocol (like IPv4, ARP)
+Payload: Actual data (typically IP packet)
+CRC: Error checking field (Cyclic Redundancy Check)
+
+
+
+              📥 📤 Data Flow & Interaction
+When sending data:
+Application → Transport (TCP/UDP) → Internet (IP) → Link Layer (MAC & Physical)
+When receiving data:
+Physical (raw bits) → Data Link (frame extraction) → Network (IP) → Transport (TCP) → Application
+
+
+                  ⚙️ Other Important Operations
+ Operation                              Details                                                          
+ Address Resolution Protocol (ARP)  Maps IP address to MAC address.                                  
+ Link Control Protocol (LCP)        Part of PPP to establish and configure link.                     
+ Collision Detection (CSMA/CD)      Prevents overlapping of data frames in Ethernet.                 
+ Flow Control                       Ensures sender doesn’t overwhelm receiver (e.g., stopandwait). 
+ Duplexing                          Controls direction of data transfer: half/full duplex.           
+
+
+
+
+
+
+
+
+
+                        INPUTS : ➡ An IP packet (from the Internet Layer)
+This IP packet contains:
+                        IP Header (source & destination IP addresses)
+                        Transport data (TCP/UDP segment)
+                        Application data (payload)
+
+PROCESS :- The Link/Network Access Layer encapsulates the IP packet into a frame and prepares it 
+           for transmission through the physical medium.
+🔄 Detailed Process / Steps
+ Step                                   Description                                                                                    
+    
+ 1. Framing                         The IP packet is wrapped inside a frame by adding headers/trailers (e.g., Ethernet Frame). 
+ 2. MAC Address Resolution          The destination MAC address is determined (using ARP if needed).                           
+ 3. Encapsulation                   Adds Source MAC, Destination MAC, Type/Length, and other control fields.           
+ 4. Error Detection Code            A CRC (Cyclic Redundancy Check) is computed and added to detect transmission errors.       
+ 5. Medium Access Control (MAC)     Determines when the device can access the shared medium (e.g., using CSMA/CD).             
+ 6. Transmission to Physical Layer  The final frame is passed bitbybit to the physical layer for transmission.               
+
+Inter-layer Operation
+Above Layer (Internet Layer): Sends down an IP packet.
+Below Layer (Physical Layer): Transmits the binary data (bits) generated from the frame.
+                                
+                                OUTPUT :- FRAME
+This frame includes:
+                    MAC Header (Destination MAC, Source MAC)
+                    IP Packet (unchanged)
+                    Trailer (CRC)
+                    The frame is converted to electrical/optical/wireless signals and 
+                    transmitted bit-by-bit via the Physical Layer.
+
+
+🔁 At Receiver Side – What Happens?
+                      Frame Reception from physical medium.
+                      Error Check using CRC
+                      Frame Decapsulation: MAC header/trailer removed.
+                      MAC Address Check: If the destination MAC matches, process continues.
+                      IP Packet Extraction: Frame payload (IP packet) is passed up to Internet Layer.
