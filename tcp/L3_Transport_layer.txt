@@ -1,0 +1,47 @@
+The Transport Layer in the TCP/IP model, which plays a crucial role 
+in managing endtoend communication between applications.
+
+The Transport Layer is responsible for delivering data from one 
+application process to another across a network. 
+
+It ensures reliable or besteffort data delivery, depending on the 
+protocol used.
+
+This layer corresponds to Layer 4 (Transport Layer) in the OSI model.
+
+                            📦 Data Unit: Segment
+The Transport Layer receives application data, and sends it as 
+segments (TCP) or datagrams (UDP).
+
+                        🔧 Main Responsibilities / Operations
+ Operation                                Description                                                                                
+ 1. ProcesstoProcess Communication    Delivers data between application processes using port numbers.                        
+ 2. Connection Management             Establishes, maintains, and terminates connections (for TCP).                              
+ 3. Reliability                       Ensures ordered, lossless delivery (TCP only).                                         
+ 4. Flow Control                      Prevents sender from overwhelming the receiver (TCP only).                                 
+ 5. Error Detection & Recovery        Uses checksums and retransmissions to ensure data integrity (TCP only).                    
+ 6. Multiplexing/Demultiplexing       Allows multiple applications to send/receive data over one network connection (via ports). 
+
+
+INPUT :
+➡ Application data (e.g., HTTP request, DNS query)
+
+Process :
+
+ Step                            Description                                                                         
+    
+ 1. Port Assignment          Assigns a source and destination port to identify applications.                 
+ 2. Segmentation             Breaks application data into manageable pieces (segments).                          
+ 3. Header Creation          Adds TCP/UDP header with ports, checksum, sequence numbers, etc.                
+ 4. Reliability Check (TCP)  Implements retransmission, acknowledgment (ACK), sequencing, etc.                   
+ 5. Send to Internet Layer   Encapsulates the data into a segment and sends it to the Internet Layer as payload. 
+
+                          KEY PROTOCOLS IN THE TRANSPORT LAYER
+ Protocol                                         Description                                                        
+ TCP (Transmission Control Protocol)          Reliable, connectionoriented. Used for web, email, file transfer. 
+ UDP (User Datagram Protocol)                 Unreliable, connectionless. Used for streaming, DNS, VoIP, gaming. 
+ SCTP (Stream Control Transmission Protocol)  Hybrid of TCP and UDP (used in telecom signaling).                 
+
+
+OUTPUT:
+➡ Segment (TCP) or Datagram (UDP) → Passed to Internet Layer
