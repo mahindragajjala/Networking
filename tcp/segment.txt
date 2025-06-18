@@ -1,0 +1,79 @@
+📦 TCP Packet (Segment) Structure
+A TCP packet consists of a header followed by data (payload). 
+The header contains control information needed for reliable, 
+ordered delivery.
+
+
+
+
+STRUCTURE
+
+ 0                   1                   2                   3  
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+         Source Port                 Destination Port           (32 bits)
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                        Sequence Number                        
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                     Acknowledgment Number                     
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ Data  Res.   Control Flags         Window Size             
+Offset       (9 bits: URG, ACK, PSH, RST, SYN, FIN, etc.)    
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        Checksum                    Urgent Pointer            
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                    Options and Padding (if any)               
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                       Data (Payload)                          
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+
+
+
+
+🧠 TCP Header Fields Explained (One-by-One)
+ Field                      Size      Description                                  
+ Source Port            16 bits   Port of sender (e.g., 49502)                 
+ Destination Port       16 bits   Port of receiver (e.g., 80 for HTTP)         
+ Sequence Number        32 bits   Position of first byte in this segment       
+ Acknowledgment Number  32 bits   Next expected sequence number (ACK)          
+ Data Offset            4 bits    Header length (in 32-bit words)              
+ Reserved               3 bits    Reserved for future use (set to 0)           
+ Flags (Control Bits)   9 bits    Control flags (SYN, ACK, FIN, etc.)          
+ Window Size            16 bits   Flow control window size                     
+ Checksum               16 bits   Error check for header and data              
+ Urgent Pointer         16 bits   If URG flag is set, points to urgent data    
+ Options                Variable  E.g., Maximum Segment Size (MSS), Timestamps 
+ Data (Payload)         Variable  Actual data (e.g., HTTP, file bytes)         
+
+
+
+
+🔖 Control Flags (1-bit each — part of the 9-bit field)
+ Flag  Name         Meaning                                      
+ URG   Urgent       Urgent data exists (uses urgent pointer)     
+ ACK   Acknowledge  ACK field is valid                           
+ PSH   Push         Ask receiver to push data to app immediately 
+ RST   Reset        Reset the connection (abrupt end)            
+ SYN   Synchronize  Used to initiate a connection                
+ FIN   Finish       Used to terminate a connection               
+
+
+
+In TCP (Transmission Control Protocol), the term "segment" refers to a 
+unit of data that is passed from the transport layer (TCP) to the 
+network layer (IP) for transmission.
+
+✅ Definition:
+A TCP Segment = TCP Header + TCP Payload (Data)
+TCP Segment:
+ ├── TCP Header (20 bytes)
+ └── Payload: "hello server" (12 bytes)
+
+Total Segment Size: 20 + 12 = 32 bytes
+
+🧠 Simple Analogy:
+Imagine sending a letter:
+Envelope = TCP header
+Letter content = TCP data (payload)
+Together: they make up a segment
