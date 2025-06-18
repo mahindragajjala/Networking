@@ -1,0 +1,76 @@
+Understanding the relationship between HTTP and TCP in both the OSI model 
+and the TCP/IP model helps clarify how data flows across the internet.
+
+HTTP depends on TCP for reliable communication.
+In both OSI and TCP/IP models, HTTP sits on top of TCP.
+TCP handles packet transmission, 
+while HTTP handles applicationlevel messaging like web requests and 
+responses.
+  
+📘 Relationship in the OSI Model (7 Layers)
+Here's where HTTP and TCP sit:
+ OSI Layer  Layer Name       Protocol Examples              Role                              
+ 7          Application      HTTP, HTTPS, FTP, SMTP         Weblevel logic (GET/POST)        
+ 6          Presentation     SSL/TLS, encoding, encryption  Format and encrypt data           
+ 5          Session          NetBIOS, RPC                   Session control                   
+ 4          Transport        TCP, UDP                       Reliable delivery, retransmission 
+ 3          Network          IP, ICMP                       Routing and addressing            
+ 2          Data Link        Ethernet, PPP                  Physical addressing (MAC)         
+ 1          Physical         Cables, radio, fiber           Transmission of bits              
+
+✅ HTTP sits in Layer 7, but it relies(ఆధారపడుతుంది) on TCP (Layer 4) 
+   to transport its data reliably.
+
+📘 Relationship in the TCP/IP Model (4 Layers)
+
+ TCP/IP Layer     Corresponding OSI  Protocols           Description                        
+ Application      OSI Layers 5–7     HTTP, DNS, FTP      Applicationlevel data exchange 
+ Transport        OSI Layer 4        TCP, UDP            Reliable or unreliable delivery 
+ Internet         OSI Layer 3        IP, ICMP, ARP       Routing and addressing          
+ Network Access   OSI Layers 1–2     Ethernet, WiFi      Physical transmission       
+
+
+
+🔄 How They Work Together (Real-Life Data Flow)
+Let’s say you're visiting a web page: https://example.com
+
+Application Layer (HTTP):
+Your browser sends an HTTP GET /index.html request.
+  
+Transport Layer (TCP):
+This HTTP request is wrapped in a TCP segment for reliable delivery.
+TCP handles handshake, sequencing, retransmissions.
+
+Network Layer (IP):
+TCP segment is wrapped in an IP packet.
+
+Data Link + Physical:
+Packet is converted into bits and sent over the physical medium.
+
+On the server:
+The server receives the TCP segment.
+
+Extracts the HTTP request.
+Processes it and returns an HTTP response using the same layers in 
+reverse.
+
+
+🔁 Analogy
+Imagine:
+
+HTTP is a letter (your message).
+TCP is the courier service that ensures your letter reaches 
+the recipient reliably and in order.
+Without TCP, HTTP wouldn't be able to deliver your message reliably.
+
+
+
+
+
+
+
+
+
+
+
+  
