@@ -1,0 +1,6 @@
+ Code  Meaning        Example                            
+ 1xx   Informational  100 Continue                     
+ 2xx   Success        ✅ 200 OK, 201 Created            
+ 3xx   Redirection    🔁 301 Moved, 302 Found          
+ 4xx   Client Error   ❌ 400 Bad Request, 404 Not Found 
+ 5xx   Server Error   💥 500 Internal Server Error     
