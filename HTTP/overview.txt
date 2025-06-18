@@ -1,9 +1,25 @@
-HTTP methods: GET, POST, PUT, DELETE
-Status codes (200, 404, 500, etc.)
-Headers, Cookies, Sessions
-REST API concepts
+✅ What is HTTP?
+HTTP (HyperText Transfer Protocol) is a protocol used for communication between clients (like browsers) and servers (like web servers).
 
-👉 Practice:
+It defines how requests and responses are sent and received.
 
-Create a small REST API in Go using net/http
-Use curl and Postman to test
+It is stateless, textbased, and follows a requestresponse model.
+
+Example: When you visit a website (https://www.example.com), your browser sends an HTTP request to the server, and the server sends back an HTTP response.
+
+
+
+
+✅ Where is HTTP located in the OSI Model?
+HTTP operates at the Application Layer (Layer 7) of the OSI model.
+ OSI Layer        Description               Protocols   
+      
+ 7. Application   User interaction(HTTP, HTTPS, FTP, SMTP, etc.)🔶 HTTP 
+ 6. Presentation  Data formatting (SSL/TLS, encryption)              
+ 5. Session       Session management                                 
+ 4. Transport     Reliable delivery (TCP) 🔷 TCP      
+ 3. Network       Routing (IP)🔷 IP       
+ 2. Data Link     Frame transmission                                 
+ 1. Physical      Physical media     
+
+So, HTTP runs on top of TCP, which handles reliable delivery.
