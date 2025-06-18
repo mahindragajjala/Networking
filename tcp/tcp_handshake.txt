@@ -1,0 +1,75 @@
+The TCP Handshake involves a series of control messages 
+exchanged between a client and server to 
+establish, 
+maintain, and 
+terminate a reliable connection.
+
+🔶 1. TCP Connection Establishment — Three-Way Handshake
+Purpose: To establish a reliable, synchronized connection 
+between two endpoints (Client and Server).
+
+
+▶ Step 1: SYN (Synchronize)
+Client → Server: Sends a TCP segment with the SYN flag set.
+It includes the initial sequence number (e.g., SEQ = x).
+This is the client saying: 
+“I want to start a conversation. 
+Here's my starting sequence number.”
+
+▶ Step 2: SYN-ACK (Synchronize + Acknowledge)
+Server → Client: Replies with a SYN-ACK segment.
+SYN bit is set to indicate it wants to synchronize too.
+ACK bit is set to acknowledge the client’s SYN.
+ACK = x + 1, SEQ = y (server’s own sequence number).
+Server is saying: “Got your message, here's mine. 
+Ready to talk.”
+
+▶ Step 3: ACK (Acknowledge)
+Client → Server: Sends back a final ACK segment.
+ACK = y + 1
+Now, the connection is fully established.
+✅ Both parties know each other's initial sequence 
+numbers.
+
+
+
+Client → Server:      SYN (SEQ = x)
+Server → Client:      SYN-ACK (SEQ = y, ACK = x + 1)
+Client → Server:      ACK (ACK = y + 1)
+
+
+
+🔶 2. TCP Data Transmission
+After the handshake, both sides can send and receive data 
+reliably.
+
+TCP uses:
+Sequence numbers to track byte order.
+ACKs to confirm receipt.
+Sliding window for flow control.
+Retransmissions in case of packet loss.
+
+
+
+🔶 3. TCP Connection Termination — Four-Way Handshake
+Purpose: To gracefully close the connection from both sides.
+
+📌 Steps:
+▶ Step 1: FIN (Finish)
+Client → Server: Sends FIN, saying: “I’m done sending data.”
+
+▶ Step 2: ACK
+Server → Client: Acknowledges the FIN, but may still want 
+to send more data.
+
+▶ Step 3: FIN
+Server → Client: When it’s ready, sends its own FIN.
+
+▶ Step 4: ACK
+Client → Server: Acknowledges server’s FIN.
+
+✅ Now the connection is closed from both ends.
+Client → Server:      FIN
+Server → Client:      ACK
+Server → Client:      FIN
+Client → Server:      ACK
