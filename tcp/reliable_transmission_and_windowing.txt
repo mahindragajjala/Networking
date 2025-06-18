@@ -1,0 +1,87 @@
+Reliable Transmission and Windowing in TCP. 
+
+
+
+These two are core to how TCP ensures that data is delivered 
+correctly, completely, and efficiently, even over unreliable 
+networks.
+
+
+1. Reliable Transmission in TCP
+TCP provides reliability by ensuring:
+No data is lost
+No data is duplicated
+Data is delivered in order
+
+✅ How does TCP achieve reliability?
+
+ Mechanism                  Description                                                                   
+ Sequencing             Each byte is assigned a sequence number so the receiver can reorder data. 
+ Acknowledgments (ACK)  Receiver sends back ACKs indicating which bytes were received successfully.   
+ Retransmissions        If no ACK is received within a timeout, TCP resends the data.             
+ Checksums              Ensures data integrity (detects corruption).                              
+ Duplicate Detection    Handles and discards duplicate packets.                                   
+ Flow Control           Prevents sender from overwhelming the receiver.                               
+
+📦 Example: Reliable Transfer
+Let’s say a sender wants to send "HELLO" to a receiver:
+Sender sends: H, E, L, L, O (each with sequence numbers).
+Receiver ACKs: ACK=2, ACK=3, … ACK=6.
+If the sender doesn’t receive ACK for L, it retransmits from SEQ=3.
+
+
+
+2. TCP Windowing (Sliding Window)
+Windowing = Efficient use of network bandwidth
+Instead of sending one packet at a time and waiting for ACK, 
+TCP sends multiple segments in a window and waits for 
+cumulative ACKs.
+
+ Term                Meaning                                                                
+    
+ Window Size     How much data the sender can send before waiting for an ACK.       
+ Sliding Window  As ACKs are received, the window slides forward to send more data. 
+ Receive Window  Informs sender how much buffer space receiver has.                     
+
+
+
+Initial window size = 3 segments
+
+[Sent but not ACKed]    [Allowed to send next]    [Not yet allowed]
+   SEQ=1,2,3                  SEQ=4,5                   SEQ=6+
+Once ACKs for 1,2,3 arrive, the window slides:
+
+New window:
+   SEQ=4,5,6                  SEQ=7,8                   SEQ=9+
+
+                    Flow Control with Windowing
+TCP uses receiverside advertised window size (in the ACK 
+packet) to prevent buffer overflow:
+
+If the receiver is slow, it advertises a smaller window.
+Sender slows down.
+
+If buffer is full → receiver sends Window = 0 → sender
+waits.
+
+Congestion Control (Closely related)
+TCP window size is also influenced by network congestion. 
+Techniques include:
+ Algorithm                 Description                                    
+    
+ Slow Start            Start with small window, increase gradually.   
+ Congestion Avoidance  Grows window slowly after a threshold.         
+ Fast Retransmit       Skip waiting for timeout if 3 duplicate ACKs.  
+ Fast Recovery         Reduces window and starts again from midpoint. 
+
+
+
+📍 Real-World Analogy
+Imagine a delivery truck (sender) sending parcels (data) to a shop (receiver):
+Truck can carry multiple parcels (window size).
+Shop gives feedback: “I’ve unpacked 3 boxes, send more.”
+If shop says “Hold on” (Window = 0), truck waits.
+If boxes are lost, truck resends.
+
+
+
