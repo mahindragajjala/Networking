@@ -1,0 +1,9 @@
+HTTP methods: GET, POST, PUT, DELETE
+Status codes (200, 404, 500, etc.)
+Headers, Cookies, Sessions
+REST API concepts
+
+👉 Practice:
+
+Create a small REST API in Go using net/http
+Use curl and Postman to test
