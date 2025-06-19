@@ -1,0 +1,51 @@
+Secure Extension of HTTP
+
+- HTTPS (Hypertext Transfer Protocol Secure) is an extension of the 
+  standard HTTP protocol that adds a layer of security. 
+- It uses bidirectional encryption to secure the communication between a 
+  "client" and a "server". 
+- This means that all data exchanged between the "client" and the "server"
+  is encrypted, making it much harder for third parties to intercept 
+  and read the data.
+
+HTTPS uses SSL (Secure Sockets Layer) or TLS (Transport Layer Security) 
+digital certificates on the server side to establish secure connections.
+
+When a client (usually a web browser) connects to an HTTPS server, 
+the server presents its SSL/TLS certificate to prove its identity. 
+
+The client then verifies this certificate before establishing an encrypted 
+connection.
+
+
+
+
+                    Role of Certificate Authorities
+SSL/TLS certificates are issued by trusted third parties known as 
+Certificate Authorities (CAs). The role of a CA is to verify the 
+identity of the entity requesting the certificate (usually the owner 
+of a website or web application) and to sign the certificate with the 
+CA's own private key.
+
+When a client receives an SSL/TLS certificate from a server, it can 
+verify the signature using the CA's public key. If the signature is 
+valid and the certificate has not expired, the client can be confident
+that it is communicating with the genuine server and not an imposter.
+
+This process of verifying certificates is known as the SSL/TLS handshake.
+It happens automatically in the background when you connect to a 
+website using HTTPS. The presence of a valid certificate and a 
+successful handshake ensures the authenticity, integrity, and 
+confidentiality of the data being exchanged between the client and 
+the server.
+
+CAs play an important role in the trust model of HTTPS. 
+They are responsible for thoroughly vetting the entities they 
+issue certificates to and for maintaining the security and integrity 
+of their own signing keys. Web browsers and operating systems maintain
+a list of trusted CAs, and they will only establish trusted connections
+to servers with certificates issued by these CAs.
+
+
+
+
