@@ -1,0 +1,57 @@
+HTTP (Hypertext Transfer Protocol) methods define the type of action a 
+client (like a web browser or mobile app) wants to perform on a resource 
+located on a server. 
+
+These methods are essential for client-server communication in the context
+of RESTful web services, APIs, and general web browsing.
+
+🔹 1. GET
+          Purpose: Retrieve data from the server.
+          Idempotent: ✅ (Calling it multiple times has the same effect)
+          Use Case: Fetching a webpage, retrieving user data.
+          Example:
+          GET /users/123 → Fetch data for user with ID 123.
+
+🔹 2. POST
+          Purpose: Submit data to the server to create a new resource.
+          Idempotent: ❌
+          Use Case: Creating a new user, submitting a form.
+          Example:
+          POST /users with a body containing user details → Creates a 
+          new user.
+
+🔹 3. PUT
+          Purpose: Update or replace an existing resource entirely.
+          Idempotent: ✅
+          Use Case: Updating a user profile.
+          Example:
+          PUT /users/123 with a full new representation → Replaces 
+          user 123’s data.
+
+🔹 4. PATCH
+            Purpose: Partially update an existing resource.
+            Idempotent: ✅ (Ideally)
+            Use Case: Updating a user’s email without affecting other 
+            fields.
+
+            Example:
+            PATCH /users/123 with a body { "email": "new@example.com" }.
+
+🔹 5. DELETE
+            Purpose: Remove a resource from the server.
+            Idempotent: ✅
+            Use Case: Deleting a user account.
+            Example:
+            DELETE /users/123 → Deletes user with ID 123.
+
+🔹 6. HEAD
+          Purpose: Same as GET but only retrieves headers (no body).
+          Use Case: Check if a resource exists or is modified.
+          Example:
+          HEAD /users/123 → Check if user 123 exists.
+
+🔹 7. OPTIONS
+              Purpose: Describes the communication options for the target resource.
+              Use Case: CORS (Cross-Origin Resource Sharing) preflight checks.
+              Example:
+              OPTIONS /users → Returns allowed methods like GET, POST.
