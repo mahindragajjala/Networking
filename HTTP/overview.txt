@@ -23,3 +23,49 @@ HTTP operates at the Application Layer (Layer 7) of the OSI model.
  1. Physical      Physical media     
 
 So, HTTP runs on top of TCP, which handles reliable delivery.
+
+
+✅ Key Features of HTTP
+Stateless: Each request is independent (no memory of previous one).
+Connectionless (in HTTP/1.0): Opens a new connection for each request.
+Supports persistent connections in HTTP/1.1 (via keep-alive).
+Secure variant: HTTPS (HTTP + TLS encryption)
+
+
+
+✅ Versions of HTTP
+Version	Highlights
+HTTP/1.0	    First version, non-persistent connections
+HTTP/1.1	    Persistent connections, chunked transfer, caching
+HTTP/2	      Binary format, multiplexing, faster
+HTTP/3      	Based on QUIC (UDP), faster and more secure
+
+
+
+✅ List of Important Topics in HTTP (Study Roadmap)
+ Topic Category                Subtopics                             
+ 📘 Basics                 What is HTTP, request/response structure,                            headers, methods 
+ 📑 HTTP Methods           GET, POST, PUT, DELETE, PATCH, OPTIONS,                              HEAD               
+ ⚙️ Status Codes           1xx to 5xx – what they mean                                
+ 📡 Headers                Request headers, response headers, custom headers          
+ 🍪 Cookies & Sessions     How cookies work, session tracking, authentication         
+ 🔒 HTTPS                  TLS handshake, certificate, encryption                     
+ 🔄 Caching                Cache-Control, ETag, Expires                               
+ ↪️ Redirection            301 vs 302, how browsers follow redirects                  
+ 📶 Content Negotiation    Accept, Accept-Encoding, Content-Type                      
+ 📤 Request Body/Query     Form data, JSON payloads, URL parameters                   
+ 📈 Performance            Keep-alive, pipelining, HTTP/2/3 improvements              
+ 🧪 Testing HTTP           Using `curl`, `Postman`, `Wireshark` to inspect traffic    
+ 🔀 Proxy & Gateway        Reverse proxies (nginx), forward proxies                   
+ 🚪 Connection Management  TCP socket handling, timeout, keep-alive                   
+ 🧵 Advanced Topics        Chunked transfer encoding, CORS, preflight requests        
+ 📊 Real-World Usage       REST APIs, GraphQL over HTTP, webhooks    
+EXAMPLES:
+Scenario: Opening https://example.com/home
+Browser checks cache → no result → sends HTTP GET.
+DNS resolves example.com to IP.
+TCP connection is created (3-way handshake).
+TLS handshake for HTTPS.
+HTTP GET /home is sent.
+Server processes and sends back HTTP/1.1 200 OK.
+Browser renders page.
