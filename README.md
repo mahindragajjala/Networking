@@ -75,85 +75,55 @@
 | **3. Transport**             | TCP, UDP, SCTP                                  | - Process-to-process delivery<br>- Reliability (TCP)<br>- Flow control<br>- Error detection<br>- Sequencing<br>- Ports | Application data (e.g., HTTP request)   | ➤ Add source/destination ports<br>➤ Add TCP/UDP header<br>➤ Manage ACKs, retransmissions (TCP)<br>➤ Optional flow & congestion control | Segment (TCP) or Datagram (UDP) to Internet |
 | **4. Application**           | HTTP/HTTPS, FTP, SMTP, DNS, SSH, Telnet, DHCP   | - User-level communication<br>- Protocol execution<br>- Session handling<br>- Data formatting<br>- Service advertising | User input or application-level message | ➤ Format/encode data (HTML, JSON, etc.)<br>➤ Choose protocol (e.g., HTTP)<br>➤ Create message for delivery                             | Message/Data to Transport Layer             |
 
-Before diving deep into the TCP (Transmission Control Protocol), it's important to build a solid foundation in several networking and computer science concepts. 
+## HTTP - Hypertext Transfer Protocol
 
-Here's a structured list of prerequisites, organized from fundamental to slightly advanced topics:
+# 📦 HTTP Status Code Reference (Mnemonic + Hex Table)
 
-1. Basic Computer Networking Concepts
-
-What is a computer network?
-Types of networks (LAN, WAN, MAN, PAN)
-Network topologies (star, mesh, bus)
-Client-Server vs Peer-to-Peer model
-IP addressing basics (IPv4 and optionally IPv6)
-
-2. OSI and TCP/IP Models
-
-OSI 7-Layer Model (focus on Layer 3 and Layer 4)
-
-TCP/IP 4-Layer Model
-
-Understand how TCP fits into these models (Layer 4: Transport)
-
-
-3. IP Layer Fundamentals (Layer 3)
-
-IP Addressing and Subnetting
-Packet structure of IP
-Routing basics (how packets move across networks)
-ICMP basics (ping, traceroute)
-
-
-4. Ports and Protocols
-What are ports?
-Difference between TCP and UDP
-Common port numbers (HTTP - 80, HTTPS - 443, etc.)
-Well-known protocols (DNS, HTTP, FTP, etc.)
-
-5. UDP (User Datagram Protocol)
-Understand UDP as a connectionless protocol
-Compare UDP vs TCP
-Why TCP is reliable and UDP is not
-
-6. Data Encapsulation and Decapsulation
-
-Understand how data is wrapped and unwrapped as it moves through layers
-
-See how TCP headers are added during encapsulation
-
-7. Binary and Hexadecimal Understanding
-
-IP headers, TCP headers are best understood when you can read:
-Binary bit fields
-Hex dumps in packet analyzers like Wireshark
-
-8. Network Tools Basics
-
-Tools like:
-ping
-traceroute
-netstat
-telnet or nc (netcat)
-Wireshark for packet analysis
-
-9. Basics of Operating Systems
-How OS handles sockets and connections
-System calls (like socket(), connect(), bind(), etc.)
-
-10. Sockets Programming Basics (Optional but Recommended)
-
-If you're coding:
-Understand socket APIs (especially in C, Python, or Go)
-Basics of creating TCP servers and clients
-
-Once You Have These, You Can Study TCP In Depth:
-TCP header structure and flags (SYN, ACK, FIN, etc.)
-Three-way handshake and teardown
-Flow control (window size, sliding window)
-Congestion control (slow start, congestion avoidance)
-Sequence and acknowledgment numbers
-Retransmission mechanisms
-TCP timers
-TCP state machine (LISTEN, SYN_SENT, ESTABLISHED, etc.)
-TCP performance tuning
+| Code | Hex  | Category              | Mnemonic             | Description                                 |
+|------|------|------------------------|----------------------|---------------------------------------------|
+| 100  | 0x64 | 1xx - Informational    | 🕐 Hold On           | Continue                                    |
+| 101  | 0x65 |                        |                      | Switching Protocols                         |
+| 102  | 0x66 |                        |                      | Processing (WebDAV)                         |
+| 103  | 0x67 |                        |                      | Early Hints                                 |
+|------|------|------------------------|----------------------|---------------------------------------------|
+| 200  | 0xC8 | 2xx - Success          | ✅ Here You Go       | OK                                          |
+| 201  | 0xC9 |                        |                      | Created                                     |
+| 202  | 0xCA |                        |                      | Accepted                                    |
+| 203  | 0xCB |                        |                      | Non-Authoritative Information               |
+| 204  | 0xCC |                        |                      | No Content                                  |
+| 205  | 0xCD |                        |                      | Reset Content                               |
+| 206  | 0xCE |                        |                      | Partial Content                             |
+|------|------|------------------------|----------------------|---------------------------------------------|
+| 300  | 0x12C| 3xx - Redirection      | 🔀 Go Elsewhere      | Multiple Choices                            |
+| 301  | 0x12D|                        |                      | Moved Permanently                           |
+| 302  | 0x12E|                        |                      | Found (Temporarily)                         |
+| 303  | 0x12F|                        |                      | See Other                                   |
+| 304  | 0x130|                        |                      | Not Modified                                |
+| 305  | 0x131|                        |                      | Use Proxy                                   |
+| 307  | 0x133|                        |                      | Temporary Redirect                          |
+| 308  | 0x134|                        |                      | Permanent Redirect                          |
+|------|------|------------------------|----------------------|---------------------------------------------|
+| 400  | 0x190| 4xx - Client Error     | ❌ You Messed Up     | Bad Request                                 |
+| 401  | 0x191|                        |                      | Unauthorized                                |
+| 402  | 0x192|                        |                      | Payment Required                            |
+| 403  | 0x193|                        |                      | Forbidden                                   |
+| 404  | 0x194|                        |                      | Not Found                                   |
+| 405  | 0x195|                        |                      | Method Not Allowed                          |
+| 406  | 0x196|                        |                      | Not Acceptable                              |
+| 407  | 0x197|                        |                      | Proxy Authentication Required               |
+| 408  | 0x198|                        |                      | Request Timeout                             |
+| 409  | 0x199|                        |                      | Conflict                                    |
+| 410  | 0x19A|                        |                      | Gone                                        |
+| 418  | 0x1A2|                        | ☕ Joke Code          | I'm a teapot                                |
+| 422  | 0x1A6|                        |                      | Unprocessable Entity                        |
+| 429  | 0x1AD|                        |                      | Too Many Requests                           |
+| 451  | 0x1C3|                        | 📛 Legal Block       | Unavailable For Legal Reasons               |
+|------|------|------------------------|----------------------|---------------------------------------------|
+| 500  | 0x1F4| 5xx - Server Error     | 💥 I Messed Up       | Internal Server Error                       |
+| 501  | 0x1F5|                        |                      | Not Implemented                             |
+| 502  | 0x1F6|                        |                      | Bad Gateway                                 |
+| 503  | 0x1F7|                        |                      | Service Unavailable                         |
+| 504  | 0x1F8|                        |                      | Gateway Timeout                             |
+| 507  | 0x1FB|                        |                      | Insufficient Storage                        |
+| 511  | 0x1FF|                        |                      | Network Authentication Required             |
 
