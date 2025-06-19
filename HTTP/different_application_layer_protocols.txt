@@ -1,0 +1,125 @@
+APPLICATION LAYER - DIFFERENT PROTOCOLS 
+ 🔹 1. Web Protocols
+
+ Protocol                    Full Form                      Purpose                                  
+ HTTP                    HyperText Transfer Protocol    Web browsing, fetching web pages   
+ HTTPS                   HTTP Secure                    Secure web communication (SSL/TLS) 
+ SPDY / HTTP/2 / HTTP/3  Speedy / Modern HTTP versions  Faster, multiplexed web browsing   
+
+
+
+ 🔹 2. Email Protocols
+
+ Protocol  Full Form                         Purpose                                             
+ SMTP  Simple Mail Transfer Protocol     Sending email                                     
+ POP3  Post Office Protocol v3           Receiving email (downloads & deletes from server) 
+ IMAP  Internet Message Access Protocol  Receiving email (keeps messages on server)        
+
+
+
+ 🔹 3. File Transfer Protocols
+
+ Protocol  Full Form                   Purpose                                           
+ FTP   File Transfer Protocol      Transfer files between client and server         
+ SFTP  SSH File Transfer Protocol  Secure file transfers over SSH                   
+ TFTP  Trivial FTP                 Lightweight file transfer with no authentication 
+ FTPS  FTP Secure                  FTP over TLS/SSL                                 
+
+
+
+ 🔹 4. Remote Access Protocols
+
+ Protocol    Full Form                  Purpose                                   
+      
+ SSH     Secure Shell               Secure remote login/command execution     
+ Telnet  Terminal Network           Remote login (insecure)                   
+ RDP     Remote Desktop Protocol    GUIbased remote desktop access (Windows) 
+ VNC     Virtual Network Computing  Crossplatform GUI access                 
+
+
+
+ 🔹 5. Name Resolution / Directory Services
+
+ Protocol  Full Form                              Purpose                                        
+      
+ DNS   Domain Name System                     Resolves domain names to IP addresses          
+ mDNS  Multicast DNS                          Local name resolution without a central server 
+ LDAP  Lightweight Directory Access Protocol  Directory services (users, permissions)        
+
+
+
+ 🔹 6. Network Management & Monitoring
+
+ Protocol             Full Form                           Purpose                        
+      
+ SNMP             Simple Network Management Protocol  Monitor/manage network devices 
+ Syslog           System Logging                      Logging system events          
+ NetFlow / sFlow                                     Traffic analysis               
+
+
+
+ 🔹 7. Messaging / Chat Protocols
+
+ Protocol  Full Form                                   Purpose                     
+      
+ XMPP  Extensible Messaging and Presence Protocol  Chat, instant messaging     
+ IRC   Internet Relay Chat                         Chat rooms, messaging       
+ MQTT  Message Queue Telemetry Transport           Lightweight messaging (IoT) 
+ AMQP  Advanced Message Queuing Protocol           Reliable queuing system     
+
+
+
+ 🔹 8. Streaming / Multimedia Protocols
+
+ Protocol  Full Form                       Purpose                      
+      
+ RTP   RealTime Transport Protocol    Audio/video streaming        
+ RTSP  RealTime Streaming Protocol    Media control over streaming 
+ HLS   HTTP Live Streaming (by Apple)  Video delivery over HTTP     
+ SIP   Session Initiation Protocol     VoIP call setup/control      
+
+
+
+ 🔹 9. Service Discovery & IoT
+
+ Protocol  Full Form                          Purpose                            
+      
+ CoAP  Constrained Application Protocol   Lightweight protocol for IoT       
+ mDNS  Multicast DNS                      Service discovery in local network 
+ SSDP  Simple Service Discovery Protocol  UPnP device discovery              
+
+
+
+ 🔹 10. Data Access / Query Protocols
+
+ Protocol                 Purpose                                                
+    
+ SQL (over TCP)       Used to query relational databases (MySQL, PostgreSQL) 
+ GraphQL / REST APIs  API protocols for data fetching                        
+ NFS                  Network File System for shared folders                 
+ SMB / CIFS           Windowsbased file sharing                             
+
+
+
+ 🧠 KEY POINTS:
+
+* Application layer protocols define how applications talk over 
+  the network.
+* They depend on lower layers (especially Transport Layer: TCP/UDP).
+* Many of them have both secure (HTTPS, FTPS, SFTP) and insecure 
+  versions (HTTP, FTP, Telnet).
+* Some are stateless (HTTP), others are stateful (FTP, SMTP 
+  sessions).
+
+
+
+ 📊 Visualization (Categorization):
+    Web:         HTTP, HTTPS, HTTP/2
+    Email:       SMTP, POP3, IMAP
+    File:        FTP, SFTP, FTPS, TFTP
+    Remote:      SSH, Telnet, RDP, VNC
+    DNS:         DNS, mDNS, LDAP
+    Messaging:   XMPP, IRC, MQTT, AMQP
+    Streaming:   RTP, RTSP, SIP
+    IoT:         CoAP, SSDP
+    Monitoring:  SNMP, Syslog
