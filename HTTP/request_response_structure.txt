@@ -1,0 +1,173 @@
+The Request-Response Structure in HTTP is the foundation of how 
+communication happens on the web. 
+
+It is a client-server model: 
+a client (usually a browser or API client) sends an HTTP request to a 
+server, and the server sends back an HTTP response.
+
+🔄 HIGH-LEVEL OVERVIEW
+Component	     Description
+Request	       Sent by the client to ask for data or trigger an 
+               operation on the server.
+Response	     Sent by the server with data, status, and headers 
+               indicating the result.
+
+🧱 1. HTTP REQUEST STRUCTURE
+An HTTP request has the following major components:
+
+
+
+
+
+
+
+
+
+
+🔹 1.1 Request Line
+This is the first line of the request.
+The HTTP method (verb) - This shows the type of action to be 
+performed on the resource. Common HTTP methods include GET, POST, 
+PUT, DELETE, and others as discussed earlier.
+
+The request URL - This is the URL of the resource on which the 
+action should be performed. It can be an absolute path or a full 
+URL.
+
+The HTTP version - This specifies the version of the HTTP protocol 
+being used, typically HTTP/1.1 or HTTP/2.
+
+                                  GET /index.html HTTP/1.1
+
+ Part          Meaning                              
+ Method    `GET`, `POST`, `PUT`, `DELETE`, etc. 
+ Path/URI  The resource being requested         
+ Version   HTTP version (`HTTP/1.1`, `HTTP/2`)  
+
+
+
+🔹 1.2 Request Headers
+These are key-value pairs that carry metadata about the request.
+HTTP headers allow the client to pass additional information along 
+with the request. 
+
+Headers are key-value pairs separated by a colon. 
+
+Some common headers include:
+
+Host - The domain name of the web server.
+User-Agent - Information about the client making the request, 
+             such as the browser type and version.
+Content-Type - The MIME type of the request body.
+Content-Length - The length of the request body in bytes.
+Authorization - Contains credentials to authenticate a user agent 
+                with a server.
+Cookie - Contains cookies previously sent by the server.
+
+                            Host: www.example.com
+                            User-Agent: Mozilla/5.0
+                            Accept: text/html
+                            Content-Type: application/json
+                            Authorization: Bearer <token>
+ Header           Purpose                                                               
+ `Host`           Specifies the domain name                                             
+ `User-Agent`     Identifies the client (browser/app)                                   
+ `Accept`         Specifies acceptable response types (`text/html`, `application/json`) 
+ `Content-Type`   Type of data sent in the request body                                 
+ `Authorization`  Credentials (e.g., Bearer token or Basic Auth)                        
+
+
+🔹 1.3 Request Body (optional)
+The request body is optional and contains the data being sent to 
+the server. 
+This is typically used with POST, PUT, PATCH, and sometimes DELETE 
+requests. The data can be in various formats such as:
+
+Form data - Key-value pairs sent from HTML forms.
+JSON - JavaScript Object Notation, a common format for sending structured data.
+XML - eXtensible Markup Language, another format for structured data.
+Binary data - Such as images or other files.
+
+Here's an example of a JSON payload in a request body:
+{
+  "username": "mahindra",
+  "password": "123456"
+}
+Not all methods have a body. For example, GET requests don’t 
+have one.
+
+
+
+🧱 2. HTTP RESPONSE STRUCTURE
+When the server receives a request, it processes it and
+returns a response.
+
+🔹 2.1 Status Line
+
+
+                  HTTP/1.1 200 OK
+ 
+
+ Part               Meaning                                  
+ Version        HTTP version                             
+ Status Code    Numeric code (`200`, `404`, `500`, etc.) 
+ Reason Phrase  Human-readable text (`OK`, `Not Found`)  
+
+Common Status Codes:
+                   Code  Meaning               
+                   200   OK                    
+                   201   Created               
+                   400   Bad Request           
+                   401   Unauthorized          
+                   403   Forbidden             
+                   404   Not Found             
+                   500   Internal Server Error 
+
+🔹 2.2 Response Headers
+Just like request headers, these provide meta-information 
+about the response.
+                    Content-Type: text/html
+                    Content-Length: 1024
+                    Cache-Control: no-cache
+                    Set-Cookie: sessionid=abc123; HttpOnly
+ Header            Purpose                        
+ `Content-Type`    Type of content being returned 
+ `Content-Length`  Size of the response body      
+ `Cache-Control`   Caching behavior               
+ `Set-Cookie`      Sets a cookie in the client    
+
+
+🔹 2.3 Response Body (optional)
+This contains the actual data requested (HTML page, JSON, image, 
+                                         etc.)
+
+Example:
+{
+  "message": "Login successful",
+  "token": "abc.def.ghi"
+}
+
+Or:
+
+<html>
+  <head><title>Welcome</title></head>
+  <body>Hello Mahindra!</body>
+</html>
+
+
+
+ADVANCED NOTES:
+✅ Stateless:
+Each HTTP request is independent. The server doesn’t retain context 
+unless state is handled using:
+
+Cookies
+Sessions
+JWT Tokens
+
+✅ Persistent Connections:
+In HTTP/1.1, connections are persistent by default (keep-alive).
+
+In HTTP/2, multiplexing allows multiple requests/responses over a 
+single connection.
+
