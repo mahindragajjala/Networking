@@ -77,7 +77,7 @@
 
 ## HTTP - Hypertext Transfer Protocol
 
-# 📦 HTTP Status Code Reference (Mnemonic + Hex Table)
+# 📦 HTTP Status Code
 
 | Code | Hex  | Category              | Mnemonic             | Description                                 |
 |------|------|------------------------|----------------------|---------------------------------------------|
@@ -85,7 +85,6 @@
 | 101  | 0x65 |                        |                      | Switching Protocols                         |
 | 102  | 0x66 |                        |                      | Processing (WebDAV)                         |
 | 103  | 0x67 |                        |                      | Early Hints                                 |
-|------|------|------------------------|----------------------|---------------------------------------------|
 | 200  | 0xC8 | 2xx - Success          | ✅ Here You Go       | OK                                          |
 | 201  | 0xC9 |                        |                      | Created                                     |
 | 202  | 0xCA |                        |                      | Accepted                                    |
@@ -93,7 +92,6 @@
 | 204  | 0xCC |                        |                      | No Content                                  |
 | 205  | 0xCD |                        |                      | Reset Content                               |
 | 206  | 0xCE |                        |                      | Partial Content                             |
-|------|------|------------------------|----------------------|---------------------------------------------|
 | 300  | 0x12C| 3xx - Redirection      | 🔀 Go Elsewhere      | Multiple Choices                            |
 | 301  | 0x12D|                        |                      | Moved Permanently                           |
 | 302  | 0x12E|                        |                      | Found (Temporarily)                         |
@@ -102,7 +100,6 @@
 | 305  | 0x131|                        |                      | Use Proxy                                   |
 | 307  | 0x133|                        |                      | Temporary Redirect                          |
 | 308  | 0x134|                        |                      | Permanent Redirect                          |
-|------|------|------------------------|----------------------|---------------------------------------------|
 | 400  | 0x190| 4xx - Client Error     | ❌ You Messed Up     | Bad Request                                 |
 | 401  | 0x191|                        |                      | Unauthorized                                |
 | 402  | 0x192|                        |                      | Payment Required                            |
@@ -118,7 +115,6 @@
 | 422  | 0x1A6|                        |                      | Unprocessable Entity                        |
 | 429  | 0x1AD|                        |                      | Too Many Requests                           |
 | 451  | 0x1C3|                        | 📛 Legal Block       | Unavailable For Legal Reasons               |
-|------|------|------------------------|----------------------|---------------------------------------------|
 | 500  | 0x1F4| 5xx - Server Error     | 💥 I Messed Up       | Internal Server Error                       |
 | 501  | 0x1F5|                        |                      | Not Implemented                             |
 | 502  | 0x1F6|                        |                      | Bad Gateway                                 |
