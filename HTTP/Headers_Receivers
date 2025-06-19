@@ -1,0 +1,62 @@
+HTTP Headers  HTTP headers are key–value pairs sent between the client 
+               and server in an HTTP request/response. 
+They define the context, describe the payload, and control communication 
+behavior.
+
+THERE ARE MAIN THREE TYPES OF HEADERS
+
+1.REQUEST HEADERS
+These are sent by the client to the server to provide info about:
+      the client (browser, mobile app, curl, etc.)
+      the content it's sending
+      what response formats it expects
+      how it wants the connection handled
+
+ Header             Purpose                             Example                               
+ Host             Target hostname                     Host: www.example.com               
+ UserAgent        Info about client software          UserAgent: Mozilla/5.0 ...         
+ Accept           MIME types the client accepts       Accept: text/html, application/json 
+ AcceptLanguage   Preferred languages                 AcceptLanguage: enUS              
+ ContentType      Format of body being sent           ContentType: application/json      
+ ContentLength    Size of the request body            ContentLength: 349                 
+ Authorization    Credentials (e.g., Bearer token)    Authorization: Bearer <token>       
+ Cookie           Cookies sent to server              Cookie: sessionid=abc123            
+ Referer          Previous page link                  Referer: https://google.com         
+ Connection       Connection mode (keepalive/close)  Connection: keepalive              
+ Range            Request only part of resource       Range: bytes=0499                  
+
+
+2.RESPONSE HEADER
+These are sent by the server to the client to describe:
+      the result of the request
+      metadata about the server and payload
+      caching, compression, and connection rules
+ Header                         Purpose                           Example                                       
+ ContentType                 MIME type of the response         ContentType: application/json              
+ ContentLength               Body length in bytes              ContentLength: 512                         
+ SetCookie                   Set a cookie on the client        SetCookie: sessionid=xyz; Path=/; HttpOnly 
+ CacheControl                Caching rules                     CacheControl: nocache                     
+ ETag                        Unique ID for a resource version  ETag: "abc123"                              
+ Location                    Used with 3xx redirects           Location: https://newsite.com               
+ WWWAuthenticate             Server demands credentials        WWWAuthenticate: Basic realm="Login"       
+ Server                      Server software info              Server: nginx/1.20.0                        
+ ContentEncoding             Compression used                  ContentEncoding: gzip                      
+ AccessControlAllowOrigin    CORS policy                       AccessControlAllowOrigin: *              
+ RetryAfter                  When to retry after 429/503       RetryAfter: 120                            
+
+
+CUSTOM HEADERS
+You can define your own headers for your application logic. 
+These are not standardized, but commonly follow a naming convention:
+        Prefix with X (older style):
+        XRequestID: abc123
+        
+        Modern approach (no X):
+        ClientTimezone: Asia/Kolkata
+
+ Header                Use Case                                       
+ `XRequestID`        For tracing requests through logs              
+ `XClientVersion`    Track client version                           
+ `XAPIKey`           Auth with a custom key                         
+ `CorrelationID`      Crossservice request tracing in microservices 
+ `XDebugMode: true`  Enable special logging/debugging               
