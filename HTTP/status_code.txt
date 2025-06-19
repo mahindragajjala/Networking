@@ -1,0 +1,118 @@
+Below is a practical cheat‑sheet you can keep open whenever you’re building or debugging an HTTP‑based service. I’ve grouped the codes by class, highlighted the ones you’ll encounter most often, and sprinkled in notes on real‑world usage (with tiny Golang/Gin snippets where relevant).
+
+
+
+                               1xx  Informational
+
+These are interim responses; a final response will follow.
+
+ Code                         Meaning                             When you actually meet it                          
+      
+ 100 Continue             Client may send request body        Large file uploads; many servers simply ignore it. 
+ 101 Switching Protocols  Protocol upgrade in progress        WebSocket handshake (`Upgrade: websocket`).        
+ 102 Processing (WebDAV)      Server accepted but not done        Rare.                                              
+ 103 Early Hints              Preload resources before final 200  Used by some CDNs to speed up page loads.          
+
+
+
+                              2xx  Success
+
+Everything below means “the request worked,” but they differ in what worked.
+
+ Code                 Meaning                            Go / Gin example                         
+      
+ 200 OK           Generic success (GET, PUT, PATCH)  `c.JSON(http.StatusOK, data)`            
+ 201 Created      New resource made (POST)           `c.JSON(http.StatusCreated, newUser)`    
+ 202 Accepted         Will process later (async jobs)    Respond immediately, queue a task.       
+ 204 No Content   Success, no body (DELETE)          `c.Status(http.StatusNoContent)`         
+ 206 Partial Content  Range responses (video streaming)  Apache/Nginx handles this automatically. 
+
+
+
+                            3xx  Redirection
+
+Client must take another action.
+
+ Code                        Meaning                           Gotcha                              
+      
+ 301 Moved Permanently   SEO‑friendly permanent redirect   Browsers cache aggressively.        
+ 302 Found               Temporary redirect (legacy)       Still default in many frameworks.   
+ 303 See Other           After POST, redirect with GET     OAuth flows use this.               
+ 307 Temporary Redirect  Like 302 but keeps method & body  Safer for REST APIs.                
+ 308 Permanent Redirect  Like 301 but method/body kept     GitHub now uses 308 for repo moves. 
+
+
+
+                          4xx  Client Error
+
+The request is wrong; the server could have processed it.
+
+ Code                               Meaning                        Good practice                                  
+      
+ 400 Bad Request                Generic client‑side error      Return JSON explaining the validation failure. 
+ 401 Unauthorized               Missing/invalid auth           Include `WWWAuthenticate` header.             
+ 403 Forbidden                  Auth OK, but no permission     “Yes, we know who you are, you just can’t.”    
+ 404 Not Found                  Resource doesn’t exist         Don’t reveal internal paths.                   
+ 405 Method Not Allowed             Wrong HTTP verb                List allowed verbs in `Allow` header.          
+ 409 Conflict                       Version/unique‑key clash       Useful in optimistic locking.                  
+ 410 Gone                           Resource permanently removed   Rare but great for retired APIs.               
+ 418 I’m a teapot                   Easter‑egg from RFC 2324       Sometimes used for rate‑limit jokes.           
+ 422 Unprocessable Entity           Semantically invalid JSON/XML  Preferred by many REST APIs.                   
+ 429 Too Many Requests          Hit a rate limit               Add `RetryAfter` header.                      
+ 451 Unavailable For Legal Reasons  Blocked by law (e.g., DMCA)    Transparency page responses.                   
+
+
+
+                        5xx  Server Error
+
+The server failed while trying to do its job.
+
+ Code                                 Meaning                                     Typical fix                                              
+      
+ 500 Internal Server Error        Uncaught exception, nil pointer, etc.       Log the stack trace, never return details to the client. 
+ 501 Not Implemented                  Method recognized, not supported            Return when an endpoint is planned but not built.        
+ 502 Bad Gateway                  Reverse proxy received an invalid response  Check upstream service health.                           
+ 503 Service Unavailable          Overloaded or in maintenance                Combine with `RetryAfter`.                              
+ 504 Gateway Timeout                  Upstream didn’t reply in time               Tune timeouts / circuit breakers.                        
+ 507 Insufficient Storage             WebDAV storage full                         Often maps to “disk quota exceeded.”                     
+ 511 Network Authentication Required  Sign‑in to captive portal                   Wi‑Fi hotspots at airports, hotels.                      
+
+
+
+ How to choose the right code in your own API
+
+1. Ask “who is at fault?”
+   Client mistake → 4xx.
+   Server / downstream failure → 5xx.
+
+2. Be specific, but not pedantic.
+   Mis‑using 404 vs 400 confuses clients. Over‑using 500 hides actionable info.
+
+3. Pair the code with a structured body.
+
+   
+   type ErrorResp struct {
+       Code    int    `json:"code"`
+       Message string `json:"message"`
+   }
+   c.JSON(http.StatusBadRequest, ErrorResp{400, "missing field: email"})
+   
+
+4. Set auxiliary headers.
+
+    `Location` for redirects (3xx)
+    `RetryAfter` for 429/503
+    `Allow` for 405
+
+5. Log both the code and the reason.
+   Your logs should make it trivial to graph error rates over time.
+
+
+
+ Quick mnemonic
+
+> 1 – Hold on
+> 2 – Here you go
+> 3 – Go elsewhere
+> 4 – You messed up
+> 5 – I messed up
