@@ -1,0 +1,16 @@
+ Layer         Component                   Direction        Example                    
+ Request Line  Method + URI + Version      Client → Server  `GET /index.html HTTP/1.1` 
+ Headers       Host                        Client → Server  `Host: example.com`        
+ Headers       User-Agent                  Client → Server  `User-Agent: Chrome/114`   
+ Headers       Accept                      Client → Server  `Accept: text/html`        
+ Headers       Connection                  Both directions  `Connection: keep-alive`   
+ Headers       Server                      Server → Client  `Server: Apache`           
+ Headers       Content-Type                Server → Client  `Content-Type: text/html`  
+ Headers       Content-Length              Server → Client  `Content-Length: 1234`     
+ Headers       Date                        Server → Client  `Date: Tue, 24 Jun 2025`   
+ Status Line   Version + Code + Text       Server → Client  `HTTP/1.1 200 OK`          
+ Body          Payload (HTML, JSON, etc.)  Server → Client  `<html>Hello</html>`       
+ Body          Payload (if POST/PUT)       Client → Server  `{ "name": "John" }`       
+
+
+where and how cache is involved in the HTTP protocol
