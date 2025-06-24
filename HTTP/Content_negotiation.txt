@@ -1,0 +1,136 @@
+Content Negotiation and the HTTP headers involved 
+               Accept. 
+               AcceptEncoding.
+               ContentType. 
+
+These headers are part of the HTTP protocol and are crucial in how clients
+(like browsers) and servers communicate and decide what type of content to
+send/receive.
+
+🔄 What is Content Negotiation?
+Content negotiation is the process by which a client (e.g., browser or API
+consumer) tells the server what kind of response it wants, and the server 
+tries to serve a response that best matches those preferences.
+
+There are 3 major types:
+
+Media type negotiation (e.g., JSON, HTML, XML)
+Language negotiation (e.g., English, Hindi)
+Encoding negotiation (e.g., gzip compression)
+Charset negotiation (e.g., UTF8)
+
+
+
+
+📌 1. Accept Header – Media Type Negotiation
+➤ Used by: Client to Server
+➤ Purpose:
+        Tells the server what type of content the client can process.
+
+➤ Format:
+          Accept: <type>/<subtype>[;q=<quality>] 
+
+Example:
+        Accept: text/html            ← Prefer HTML
+        Accept: application/json     ← Prefer JSON
+        Accept: */*                  ← Accept any type
+        Accept: text/plain;q=0.5, text/html;q=1.0
+Real time example:
+Browser sends :
+                GET /home HTTP/1.1
+                Host: example.com
+                Accept: text/html,application/
+                xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+
+
+
+
+📌 2. AcceptEncoding Header – Compression Negotiation
+➤ Used by: Client to Server
+➤ Purpose:
+Tells the server what compression algorithms (encodings) the client 
+supports (to reduce response size).
+
+➤ Format:
+          AcceptEncoding: gzip, deflate, br
+
+✅ Common Values:
+                  gzip — GZIP compression
+                  deflate — zlib compression
+                  br — Brotli compression
+                  identity — No encoding
+
+✅ RealLife Example:
+Client sends:
+            AcceptEncoding: gzip, deflate
+Server compresses the response and replies:
+            ContentEncoding: gzip
+🔍 The browser automatically decompresses it.
+
+
+
+
+
+
+📌 3. ContentType Header – Describes What Is Being Sent
+➤ Used by:
+      Client to Server (in request body): “What format I am sending”
+      Server to Client (in response body): “What format I am sending you”
+
+➤ Format:
+ContentType: <mediatype>
+✅ Examples:
+            ContentType: application/json
+            ContentType: text/html
+            ContentType: application/xwwwformurlencoded
+            ContentType: multipart/formdata
+
+
+REST API POST Request
+                      POST /api/users HTTP/1.1
+                      Host: api.example.com
+                      ContentType: application/json
+                      Accept: application/json
+                      AcceptEncoding: gzip
+
+ Header              Sent By  Purpose                                    
+      
+ `Accept`           Client   What content types it can handle           
+ `AcceptEncoding`   Client   What compressions it can decode            
+ `ContentType`      Both     What type of content is being sent         
+ `ContentEncoding`  Server   What encoding has been applied to the body 
+
+
+
+GOLANG CODE
+r.POST("/data", func(c *gin.Context) {
+    contentType := c.GetHeader("Content-Type")
+    accept := c.GetHeader("Accept")
+    encoding := c.GetHeader("Accept-Encoding")
+
+    fmt.Println("Content-Type:", contentType)
+    fmt.Println("Accept:", accept)
+    fmt.Println("Accept-Encoding:", encoding)
+
+    var jsonData map[string]interface{}
+    if err := c.BindJSON(&jsonData); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON"})
+        return
+    }
+
+
+
+
+  ⚖️ When is 406 Not Acceptable Sent?
+If the server cannot produce a response matching the client’s 
+Accept header, it should return:
+
+HTTP/1.1 406 Not Acceptable
+    c.JSON(200, gin.H{
+        "received": jsonData,
+    })
+})
+
