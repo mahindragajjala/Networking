@@ -267,3 +267,65 @@ T = 0            First load               200 OK + Cache-Control + ETag
 T = 2            Reload                   Served from cache (no request)
 T = 5            Reload                   304 Not Modified (ETag match)
 T = 6 (changed)  Reload                   200 OK (new content + new ETag)
+
+
+
+🌐 https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
+This is the Google logo used on their homepage. It’s a perfect real-world example of a cacheable static resource.
+
+
+┌────────────┐            HTTP GET              ┌────────────┐
+│  Browser   │ ───────────────────────────────▶ │  Google    │
+│            │ GET /images/googlelogo.png       │  Server    │
+└────────────┘                                  └────────────┘
+                                                Response:
+                                                200 OK
+                                                Cache-Control: max-age=31536000
+                                                ETag: "abcdef123"
+                                                Expires: Tue, 24 Jun 2026
+                                                Content-Type: image/png
+                                                Body: (logo image)
+           ↓
+Browser caches:
+                - URL
+                - Image content
+                - Headers: Cache-Control, ETag, Expires
+
+🧠 Explanation:
+              Cache-Control: max-age=31536000 → valid for 1 year!
+              ETag: "abcdef123" → version identifier for future checks
+              Expires is also set to an absolute date.
+
+
+                    Reload Within 1 Year (Cache HIT)
+┌────────────┐            LOCAL CACHE CHECK
+│  Browser   │ ───────────────────────────────▶ (NO request sent!)
+└────────────┘
+           ↓
+Uses cached image directly ✅
+🧠 Explanation:
+                max-age=31536000 hasn’t expired → browser doesn't send any request.
+                Google server is not contacted.
+
+
+              After 1 Year – Cache Expired (ETag Revalidation)
+┌────────────┐      Conditional HTTP GET        ┌────────────┐
+│  Browser   │ ───────────────────────────────▶ │  Google    │
+│            │ GET /images/googlelogo.png       │  Server    │
+│            │ If-None-Match: "abcdef123"       │            │
+└────────────┘                                  └────────────┘
+                                                Response:
+                                                304 Not Modified
+                                                ETag: "abcdef123"
+                                                No body sent
+           ↓
+Browser reuses old cached image ✅
+
+🧠 Explanation:
+Browser checks with server: “Do I still have the valid version?”
+Google responds: “Yes, it hasn’t changed → 304”
+Browser uses cached copy, no image sent again!
+
+
+
+
