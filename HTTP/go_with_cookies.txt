@@ -1,0 +1,35 @@
+🔹 HTTP Basics in Go
+                    HTTP server using net/http
+                    HTTP request & response lifecycle
+                    Headers and status codes
+
+🔹 Cookies in HTTP
+                  What is a Cookie? (Key-Value, Path, Domain, Secure, HttpOnly, MaxAge)
+                  Setting cookies in response
+                  Reading cookies from request
+                  Deleting cookies
+
+🔹 Sessions
+            What is a session? (Server-side tracking using Cookie session ID)
+            Session storage options (in-memory, Redis, DB)
+            Generating unique session IDs
+            Storing user data securely in sessions
+
+🔹 Authentication
+                Login flow (form → backend verification → session creation)
+                Logout (session/cookie invalidation)
+                Access control using session validation
+                Middleware for session-based auth
+
+🔹 Security
+            HttpOnly, Secure, SameSite flags
+            CSRF protection
+            Cookie poisoning & session hijacking defense
+            Session timeout and regeneration
+
+🔹 Go Tools & Libraries (Optional)
+                                gorilla/sessions → for session management
+                                gorilla/context or custom middleware
+                                Using JWT instead of sessions (token-based auth)
+
+
