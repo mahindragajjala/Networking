@@ -4,6 +4,23 @@ import (
 	"fmt"
 	"net/http"
 )
+
+/*
+🍪 1. What is a Cookie? — Theory
+A cookie is a small piece of data stored in the browser (client) by the server via HTTP headers.
+
+🔑 Structure of a Cookie (Key Attributes)
+Attribute	Description
+Name	The name of the cookie (e.g., user_id)
+Value	The value stored (e.g., 12345)
+Path	URL path where the cookie is valid (e.g., /user)
+Domain	Domain for which the cookie is valid (e.g., .example.com)
+Secure	Cookie is sent only over HTTPS
+HttpOnly	Can't be accessed by JavaScript → protects against XSS
+MaxAge	Time in seconds until the cookie expires
+Expires	Exact date/time when the cookie expires (alternative to MaxAge)
+SameSite	Prevents CSRF (cross-site request forgery) attacks
+*/
 /*
 🔍 What’s happening?
 Server sends Set-Cookie: username=mahindra; Path=/; HttpOnly
