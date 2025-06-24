@@ -4,7 +4,7 @@ and forwards the client’s requests to that server.
 
 There are two main types:
 
-👉 A. Forward Proxy (Client-side Proxy)
+                            👉 A. Forward Proxy (Client-side Proxy)
 📌 What it does:
               Sits in front of the client.
               Hides the client's identity from the server.
@@ -19,12 +19,12 @@ There are two main types:
 
 Client → Forward Proxy → Internet (Server)
 +--------+      +----------------+      +-------------+
-| Client | ---> | Forward Proxy  | ---> | Web Server  |
+ Client  --->  Forward Proxy   --->  Web Server  
 +--------+      +----------------+      +-------------+
          (Client is hidden from the server)
 
          
-👉 B. Reverse Proxy (Server-side Proxy)
+                              👉 B. Reverse Proxy (Server-side Proxy)
 📌 What it does:
           Sits in front of the server.
           Hides the server’s details from clients.
@@ -38,7 +38,34 @@ Security & hiding internal infrastructure
 
 Client → Reverse Proxy → Internal Server(s)
 +--------+      +----------------+      +----------------+
-| Client | ---> | Reverse Proxy  | ---> | Backend Server |
+ Client  --->  Reverse Proxy   --->  Backend Server 
 +--------+      +----------------+      +----------------+
          (Server is hidden from the client)
 
+
+                                🔹 Transparent Proxy
+                  Invisible to users; used for monitoring or filtering.
+
+
+Main uses of the proxy ?
+
+ Function                  What It Does                                    
+ Privacy & Anonymity   Hides client IP from the server (forward proxy)                          
+ Access Control        Blocks specific sites or services                                        
+ Caching               Speeds up response time for frequent requests                            
+ Security              Filters malicious traffic, enforces authentication                       
+ Load Balancing        Distributes requests across backend servers (reverse proxy)              
+ SSL Termination       Decrypts SSL at proxy level, passes plain HTTP to backend                
+ Protocol Translation  Converts HTTP ↔ HTTPS, or REST ↔ gRPC (used in reverse proxies/gateways) 
+
+
+
+REAL WORLD USE CASES:
+ Scenario                           Proxy Used    
+ Office blocks YouTube              Forward Proxy 
+ Amazon CDN caches content          Reverse Proxy 
+ HTTPS decrypted at entry point     Reverse Proxy 
+ VPN services                       Forward Proxy 
+ gRPC services behind API Gateways  Reverse Proxy 
+
+https://chatgpt.com/c/685a8bb8-deac-800b-99e8-7959f11b4610
