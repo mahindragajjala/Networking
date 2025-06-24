@@ -328,4 +328,44 @@ Browser uses cached copy, no image sent again!
 
 
 
+COOKIE DIAGRAM
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         Set-Cookie Header From Server                        │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Set-Cookie: session-id=132-1234567-9876543;                                  │
+│              Domain=.amazon.in;                                              │
+│              Path=/;                                                         │
+│              Expires=Wed, 24 Jun 2026 10:00:00 GMT;                          │
+│              Secure;                                                         │
+│              HttpOnly;                                                       │
+│              SameSite=Lax                                                    │
+└──────────────────────────────────────────────────────────────────────────────┘
 
+
+
+🗃️ Where is Cache Present in the HTTP Components?
+Caching is part of the HTTP Response and Request headers.
+It helps the client (browser) decide whether to store or reuse a response.
+
+                      🔁 Response Headers (from Server to Client)
+These headers tell the browser how to cache the response:
+
+| Header          | Role                                                 |
+| --------------- | ---------------------------------------------------- |
+| `Cache-Control` | Main caching directive (e.g., `max-age`, `no-store`) |
+| `Expires`       | Sets a hard expiry time                              |
+| `ETag`          | Identifier for conditional cache validation          |
+| `Last-Modified` | Timestamp for last change (alternative to ETag)      |
+| `Vary`          | Controls caching for different request variations    |
+
+📦 These are stored in the browser's cache, along with the actual content (HTML, CSS, images, etc.)
+
+                    🔁 Request Headers (from Client to Server)
+These are used to validate if the cached copy is still valid:
+
+| Header              | Role                                              |
+| ------------------- | ------------------------------------------------- |
+| `If-None-Match`     | Sends previously cached `ETag` to check freshness |
+| `If-Modified-Since` | Sends previous `Last-Modified` timestamp          |
+
+📥 If the server says it's still valid → returns 304 Not Modified, and the browser reuses cached data.
