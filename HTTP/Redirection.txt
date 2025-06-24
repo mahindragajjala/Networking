@@ -1,0 +1,111 @@
+🔄 What Is Redirection?
+Redirection is a way for a server to tell the browser:
+“The resource you’re looking for is somewhere else.”
+
+This is done using HTTP response status codes, mainly in the 3xx range.
+
+ Code  Meaning                    Type       Browser Behavior                     SEO Impact                   
+ 301   Moved Permanently          Permanent  Update bookmarks & cache it          SEO juice is passed  
+ 302   Found / Moved Temporarily  Temporary  Do not cache or update 
+                                             bookmark                             SEO juice not passed 
+
+
+
+
+🔁 Real-Time Flow: How Redirection Works
+Let’s say a user visits:
+                      https://example.com/old-page
+The server might respond like this:
+                              HTTP/1.1 301 Moved Permanently
+                              Location: https://example.com/new-page
+🔂 Browser Behavior:
+                    Receives 301/302 from server
+                    Reads the Location header
+                    Issues a new request to the new URL
+                    Shows the final page to the user
+
+
+                        📘 301: Moved Permanently
+"This page has moved forever."
+Tells the browser and search engines:
+“Don’t come back here. Go to the new place from now on.”
+
+💡 Example:
+            GET /old-page HTTP/1.1
+            Host: example.com
+            HTTP/1.1 301 Moved Permanently
+            Location: /new-page
+Browser:
+        Caches the redirection
+        Future visits to /old-page will auto-go to /new-page
+        Updates bookmarks
+        Search engines update their index
+
+
+                      📘 302: Found (Moved Temporarily)
+"This page is here for now, but might move back."
+Tells the browser:
+“Redirect for now, but keep the original URL bookmarked.”
+
+💡 Example:
+          GET /temporary-offer HTTP/1.1
+          Host: example.com
+          
+          HTTP/1.1 302 Found
+          Location: /offer-page
+Browser:
+        Does not cache the redirection
+        On next visit, will request /temporary-offer again
+        Search engines do not transfer ranking or SEO juice
+
+
+
+
+
+                User ➝ https://example.com/old-page
+                            ↓
+                      Server (301):
+                      "Go to /new-page"
+                            ↓
+                User ➝ https://example.com/new-page
+                            ↓
+                       Server responds with content
+
+
+🧠 Browser Internals on Redirection
+              When a browser sees 301:
+              Updates its cache and history
+              Bookmarks might be updated
+              It remembers the redirect, so subsequent requests 
+              won’t hit the original URL
+
+When it sees 302:
+            It temporarily follows the new URL
+            It won’t cache or remember the redirect
+            Bookmarks stay the same
+
+
+
+ Code  Google Bot Reaction         
+ 301   Transfers full SEO power    
+ 302   Does not transfer power 
+Use 301 if you're permanently moving content.
+Use 302 for temporary maintenance, A/B testing, etc.
+
+
+
+  CODE IN THE GOLANG
+
+r := gin.Default()
+
+// 301 redirect
+r.GET("/old", func(c *gin.Context) {
+	c.Redirect(http.StatusMovedPermanently, "/new")
+})
+
+// 302 redirect
+r.GET("/temp", func(c *gin.Context) {
+	c.Redirect(http.StatusFound, "/offer")
+})
+
+
