@@ -1,0 +1,19 @@
+A gateway is similar to a proxy but it often translates between
+different protocols, acting as a bridge between different 
+systems.
+🧠 Use cases:
+              API Gateway (e.g., convert HTTP to gRPC)
+              Protocol translation (HTTP ↔ SOAP, HTTP ↔ MQTT)
+              Microservices control entry point
+
+Example (API Gateway):
+                Client → API Gateway → Service 1 (REST)
+                                          ↘ Service 2 (gRPC)
+                                          ↘ Service 3 (SOAP)
+REAL-TIME EXAMPLES:
+ Tool/Service      Type           Description                                             
+ Nginx         Reverse Proxy  Load balancing, caching, SSL termination                
+ Squid Proxy   Forward Proxy  Web filtering, caching, access control                  
+ Envoy / Kong  API Gateway    Protocol translation, traffic control for microservices 
+ Cloudflare    Reverse Proxy  CDN, DDoS protection, caching                           
+ VPN Services  Forward Proxy  Hide IP and encrypt outbound traffic                    
