@@ -1,0 +1,84 @@
+The TLS Handshake in HTTP (specifically HTTPS) is a process that 
+happens at the beginning of a secure connection between a client 
+(like your browser) and a server (like a website). 
+
+Its main goal is to securely agree on encryption methods and keys, 
+so that all further communication can be encrypted and private.
+
+
+
+
+🧩 What is TLS?
+TLS (Transport Layer Security) is a cryptographic protocol that encrypts
+data between client and server to keep it safe from hackers or sniffers.
+
+When you open a website like https://example.com, the TLS handshake starts
+before the actual HTTP data is exchanged.
+
+
+📥 1. Client Hello
+              The client (browser) sends:
+              Supported TLS versions
+              A list of supported cipher suites (encryption algorithms)
+              A random number
+              An optional Session ID
+
+
+
+
+
+📤 2. Server Hello
+            The server replies with:
+            The selected TLS version
+            The chosen cipher suite
+            Its own random number
+            Its digital certificate (contains the server's public key, 
+            signed by a trusted Certificate Authority)
+
+
+
+
+
+
+
+🔍 3. Certificate Verification
+The client:
+Checks if the server's certificate is valid and trusted
+Extracts the public key
+
+
+
+
+
+
+🗝️ 4. Key Exchange
+The client and server agree on a shared session key using methods 
+like:
+RSA
+Diffie-Hellman (DHE/ECDHE)
+This session key will be used for encrypting further communication.
+
+
+
+
+✅ 5. Finished Messages
+Both sides send a "Finished" message encrypted with the session key.
+Now both client and server have the same shared secret key and 
+encrypted communication begins.
+
+
+ASCII Diagram of TLS Handshake
+              Client                               Server
+                |     ---- Client Hello -------->     |
+                |                                     |
+                |     <---- Server Hello --------     |
+                |     <---- Certificate ---------     |
+                |                                     |
+                | -- Key Exchange / Pre-Master Key -->|
+                |                                     |
+                |     <---- Server Finished -------   |
+                |     ---- Client Finished ------>    |
+                |                                     |
+                |    Encrypted HTTP Communication     |
+
+
