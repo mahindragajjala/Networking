@@ -1,0 +1,33 @@
+🧠 Where Cache Is Involved?
+🔽 Cache can be involved in multiple layers:
+ Layer        Type                             Example                                          
+ Browser  Browser Cache                Stores recently visited pages, images, etc.      
+ Proxy    CDN / ISP / Corporate Proxy  Stores copies of resources for multiple users    
+ Server   Server-side cache            Cache-control headers, memory cache, NGINX cache 
+
+CLIENT                    PROXY/CDN                   SERVER
+                                                      
+   -- GET /index.html ---->                           
+                                                      
+   <-- 304 Not Modified -->                           
+                                                      
+Or if no cache hit:
+CLIENT                    PROXY/CDN                   SERVER
+                                                      
+   -- GET /index.html ---->      -- GET /index.html --->  
+                                                      
+   <-- 200 OK (cached)  <--      <-- 200 OK + HTML  ----- 
+
+
+  1. 🔐 Request Headers (from client):
+ Header               Description                                                
+ `If-Modified-Since`  Asks server: "Has the file changed since this date?"       
+ `If-None-Match`      Uses ETag: "Do I already have the latest version?"         
+ `Cache-Control`      Directs how to use cache: `no-cache`, `max-age=3600`, etc. 
+  
+ 2. 📤 Response Headers (from server):
+ Header           Description                                      
+ `Cache-Control`  `max-age`, `public`, `private`, `no-store`, etc. 
+ `ETag`           Unique hash of file version (e.g. `"abc123xyz"`) 
+ `Last-Modified`  Timestamp of last content change                 
+ `Expires`        When the content should be considered stale      
