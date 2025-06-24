@@ -163,3 +163,107 @@ Feature	Explanation
         4. ❌ Don’t store sensitive data in cookies
           Cookies can be modified on the client side. 
           Store only a session ID, not passwords, roles, etc.
+
+
+      First Time Browser Loads the Web Page (No Cache Yet)
+
+┌────────────┐         HTTP Request          ┌────────────┐
+│   Browser  │ ───────────────────────────▶  │   Server   │
+└────────────┘                               └────────────┘
+                                             Response:
+                                             --------------
+                                             HTTP/1.1 200 OK
+                                             Cache-Control: max-age=300
+                                             ETag: "abc123"
+                                             Expires: <+5 min>
+                                             --------------
+                                                 ↓
+                              Store in Browser Cache with ETag "abc123"
+
+✅ Result:
+Browser caches the file for 300 seconds (5 min).
+No need to ask the server again during this time.
+
+
+
+
+
+
+                  Browser Reloads Within 5 Minutes
+┌────────────┐                               ┌────────────┐
+│   Browser  │                               │   Server   │
+└────────────┘                               └────────────┘
+      ↓
+   Cache check:
+   Is `max-age` (300s) still valid?
+   ──────────────▶ YES
+   Use cached copy
+   No network request sent
+
+✅ Result:
+
+Cache HIT – browser serves content directly from cache.
+Page loads faster.
+Server is not contacted.
+
+
+
+
+
+
+              Browser Reloads AFTER 5 Minutes
+
+┌────────────┐        Conditional Request       ┌────────────┐
+│   Browser  │ ──────────────────────────────▶  │   Server   │
+│            │ If-None-Match: "abc123"          │            │
+└────────────┘                                   └────────────┘
+
+                                            Server checks ETag...
+                                            Same? Yes!
+                                            Respond:
+                                            ---------------------
+                                            HTTP/1.1 304 Not Modified
+                                            ETag: "abc123"
+                                            ---------------------
+✅ Result:
+Cache is stale, but browser tries to revalidate using If-None-Match.
+Server confirms content hasn’t changed (ETag matches).
+Server sends 304 Not Modified (no body).
+Browser uses cached version again.
+
+
+
+
+
+
+🔁 What If the File Changed After 5 Minutes?
+┌────────────┐        Conditional Request       ┌────────────┐
+│   Browser  │ ──────────────────────────────▶  │   Server   │
+│            │ If-None-Match: "abc123"          │            │
+└────────────┘                                   └────────────┘
+
+                                            Server checks ETag...
+                                            Changed? Yes!
+                                            Respond:
+                                            ---------------------
+                                            HTTP/1.1 200 OK
+                                            Cache-Control: max-age=300
+                                            ETag: "def456"
+                                            Expires: <+5 min>
+                                            ---------------------
+                                            (New content sent)
+✅ Result:
+Browser updates cache with new content and ETag "def456".
+
+
+
+
+
+🧠 Visual Timeline Summary
+
+Time (minutes)   Action                   Result
+───────────────  ───────────────────────  ─────────────────────────────
+T = 0            First load               200 OK + Cache-Control + ETag
+T = 2            Reload                   Served from cache (no request)
+T = 5            Reload                   304 Not Modified (ETag match)
+T = 6 (changed)  Reload                   200 OK (new content + new ETag)
