@@ -1,0 +1,44 @@
+A proxy is an intermediary server that sits between a client 
+and another server 
+and forwards the client’s requests to that server.
+
+There are two main types:
+
+👉 A. Forward Proxy (Client-side Proxy)
+📌 What it does:
+              Sits in front of the client.
+              Hides the client's identity from the server.
+              Controls or filters outgoing requests.
+
+🧠 Use cases:
+              Access control in organizations
+              Content filtering (e.g., block social media)
+              Caching frequently accessed content
+              Bypassing geo-restrictions (VPNs)
+
+
+Client → Forward Proxy → Internet (Server)
++--------+      +----------------+      +-------------+
+| Client | ---> | Forward Proxy  | ---> | Web Server  |
++--------+      +----------------+      +-------------+
+         (Client is hidden from the server)
+
+         
+👉 B. Reverse Proxy (Server-side Proxy)
+📌 What it does:
+          Sits in front of the server.
+          Hides the server’s details from clients.
+          Distributes load, adds caching, SSL termination, etc.
+
+🧠 Use cases:
+Load balancing (e.g., Nginx or HAProxy)
+Centralized SSL termination
+Caching, rate limiting
+Security & hiding internal infrastructure
+
+Client → Reverse Proxy → Internal Server(s)
++--------+      +----------------+      +----------------+
+| Client | ---> | Reverse Proxy  | ---> | Backend Server |
++--------+      +----------------+      +----------------+
+         (Server is hidden from the client)
+
