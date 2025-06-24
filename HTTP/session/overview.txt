@@ -1,0 +1,58 @@
+A session is a server-side mechanism used to store and track user-specific 
+data during their interaction with a web application. 
+
+It helps identify requests coming from the same client (browser) across 
+multiple requests — like login state, shopping cart, preferences, etc.
+
+
+📍 Key Concept:
+The server stores session data.
+The client (browser) stores only a Session ID in a cookie.
+This Session ID is used to fetch the user's session data from the server.
+
+🧠 Real-World Analogy:
+Think of a session like a cloakroom token at a hotel:
+The hotel (server) stores your coat (user data).
+You get a token (session ID).
+When you come back with your token, the hotel gives you your coat 
+(restores your session data).
+
+  +------------+                +--------------+
+  |  Browser   |                |   Web Server |
+  +------------+                +--------------+
+        |                              |
+        |-- Request (Login) ---------->|
+        |                              |
+        |<- Set-Cookie: sessionID ---> |
+        |   (e.g., sessionID=abc123)   |
+        |                              |
+        |==> Browser stores cookie     |
+        |                              |
+        |-- Request (with cookie) ---->|
+        |   Cookie: sessionID=abc123   |
+        |                              |
+        | Server uses sessionID to     |
+        | retrieve user data from      |
+        | memory/database              |
+        |                              |
+        |<-- Response with user data --|
+
+🗃️ Where is the Session Data Stored?
+Session data is usually stored on the server in one of 
+the following:
+              In-memory (like Go maps)
+              File-based
+              Redis/Memcached (for distributed sessions)
+              Database (PostgreSQL, MySQL)
+
+USER LOGIN SYSTEM..?
+You're building a web app where users can log in and access their 
+dashboard.
+
+💡 Objective:
+When a user logs in, the server should remember them.
+The server should keep the user authenticated across multiple pages 
+(like profile, dashboard).
+We’ll not store credentials in cookies — instead, use a session ID 
+stored in a cookie and keep user data on the server.
+
