@@ -123,3 +123,19 @@
 | 507  | 0x1FB|                        |                      | Insufficient Storage                        |
 | 511  | 0x1FF|                        |                      | Network Authentication Required             |
 
+## HTTP - TOPICS
+ 📑 HTTP Methods           GET, POST, PUT, DELETE, PATCH, OPTIONS,                              HEAD               
+ ⚙️ Status Codes           1xx to 5xx – what they mean                                
+ 📡 Headers                Request headers, response headers, custom headers          
+ 🍪 Cookies & Sessions     How cookies work, session tracking, authentication         
+ 🔒 HTTPS                  TLS handshake, certificate, encryption                     
+ 🔄 Caching                Cache-Control, ETag, Expires                               
+ ↪️ Redirection            301 vs 302, how browsers follow redirects                  
+ 📶 Content Negotiation    Accept, Accept-Encoding, Content-Type                      
+ 📤 Request Body/Query     Form data, JSON payloads, URL parameters                   
+ 📈 Performance            Keep-alive, pipelining, HTTP/2/3 improvements              
+ 🧪 Testing HTTP           Using `curl`, `Postman`, `Wireshark` to inspect traffic    
+ 🔀 Proxy & Gateway        Reverse proxies (nginx), forward proxies                   
+ 🚪 Connection Management  TCP socket handling, timeout, keep-alive                   
+ 🧵 Advanced Topics        Chunked transfer encoding, CORS, preflight requests        
+ 📊 Real-World Usage       REST APIs, GraphQL over HTTP, webhooks  
