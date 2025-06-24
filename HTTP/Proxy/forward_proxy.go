@@ -45,3 +45,16 @@ func main() {
     log.Println("Forward proxy running on :8080")
     http.ListenAndServe(":8080", nil)
 }
+
+/* 
+🚀 How to Use It
+Run:
+        go run forward_proxy.go
+
+Call it like this from a client/browser:
+        http://localhost:8080/proxy?url=http://example.com
+        
+This will:
+        Fetch http://example.com
+        Return the HTML content to the client through the proxy
+*/
