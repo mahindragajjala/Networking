@@ -1,0 +1,226 @@
+📤 1. Request Body / Query: The Basics
+
+When a client (like a browser or app) sends a request to a server, it 
+can send data in multiple ways depending on the "HTTP method" and the 
+"Content-Type".
+
+🔑 1. Query Parameters (URL Parameters)
+📍 Where?
+        Appended to the URL in GET requests, after a ?
+
+📦 Format:
+          key1=value1&key2=value2
+✅ Example:
+            GET /search?query=golang&page=2
+✅ Purpose:
+          Send small, non-sensitive data
+          Used mostly in GET, but also in DELETE or HEAD
+🔐 Not Secure:
+          Data is visible in URL and logs.
+
+SERVER:
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
+func main() {
+	r := gin.Default()
+
+	r.GET("/hello", func(c *gin.Context) {
+		name := c.Query("name")
+		age := c.Query("age")
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Received query parameters",
+			"name":    name,
+			"age":     age,
+		})
+	})
+
+	r.Run(":8080")
+}
+CLIENT:
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	resp, err := http.Get("http://localhost:8080/hello?name=mahindra&age=25")
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}
+
+
+
+🔑 2. Form Data (application/x-www-form-urlencoded)
+📍 Where?
+        Sent in the body of POST, PUT, or PATCH requests.
+
+📦 Format:
+          key1=value1&key2=value2
+          Like query params, but inside the body.
+✅ Example:
+            POST /login
+            Content-Type: application/x-www-form-urlencoded
+
+            username=mahindra&password=123456
+✅ Use Cases:
+              Login forms
+              Traditional HTML form submissions
+
+SERVER:
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
+func main() {
+	r := gin.Default()
+
+	r.POST("/login", func(c *gin.Context) {
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+		c.JSON(http.StatusOK, gin.H{
+			"status":   "form data received",
+			"username": username,
+			"password": password,
+		})
+	})
+
+	r.Run(":8081")
+}
+CLIENT:
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
+	"io/ioutil"
+)
+
+func main() {
+	data := url.Values{}
+	data.Set("username", "mahindra")
+	data.Set("password", "123456")
+
+	resp, err := http.Post("http://localhost:8081/login", "application/x-www-form-urlencoded", strings.NewReader(data.Encode()))
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}
+
+
+
+🔑 3. Multipart Form Data (multipart/form-data)
+📍 Where?
+Also sent in the body, but used for files.
+✅ Example:
+            POST /upload
+            Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+            
+            ------WebKitFormBoundary
+            Content-Disposition: form-data; name="file"; filename="photo.png"
+            Content-Type: image/png
+✅ Use Cases:
+File uploads
+Forms with files and text
+
+
+
+🔑 4. JSON Payload (application/json)
+📍 Where?
+Sent in the body of POST, PUT, PATCH requests.
+
+📦 Format:
+          {
+            "username": "mahindra",
+            "password": "123456"
+          }
+✅ Example:
+            POST /api/login
+            Content-Type: application/json
+            
+            {
+              "username": "mahindra",
+              "password": "123456"
+            }
+✅ Use Cases:
+              Modern APIs
+              Clean and structured
+              Used by frontend frameworks, mobile apps, etc.
+
+ Method        Location  Content-Type                       Usage                     
+ Query Params  URL       (None)                             GET filtering, search     
+ Form Data     Body      application/x-www-form-urlencoded  Traditional web forms     
+ Multipart     Body      multipart/form-data                File uploads              
+ JSON          Body      application/json                   API requests, modern apps 
+
+SERVER
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
+type Payload struct {
+	Name string `json:"name"`
+	City string `json:"city"`
+}
+
+func main() {
+	r := gin.Default()
+
+	r.POST("/api/data", func(c *gin.Context) {
+		var payload Payload
+		if err := c.BindJSON(&payload); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{
+			"status": "JSON received",
+			"name":   payload.Name,
+			"city":   payload.City,
+		})
+	})
+
+	r.Run(":8082")
+}
+CLIENT:
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"net/http"
+	"io/ioutil"
+)
+
+func main() {
+	jsonData := []byte(`{"name":"mahindra","city":"hyderabad"}`)
+
+	resp, err := http.Post("http://localhost:8082/api/data", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+}
