@@ -1,0 +1,138 @@
+🔹 Server – HTTP/1.1
+server :-
+                    package main
+                    
+                    import (
+                    	"github.com/gin-gonic/gin"
+                    )
+                    
+                    func main() {
+                    	r := gin.Default()
+                    	r.GET("/", func(c *gin.Context) {
+                    		c.String(200, "Hello from HTTP/1.1 server using Gin")
+                    	})
+                    	r.Run(":8081") // Default: HTTP/1.1
+                    }
+client :- 
+                    package main
+                    
+                    import (
+                    	"fmt"
+                    	"io"
+                    	"net/http"
+                    )
+                    
+                    func main() {
+                    	resp, _ := http.Get("http://localhost:8081")
+                    	defer resp.Body.Close()
+                    	body, _ := io.ReadAll(resp.Body)
+                    	fmt.Println("Client received:", string(body))
+                    }
+
+🔹 HTTP/2 (with TLS)
+server :- 
+          package main
+          
+          import (
+          	"github.com/gin-gonic/gin"
+          )
+          
+          func main() {
+          	r := gin.Default()
+          	r.GET("/", func(c *gin.Context) {
+          		c.String(200, "Hello from HTTP/2 server using Gin")
+          	})
+          	// Requires TLS cert & key
+          	r.RunTLS(":8443", "server.crt", "server.key")
+          }
+client :- 
+          package main
+          
+          import (
+          	"crypto/tls"
+          	"fmt"
+          	"io"
+          	"net/http"
+          )
+          
+          func main() {
+          	tr := &http.Transport{
+          		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+          	}
+          	client := &http.Client{Transport: tr}
+          
+          	resp, _ := client.Get("https://localhost:8443")
+          	defer resp.Body.Close()
+          	body, _ := io.ReadAll(resp.Body)
+          	fmt.Println("HTTP/2 Client received:", string(body))
+          }
+
+key := openssl req -x509 -newkey rsa:2048 -nodes -keyout server.key -out server.crt -days 365
+
+
+🔹 HTTP/3 using quic-go and Gin
+server :- 
+          package main
+          
+          import (
+          	"crypto/tls"
+          	"fmt"
+          	"github.com/gin-gonic/gin"
+          	"github.com/lucas-clemente/quic-go/http3"
+          )
+          
+          func main() {
+          	r := gin.Default()
+          	r.GET("/", func(c *gin.Context) {
+          		c.String(200, "Hello from HTTP/3 server using Gin + quic-go")
+          	})
+          
+          	server := &http3.Server{
+          		Addr: ":8444",
+          		Handler: r,
+          		TLSConfig: &tls.Config{
+          			Certificates: []tls.Certificate{loadTLSCert()},
+          			NextProtos:   []string{"h3"},
+          		},
+          	}
+          
+          	fmt.Println("HTTP/3 server running at https://localhost:8444")
+          	err := server.ListenAndServe()
+          	if err != nil {
+          		panic(err)
+          	}
+          }
+          
+          func loadTLSCert() tls.Certificate {
+          	cert, err := tls.LoadX509KeyPair("server.crt", "server.key")
+          	if err != nil {
+          		panic(err)
+          	}
+          	return cert
+          }
+
+client :-
+package main
+
+import (
+	"crypto/tls"
+	"fmt"
+	"github.com/lucas-clemente/quic-go/http3"
+	"io"
+	"net/http"
+)
+
+func main() {
+	rt := &http3.RoundTripper{
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: true,
+		},
+	}
+	defer rt.Close()
+
+	client := &http.Client{Transport: rt}
+	resp, _ := client.Get("https://localhost:8444")
+	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println("HTTP/3 client received:", string(body))
+}
