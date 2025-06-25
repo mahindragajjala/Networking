@@ -1,0 +1,125 @@
+ What is the PUT Method?
+The PUT method is used to update an existing resource or create 
+a resource at a specific URI.
+
+✅ Think of PUT as "replace or update":
+
+If the resource exists → it will be updated
+If it doesn't → it can be created (depends on the server)
+
+
+🧠 Key Characteristics of PUT
+ Feature                  Description                                                   
+ Purpose              Update or replace a resource                                  
+ Data Location        Data is sent in the request body (usually JSON or form)   
+ Idempotent           ✅ Yes. Repeating the same `PUT` request gives the same result 
+ Safe                 ❌ No — it modifies the server state                           
+ Common Status Codes  `200 OK`, `204 No Content`, `404 Not Found`, `201 Created`    
+
+
+                                          CLIENT SIDE
+🖥️ Client-Side Behavior
+Client sets the method as PUT
+Data is placed in the body (like in POST)
+The request specifies the exact URI of the resource to update
+Sends headers like Content-Type: application/json
+
+
+
+
+                                            SERVER SIDE
+Receives PUT request at a known URI (e.g., /users/123)
+Validates the request body
+Updates the resource (DB, file, etc.)
+Responds with status (200 OK or 204 No Content)
+
+
+                                            Client:
+                                                ↓
+                                            PUT /users/123
+                                                Body: { "name": "Updated", "email": "..." }
+                                            
+                                            Server:
+                                                ↓
+                                            Updates user with ID 123
+                                            Responds with 200 OK or 204 No Content
+
+
+
+                                          SERVER SIDE :
+package main
+
+import (
+    "net/http"
+    "github.com/gin-gonic/gin"
+)
+
+type User struct {
+    Name  string `json:"name"`
+    Email string `json:"email"`
+}
+
+var users = map[string]User{
+    "123": {Name: "Ravi", Email: "ravi@example.com"},
+}
+
+func main() {
+    r := gin.Default()
+
+    r.PUT("/users/:id", updateUserHandler)
+
+    r.Run(":8080")
+}
+
+func updateUserHandler(c *gin.Context) {
+    id := c.Param("id")
+
+    var updatedUser User
+    if err := c.ShouldBindJSON(&updatedUser); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    // Simulate user update
+    if _, exists := users[id]; !exists {
+        c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+        return
+    }
+
+    users[id] = updatedUser
+    c.JSON(http.StatusOK, gin.H{"message": "User updated", "user": updatedUser})
+}
+
+
+                                        CLIENT SIDE:
+package main
+
+import (
+    "bytes"
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    jsonData := []byte(`{"name":"Updated Ravi","email":"updated@example.com"}`)
+
+    client := &http.Client{}
+    req, err := http.NewRequest(http.MethodPut, "http://localhost:8080/users/123", bytes.NewBuffer(jsonData))
+    if err != nil {
+        fmt.Println("Request creation error:", err)
+        return
+    }
+    req.Header.Set("Content-Type", "application/json")
+
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Request failed:", err)
+        return
+    }
+    defer resp.Body.Close()
+
+    body, _ := io.ReadAll(resp.Body)
+    fmt.Println("Response:")
+    fmt.Println(string(body))
+}
