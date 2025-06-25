@@ -1,0 +1,86 @@
+ 🔹 1. Definition
+
+* A proxy is an intermediate server that sits between a client and a destination server.
+* It forwards client requests to other servers and can modify, block, or log them.
+
+
+
+ 🔹 2. Types of Proxies
+
+ ➤ Forward Proxy
+
+* Placed between client and internet.
+* Hides client identity from the server.
+* Example: Used in corporate networks to control and monitor employee internet access.
+
+ ➤ Reverse Proxy
+
+* Placed between internet and server.
+* Hides server details from the client.
+* Example: Used by web services to load balance or provide security (e.g., NGINX, HAProxy).
+
+
+
+ 🔹 3. Key Operations / Functions
+
+ Function             Forward Proxy              Reverse Proxy               
+ Security         Blocks outgoing traffic    Filters incoming traffic    
+ Caching          Speeds up client requests  Speeds up server responses  
+ Anonymity        Hides client IP            Hides server IP             
+ Access Control   Restrict client usage      Restrict public access      
+ Load Balancing   ❌                          ✅ (Distributes traffic)     
+ SSL Termination  ❌ (rare)                   ✅ (offloads TLS decryption) 
+
+
+
+ 🔹 4. RealWorld Examples
+
+ Use Case                   Proxy Type     Example Tool               
+ School restricts YouTube   Forward Proxy  Squid                
+ Cloudflare CDN             Reverse Proxy  Cloudflare           
+ Load balancing servers     Reverse Proxy  NGINX, HAProxy       
+ VPN service (private web)  Forward Proxy  Shadowsocks, Privoxy 
+
+
+
+ 🔹 5. How They Work (Simple Flow)
+
+ ✅ Forward Proxy:
+
+
+[Client] → [Forward Proxy] → [Internet Server]
+
+
+> Client sends request → Proxy checks → Forwards to server → Returns result to client
+
+ ✅ Reverse Proxy:
+
+
+[Client] → [Reverse Proxy] → [Backend Server]
+
+
+> Client requests → Proxy receives it → Routes to correct internal server → Sends back response
+
+
+
+ 🔹 6. Common Use in Golang
+
+* Use http.ReverseProxy from net/http/httputil for reverse proxy
+* Use middleware to create simple forward proxies (e.g., logging or modifying outgoing requests)
+
+
+
+ 🔹 7. Benefits
+
+* Security (masking origin)
+* Performance (caching, compression)
+* Scalability (load balancing)
+* Monitoring & Logging
+
+
+
+ 🔹 8. Risks
+
+* Misconfigured proxies can lead to data leaks.
+* Maninthemiddle attacks if used insecurely.
+* Can block legitimate traffic if not filtered correctly.
