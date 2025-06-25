@@ -1,0 +1,102 @@
+The HEAD method is similar to "GET", but it only retrieves "headers", not the "body of the response".
+
+✅ Use HEAD when you want to check "metadata" or "resource" status without downloading the content.
+
+
+                                          key Characteristics 
+ Feature           Description                                                      
+ Purpose       Retrieve headers only — no response body                         
+ Similar to    `GET`, but skips response body                                   
+ Idempotent    ✅ Yes — can be repeated with same result                         
+ Safe          ✅ Yes — doesn't change server state                              
+ Use cases     Resource existence check, content-length check, caching, pinging 
+ Status Codes  Same as `GET`: 200, 404, 500, etc.                               
+
+
+
+  
+  📲 Example 
+HEAD Request
+            HEAD /file.zip HTTP/1.1
+            Host: example.com
+
+Response:
+        HTTP/1.1 200 OK
+        Content-Length: 12000000
+        Content-Type: application/zip
+        ✅ No response body is returned — only headers.
+
+
+
+                                              CLIENT SIDE 
+        Sends a HEAD request
+        Receives only headers — no body
+Use case examples:
+      Check if a file exists
+      Get file size via Content-Length
+      Check last-modified time for caching
+
+  
+                                                SERVER SIDE 
+          Handles like a GET request
+          Runs routing and middleware as normal
+          Returns only headers, no body
+          In most frameworks (including Gin), HEAD is handled automatically based on GET.
+
+
+                                                CLIENT CODE
+  package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    client := &http.Client{}
+
+    req, err := http.NewRequest(http.MethodHead, "http://localhost:8080/status", nil)
+    if err != nil {
+        fmt.Println("Request creation error:", err)
+        return
+    }
+
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Request failed:", err)
+        return
+    }
+    defer resp.Body.Close()
+
+    fmt.Println("Response Status:", resp.Status)
+    fmt.Println("Content-Length:", resp.Header.Get("Content-Length"))
+    fmt.Println("X-Server-Status:", resp.Header.Get("X-Server-Status"))
+}
+
+                                                SERVER CODE  
+  package main
+
+import (
+    "net/http"
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
+    r := gin.Default()
+
+    // GET handler — also supports HEAD
+    r.GET("/status", func(c *gin.Context) {
+        c.Header("X-Server-Status", "Healthy")
+        c.JSON(http.StatusOK, gin.H{
+            "message": "Server is running",
+        })
+    })
+
+    // Optional explicit HEAD handler
+    r.HEAD("/status", func(c *gin.Context) {
+        c.Header("X-Server-Status", "Healthy")
+        c.Status(http.StatusOK)
+    })
+
+    r.Run(":8080")
+}
