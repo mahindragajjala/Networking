@@ -1,0 +1,158 @@
+The PATCH method is used to partially update an existing resource.
+Unlike PUT, which replaces the entire resource, PATCH only changes specific fields.
+
+✅ Use PATCH when you want to update only a few fields of a resource (not the whole object).
+
+
+                          key characteristics of PATCH
+ Feature            Description                                                    
+ Purpose        Partially update a resource                                    
+ Data Location  Request body (usually JSON with only updated fields)       
+ Idempotent     ✅ Yes (in theory, should give same result on repeat)           
+ Safe           ❌ No (it modifies server state)                                
+ Common Status  `200 OK`, `204 No Content`, `404 Not Found`, `400 Bad Request` 
+
+
+                                        FLOW
+                                        
+                                Client:
+                                    ↓
+                                PATCH /users/123
+                                    Body: { "email": "new@example.com" }
+                                
+                                Server:
+                                    ↓
+                                Find user → Only update "email" → Save → Respond
+                                
+
+
+
+
+
+
+
+CLIENT SIDE
+          Method: PATCH
+          Content-Type: application/json
+          Body: Only fields that need to be changed
+
+Example:
+        PATCH /users/123 HTTP/1.1
+        Host: example.com
+        Content-Type: application/json
+        
+        {
+          "email": "updated@example.com"
+        }
+
+SERVER SIDE
+        Receives the PATCH request
+        Locates resource (/users/123)
+        Merges new fields into existing resource
+        Returns success or error
+
+
+
+
+
+
+                                                  SERVER CODE
+package main
+
+import (
+    "net/http"
+    "github.com/gin-gonic/gin"
+)
+
+type User struct {
+    Name  string `json:"name,omitempty"`
+    Email string `json:"email,omitempty"`
+}
+
+var users = map[string]User{
+    "123": {Name: "Ravi", Email: "ravi@example.com"},
+}
+
+func main() {
+    r := gin.Default()
+
+    r.PATCH("/users/:id", patchUserHandler)
+
+    r.Run(":8080")
+}
+
+func patchUserHandler(c *gin.Context) {
+    id := c.Param("id")
+
+    existing, found := users[id]
+    if !found {
+        c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+        return
+    }
+
+    var patch User
+    if err := c.ShouldBindJSON(&patch); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    // Update only provided fields
+    if patch.Name != "" {
+        existing.Name = patch.Name
+    }
+    if patch.Email != "" {
+        existing.Email = patch.Email
+    }
+
+    users[id] = existing
+
+    c.JSON(http.StatusOK, gin.H{
+        "message": "User updated successfully",
+        "user":    existing,
+    })
+}
+
+                                              CLIENT CODE
+package main
+
+import (
+    "bytes"
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    jsonData := []byte(`{"email": "updated@example.com"}`)
+
+    client := &http.Client{}
+    req, err := http.NewRequest(http.MethodPatch, "http://localhost:8080/users/123", bytes.NewBuffer(jsonData))
+    if err != nil {
+        fmt.Println("Request creation error:", err)
+        return
+    }
+    req.Header.Set("Content-Type", "application/json")
+
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Request failed:", err)
+        return
+    }
+    defer resp.Body.Close()
+
+    body, _ := io.ReadAll(resp.Body)
+    fmt.Println("Response:")
+    fmt.Println(string(body))
+}
+
+
+
+
+
+
+                                        🧠 When to Use PATCH vs PUT
+Feature	                         PUT	                                            PATCH
+Operation	                       Full resource replacement	                      Partial resource update
+Fields Required	                 All fields required in request body	            Only fields to be updated required
+Idempotent	                     ✅ Yes	                                          ✅ Yes (should be)
+Use Case	                       Replace complete user profile	                  Just update user's email or name                                            
