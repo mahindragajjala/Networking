@@ -1,0 +1,149 @@
+The OPTIONS method is used to:
+
+✅ Discover the allowed HTTP methods and capabilities of a resource or server 
+— without triggering actual logic.
+
+It's often used:
+In CORS preflight requests (browsers)
+For API introspection, debugging, or API discovery
+To check which HTTP methods (GET, POST, etc.) are supported by a server or endpoint
+
+
+
+
+
+
+
+                            Key Characteristics of OPTIONS
+
+ Feature          Description                                                            
+ Purpose      Ask what HTTP methods and headers are allowed                          
+ Response     Contains `Allow:` header listing allowed methods                       
+ Body?        ❌ No body in request, optional minimal body in response                
+ Idempotent?  ✅ Yes — can be repeated safely                                         
+ Safe?        ✅ Yes — does not trigger server-side logic                             
+ Used In      CORS (Cross-Origin Resource Sharing), API testing, documentation tools 
+
+
+
+
+
+Client:
+    ↓
+OPTIONS /users/123
+
+Server:
+    ↓
+200 OK
+Allow: GET, POST, PUT, DELETE, PATCH, OPTIONS
+
+
+
+
+use cases
+ Scenario                   Description                                                          
+ CORS Preflight Check   Browser checks what headers/methods a server allows across domains   
+ API discovery          Developers check supported methods without invoking the actual logic 
+ Security enforcement   Prevent invalid method attacks (like `TRACE`, `TRACK`)               
+ DevTools/HTTP clients  Used internally by tools like Postman, curl, and browsers            
+
+
+
+                                        CLIENT SIDE
+Sends an OPTIONS request
+URI may or may not point to a specific resource
+Expects headers like:
+                      Allow
+                      Access-Control-Allow-Methods
+                      Access-Control-Allow-Headers
+                                        SERVER SIDE
+Responds without performing business logic
+Sends list of allowed HTTP methods
+In CORS: also returns Access-Control-* headers
+
+
+                                      SERVER CODE 
+package main
+
+import (
+    "net/http"
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
+    r := gin.Default()
+
+    // Regular API endpoint
+    r.GET("/users", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{"message": "List of users"})
+    })
+
+    r.POST("/users", func(c *gin.Context) {
+        c.JSON(http.StatusCreated, gin.H{"message": "User created"})
+    })
+
+    r.PUT("/users/:id", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{"message": "User updated"})
+    })
+
+    r.DELETE("/users/:id", func(c *gin.Context) {
+        c.JSON(http.StatusOK, gin.H{"message": "User deleted"})
+    })
+
+    // Handle OPTIONS for /users and /users/:id
+    r.OPTIONS("/users", optionsHandler)
+    r.OPTIONS("/users/:id", optionsHandler)
+
+    r.Run(":8080")
+}
+
+// Generic OPTIONS response
+func optionsHandler(c *gin.Context) {
+    c.Header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+    c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+    c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+    c.Status(http.StatusNoContent)
+}
+
+                                              CLIENT CODE
+package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    client := &http.Client{}
+
+    req, err := http.NewRequest(http.MethodOptions, "http://localhost:8080/users", nil)
+    if err != nil {
+        fmt.Println("Request creation error:", err)
+        return
+    }
+
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Request failed:", err)
+        return
+    }
+    defer resp.Body.Close()
+
+    fmt.Println("Response Headers:")
+    for k, v := range resp.Header {
+        fmt.Println(k+":", v)
+    }
+
+    fmt.Println("\nStatus:", resp.Status)
+}
+
+
+
+
+
+USE CASES
+ Use Case                           Description                                             
+ CORS preflight                 Browser sends OPTIONS to validate cross-origin requests 
+ API method check               Discover which methods are allowed for a resource       
+ Security hardening             Block unknown/invalid HTTP verbs                        
+ Swagger/Postman/OpenAPI tools  Use OPTIONS for documentation and discovery             
