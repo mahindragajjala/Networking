@@ -1,0 +1,105 @@
+In network programming, connection management refers to how a server or client:
+Accepts
+Maintains
+Monitors
+Closes
+a network connection, especially over TCP.
+
+This is a core part of how 
+HTTP, 
+gRPC, 
+FTP, 
+SSH, and 
+other protocols 
+manage communication between client and server.
+
+
+
+
+
+  
+
+                                      🌐 TCP Socket Handling
+A TCP socket is an endpoint for communication between two machines. 
+TCP is a connection-oriented protocol (vs. UDP which is connectionless).
+
+🔧 Life Cycle of a TCP Socket
+Socket creation (e.g., socket() in C or net.Listen() in Go)
+Bind to IP/port
+Listen for connections (listen())
+Accept a connection (accept())
+Read/Write data (with read()/write() or conn.Read()/conn.Write() in Go)
+Close the connection
+
+💡 Example in Go:
+                  ln, _ := net.Listen("tcp", ":8080")
+                  for {
+                      conn, _ := ln.Accept()
+                      go handleConnection(conn)
+                  }
+                  
+                  func handleConnection(conn net.Conn) {
+                      defer conn.Close()
+                      buffer := make([]byte, 1024)
+                      n, _ := conn.Read(buffer)
+                      fmt.Println("Received:", string(buffer[:n]))
+                  }
+
+
+
+
+
+
+
+
+                                        ⏲️ Timeout
+Timeouts prevent a system from hanging forever due to a 
+slow, 
+dead, or 
+unresponsive connection.
+
+🔹 Types of Timeouts in TCP Connections:
+Timeout Type	Description
+Connection Timeout	How long to wait while trying to establish a connection.
+Read Timeout	How long to wait while reading data.
+Write Timeout	How long to wait while writing data.
+Idle Timeout	How long to keep the connection alive when no data is being transferred.
+
+🔧 Go Example:
+conn.SetReadDeadline(time.Now().Add(5 * time.Second))
+conn.SetWriteDeadline(time.Now().Add(5 * time.Second))
+If the deadline is hit, you’ll get a timeout error like i/o timeout.
+
+
+
+
+
+
+  
+                                    🔁 Keep-Alive
+Keep-Alive allows a persistent TCP connection to be reused for multiple 
+requests/responses between client and server.
+Without keep-alive, every HTTP request opens and closes a new TCP connection 
+— this is slow and expensive.
+
+🔥 Benefits:
+            Reduces overhead of establishing TCP connections repeatedly
+            Improves performance (especially in HTTP/1.1 and HTTP/2)
+            Saves CPU and memory resources
+
+🔧 How Keep-Alive Works:
+                          Client sends Connection: keep-alive header
+                          Server responds with Connection: keep-alive
+                          Both sides agree to keep the TCP connection open after the response
+
+🔹 TCP-Level:
+TCP itself supports persistent connections unless either side closes it. 
+Keep-alive at TCP layer can also refer to TCP Keepalive Probes, a low-level way 
+to detect broken peers.
+
+Example in Go (HTTP server with keep-alive enabled):
+srv := &http.Server{
+    Addr: ":8080",
+    IdleTimeout: 120 * time.Second, // Keep connection idle for 2 minutes
+}
+srv.ListenAndServe()
