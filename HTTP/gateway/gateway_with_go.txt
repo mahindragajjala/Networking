@@ -1,0 +1,10 @@
+Whether you're building 
+"HTTP APIs", 
+"microservices", 
+"gRPC systems", or 
+"IoT platforms", 
+gateways become crucial building blocks. 
+
+Go is an ideal language for high-performance servers, so it’s widely 
+used to create, integrate with, or simulate gateways.
+
