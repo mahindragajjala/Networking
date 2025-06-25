@@ -1,0 +1,58 @@
+                              SOCKET:
+A socket is an "endpoint" for "sending" or "receiving data" across a "computer network".
+Think of it as a doorway through which data flows between:
+Two processes (on the same machine or different machines)
+Usually over TCP or UDP (IP protocols)
+
+🔑 Technically, it’s a combination of:
+                                      "IP address + Port number + Transport protocol (TCP/UDP)"
+
+
+
+
+
+
+                                SOCKET PROGRAMMING:                    
+                    Socket Programming is the way we write code to:
+                    Create, manage, and use sockets
+                    Enable communication between client-server applications
+                    Allow data transmission between two machines
+
+It involves:
+            Creating sockets
+            Binding them to IP addresses and ports
+            Connecting to other sockets
+            Sending/receiving data
+            Closing the connection
+You can do socket programming in many languages: C, C++, Java, Python, Go, etc.
+
+
+
+
+                                  SOCKET OPERATIONS: 
+These are the typical socket operations (mainly in TCP):
+socket()	- Create a socket
+bind() -	Assign IP address and port to the socket (used by server)
+listen() -	Server waits for client connections
+accept() -	Server accepts a connection from a client
+connect() -	Client connects to server
+send() -	Send data
+recv() -	Receive data
+close() -	Close the socket
+
+
+
+
+                                DATA FLOW:
+✅ Server Flow (TCP):
+                      1. socket()       -> create TCP socket
+                      2. bind()         -> assign IP and port
+                      3. listen()       -> listen for connections
+                      4. accept()       -> accept client
+                      5. recv()/send()  -> data exchange
+                      6. close()        -> close socket
+✅ Client Flow (TCP):
+                      1. socket()       -> create TCP socket
+                      2. connect()      -> connect to server
+                      3. send()/recv()  -> data exchange
+                      4. close()        -> close socket
