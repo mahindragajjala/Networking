@@ -109,7 +109,9 @@ Topic	Why It’s Needed
 Once these are clear, you're ready for middleware.
 
  Level                      Topic                                                                                                         
- 🔰 Beginner                What is middleware?<br>Why use middleware?<br>Middleware execution flow                                       
+ 🔰 Beginner                What is middleware
+                            Why use middleware?
+                            Middleware execution flow                                       
  🧰 Core Concepts           Writing custom middleware<br>Chaining middleware<br>Calling `Next()` to pass control                          
  🧪 Practical Middleware    Logging<br>Authentication<br>Authorization<br>Error handling<br>Panic recovery                                
  🌐 HTTP-level Middleware   Using `net/http`, wrap `http.Handler`<br>Implement your own middleware chain                                  
