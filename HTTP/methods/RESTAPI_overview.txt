@@ -1,0 +1,36 @@
+REST API
+REST API stands for "Representational State Transfer - Application Programming Interface". 
+
+It is a way for two computer systems (usually client and server) to communicate over the "HTTP protocol"
+in a stateless and standardized way.
+
+🧠 Core Concept:
+A REST API allows clients to access, create, update, or delete resources using HTTP methods like:
+                                 HTTP Method  Action          Example                
+                                 GET        Read data       Get user details       
+                                 POST       Create data     Create a new user      
+                                 PUT        Update data     Update entire user     
+                                 PATCH      Partial update  Change user email only 
+                                 DELETE     Delete data     Remove a user     
+
+
+
+🧩 Real-Time Example:
+Let’s say you have a Bookstore application:
+URL: https://bookstore.com/api/books 
+                                 Action          HTTP Method  API Endpoint     
+                                 List all books  GET        /api/books     
+                                 Get one book    GET        /api/books/101 
+                                 Add a new book  POST       /api/books     
+                                 Update a book   PUT        /api/books/101 
+                                 Delete a book   DELETE     /api/books/101 
+
+
+🔧 Key Features of REST APIs:
+Stateless: Server doesn’t store client info between requests.
+Resource-based: Everything (user, book, product) is treated as a resource with a unique URI.
+HTTP Methods used properly (GET, POST, etc.).
+JSON or XML is commonly used to exchange data.
+Client-Server separation: Frontend (client) and backend (server) are independent.
+Cacheable: Responses can be cached to improve performance.
+
