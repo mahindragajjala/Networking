@@ -1,0 +1,48 @@
+Chunked Transfer Encoding, CORS (Cross-Origin Resource Sharing), and Preflight Requests.
+
+🌐 Chunked Transfer Encoding (HTTP/1.1)
+📌 What is it?
+Chunked Transfer Encoding is a data transfer mechanism in HTTP/1.1 that allows 
+the server to send a response in chunks instead of sending it all at once with a Content-Length.
+
+✅ Why is it used?
+When the server doesn't know the total size of the content ahead of time.
+For streaming large files, logs, or real-time data.
+Reduces latency — clients can start processing chunks while others are still downloading.
+
+🧠 How it works:
+              Each chunk:
+                        Begins with the length of the chunk (in hexadecimal)
+                        Then the data itself
+                        Ends with a zero-length chunk to signal end
+
+📥 Example:
+HTTP/1.1 200 OK
+Transfer-Encoding: chunked
+Content-Type: text/plain
+
+4
+Wiki
+5
+pedia
+E
+ in
+chunks.
+0
+Breakdown:
+          4\r\nWiki\r\n –> Chunk of 4 bytes: “Wiki”
+          5\r\npedia\r\n –> 5 bytes: “pedia”
+          E\r\n in\r\nchunks.\r\n –> 14 bytes: “ in chunks.”
+          0\r\n\r\n –> End of transmission
+
+🚀 Use Case in Go (Gin):
+                          func streamHandler(c *gin.Context) {
+                          	c.Writer.Header().Set("Transfer-Encoding", "chunked")
+                          	c.Writer.WriteHeader(http.StatusOK)
+                          
+                          	for i := 0; i < 5; i++ {
+                          		c.Writer.Write([]byte(fmt.Sprintf("Chunk %d\n", i)))
+                          		c.Writer.Flush()
+                          		time.Sleep(1 * time.Second)
+                          	}
+                          }
