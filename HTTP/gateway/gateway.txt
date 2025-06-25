@@ -1,3 +1,5 @@
+GATEWAY (FROM CLIENT TO SERVER AND SERVER TO CLIENT)
+
 A gateway is similar to a proxy but it often translates between
 different protocols, acting as a bridge between different 
 systems.
