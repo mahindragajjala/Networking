@@ -139,3 +139,21 @@
  🚪 Connection Management  TCP socket handling, timeout, keep-alive                   
  🧵 Advanced Topics        Chunked transfer encoding, CORS, preflight requests        
  📊 Real-World Usage       REST APIs, GraphQL over HTTP, webhooks  
+
+
+## JWT TOKEN 
+                     [Client] --> POST /login ------------------> [Server]
+                                       credentials               ↳ validate user
+                                                                 ↳ generate JWT
+                                                                 ↳ return JWT
+                     
+                     [Client] <-- 200 OK + token ---------------
+                     
+                     [Client] --> GET /dashboard ---------------> [Server]
+                                    Authorization: Bearer token ↳ Middleware
+                                                                 ↳ verify token
+                                                                 ↳ if valid: pass to handler
+                                                                        ↳ Controller returns data
+                                                                 ↳ if invalid: return 401
+                     
+                     [Client] <-- 200 OK or 401 Unauthorized <---
