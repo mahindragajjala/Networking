@@ -1,0 +1,224 @@
+What is the GET Method?
+                    It is designed to retrieve data from a server at a specified resource (URL). 
+                    It's read-only — it doesn't modify or write data on the server.
+
+ Feature             Description                                                               
+ Purpose         To request data from a server (read operation).                           
+ Data Placement  Data is appended to the URL as query parameters (e.g., `?key=value`). 
+ Idempotent      Multiple identical GET requests result in the same response.              
+ Safe            It does not change the server's state.                                    
+ Cacheable       Can be cached by browsers, proxies, and CDNs.                             
+ Bookmarkable    Since parameters are in the URL, they can be bookmarked.                  
+
+
+
+
+
+
+
+
+CLIENT SIDE BEHAVIOR
+1. User Initiates the Request
+          The user (through a browser, mobile app, curl, Postman, etc.) performs a read action:
+          Visiting a URL like https://example.com/users?country=IN
+          Clicking a hyperlink
+          Submitting a form using method="GET"
+
+2. URL Construction
+        The client constructs a request with:
+        URL path (e.g., /users)
+        Query string (e.g., ?country=IN)
+        Headers (e.g., Accept, User-Agent, Authorization)
+        Cookies (if applicable)
+
+3. Sends Request to Server
+        The client sends a GET request over TCP (usually HTTP/1.1 or HTTP/2), 
+        typically looking like this:
+        
+        GET /users?country=IN HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        User-Agent: Mozilla/5.0
+
+                            You Type:  https://example.com/products?category=books
+                                ↓
+                            Browser:
+                                Uses method:   GET
+                                Creates URL:   /products?category=books
+                                Adds headers:  Accept, Host, User-Agent, etc.
+                                ↓
+                            Sends GET Request:
+                                GET /products?category=books HTTP/1.1
+                                Host: example.com
+                            
+                                ↓
+                            Server Receives GET → Responds with data
+                                ↓
+                            Browser Renders HTML or shows JSON, etc.
+
+
+SERVER-SIDE BEHAVIOR
+1. Receives the Request
+                      The server receives the GET request and:
+                      Parses the URL path and query parameters
+                      Validates headers and authentication if needed
+
+2. Processes the Request
+                      Server uses application logic to:
+                      Access data sources (like databases, file systems)
+                      Filter/transform data based on query (e.g., country=IN)
+                      Apply caching rules (if applicable)
+
+3. Generates Response
+                    The server responds with:
+                    Status Code (e.g., 200 OK, 404 Not Found)
+                    Headers (like Content-Type, Cache-Control)
+                    Response Body (HTML, JSON, XML, etc.)
+
+Example:
+        HTTP/1.1 200 OK
+        Content-Type: application/json
+        Cache-Control: max-age=600
+
+[
+  { "name": "Ravi", "country": "IN" },
+  { "name": "Anjali", "country": "IN" }
+]
+
+
+
+
+
+
+🚦 Status Codes Commonly Used with GET
+Status Code	        Meaning
+200 OK	    Successful data retrieval
+301/302	    Redirection to another URL
+304	        Not Modified (use cached data)
+400	        Bad Request
+401/403	    Unauthorized/Forbidden
+404	        Resource Not Found
+500	        Server Error
+
+
+
+🔐 Security Considerations
+                  Do not send sensitive data in query strings (e.g., passwords).
+                  GET URLs are logged in browser history and server logs.
+                  Use HTTPS to encrypt the request, including query parameters.
+                  Limit length of query strings (browsers and servers have limits).
+
+
+use cased of GET
+Use Case	               Example URL
+Search resources	       /search?q=golang
+Filter database results	 /products?category=shoes&price<1000
+Pagination	             /articles?page=2&limit=10
+Sorting	                 /items?sort=price_asc
+Fetching a single resource by ID	/users/123
+
+
+                                            SERVER:
+package main
+
+import (
+    "net/http"
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
+    r := gin.Default()
+
+    // Use Cases
+    r.GET("/search", searchHandler)
+    r.GET("/products", filterProductsHandler)
+    r.GET("/articles", paginateArticlesHandler)
+    r.GET("/items", sortItemsHandler)
+    r.GET("/users/:id", getUserByIDHandler)
+
+    r.Run(":8080") // Start server on port 8080
+}
+
+// 1. /search?q=golang
+func searchHandler(c *gin.Context) {
+    query := c.Query("q")
+    c.JSON(http.StatusOK, gin.H{"query": query, "results": "Search results for " + query})
+}
+
+// 2. /products?category=shoes&price=1000
+func filterProductsHandler(c *gin.Context) {
+    category := c.Query("category")
+    price := c.Query("price")
+    c.JSON(http.StatusOK, gin.H{
+        "category": category,
+        "price":    price,
+        "products": "Filtered products",
+    })
+}
+
+// 3. /articles?page=2&limit=10
+func paginateArticlesHandler(c *gin.Context) {
+    page := c.Query("page")
+    limit := c.Query("limit")
+    c.JSON(http.StatusOK, gin.H{
+        "page":   page,
+        "limit":  limit,
+        "data":   "Paginated articles",
+    })
+}
+
+// 4. /items?sort=price_asc
+func sortItemsHandler(c *gin.Context) {
+    sort := c.Query("sort")
+    c.JSON(http.StatusOK, gin.H{
+        "sort_by": sort,
+        "items":   "Sorted item list",
+    })
+}
+
+// 5. /users/123
+func getUserByIDHandler(c *gin.Context) {
+    id := c.Param("id")
+    c.JSON(http.StatusOK, gin.H{
+        "user_id": id,
+        "data":    "User details for " + id,
+    })
+}
+
+
+                                  //CLIENT
+
+package main
+
+import (
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    base := "http://localhost:8080"
+
+    endpoints := []string{
+        "/search?q=golang",
+        "/products?category=shoes&price=1000",
+        "/articles?page=2&limit=10",
+        "/items?sort=price_asc",
+        "/users/123",
+    }
+
+    for _, endpoint := range endpoints {
+        url := base + endpoint
+        resp, err := http.Get(url)
+        if err != nil {
+            fmt.Println("Error:", err)
+            continue
+        }
+        defer resp.Body.Close()
+
+        body, _ := io.ReadAll(resp.Body)
+        fmt.Println("Response from", endpoint, "=>")
+        fmt.Println(string(body))
+        fmt.Println()
+    }
+}
