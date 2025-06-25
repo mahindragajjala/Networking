@@ -1,0 +1,17 @@
+📌 What is CORS?
+                  CORS is a security feature in web browsers that controls how web 
+                  pages from one origin can request data from another origin.
+
+📍 Origin = combination of protocol + domain + port
+
+🛑 Problem it solves:
+A web page 
+(e.g. from https://siteA.com) tries to fetch data from a different domain 
+(e.g. https://api.siteB.com). By default, this is blocked by the browser for security.
+
+ Feature                        Description                                                    Example                         
+ Chunked Transfer Encoding  Streams HTTP response in parts without knowing content length  Streaming logs                  
+ CORS                       Allows controlled access across domains                        JS frontend calling backend API 
+ Preflight                  OPTIONS check before non-simple request                        PUT/DELETE with custom headers  
+
+  READ IT DEPTH...:)
