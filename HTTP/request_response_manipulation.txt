@@ -1,0 +1,64 @@
+In web development, Request and Response objects are fundamental building blocks used to handle communication 
+between a client (e.g., browser or mobile app) and a server. 
+
+Here's a breakdown of how you can manipulate headers, body, and more using these objects 
+— especially relevant in frameworks like Go (Golang with Gin) or Node.js, etc.
+
+ Object    Purpose                                
+ Request   Carries data from client to server 
+ Response  Sends data from server to client   
+
+
+                                        Request Object (Incoming from Client)
+
+ Property        Description                                         
+ `Headers`       Metadata like `ContentType`, `Authorization`, etc. 
+ `Body`          The actual data sent (JSON, form data, etc.)        
+ `Method`        HTTP verb: GET, POST, PUT, DELETE, etc.             
+ `URL/Path`      Requested endpoint path                             
+ `Query Params`  `?search=go&lang=en`                                
+ `Cookies`       Stored client side info                             
+
+
+
+                                        ACCESSING REQUEST IN GOLANG(GIN)
+
+func handler(c *gin.Context) {
+    // Get Header
+    auth := c.GetHeader("Authorization")
+
+    // Get Query Param
+    query := c.Query("search")
+
+    // Get Body (JSON)
+    var data map[string]interface{}
+    if err := c.BindJSON(&data); err != nil {
+        c.JSON(400, gin.H{"error": "Invalid body"})
+    }
+
+    // Print values
+    fmt.Println(auth, query, data)
+}
+
+
+
+
+                                Response Object (Back to Client)
+
+Operation	                 Description
+Set Headers	              e.g., Content-Type, Set-Cookie, etc.
+Set Status Code	          e.g., 200, 404, 500
+Set Body	                Actual response data (JSON, text, etc.)
+Redirect/Forward	        Redirect to another URL or route
+
+                               Sending Response in Go (Gin)
+func handler(c *gin.Context) {
+    // Set Header
+    c.Header("X-Custom-Header", "Go-Gin")
+
+    // Set JSON Response with status
+    c.JSON(200, gin.H{
+        "message": "Request received",
+        "status":  "success",
+    })
+}
