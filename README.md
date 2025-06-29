@@ -69,7 +69,10 @@
 | Physical Layer          | Network Access Layer       |
 
 ---
+## TCP/IP
+![image](https://github.com/user-attachments/assets/0b7f3fc9-fa79-4ae6-a7dc-cb7bc9ff3447)
 
+---
 ## TCP/IP Stack Details
 
 | Layer                  | Protocols                              | Key Operations                                                                 | Input from Above Layer       | Processing Done                                | Output to Lower Layer             |
