@@ -1,0 +1,103 @@
+                         DNS (Domain Name System) in computer networking.
+
+                  DNS (Domain Name System) is like the Internet's "phonebook".
+
+- It translates human-readable domain names (like www.google.com) into IP addresses 
+  (like 142.250.183.132) that computers use to identify each other on the network.
+- Without DNS, you’d have to remember IP addresses to access websites.
+
+
+
+Why is DNS Needed?
+              Humans remember names, not IP addresses. DNS solves:
+                        - Name-to-IP resolution
+                        - Easier scalability of web services
+                        - Load balancing (via round-robin DNS)
+                        - Email delivery (via MX records)
+
+
+How Does DNS Work?
+      1. You type: www.example.com
+      2. Your computer checks its "local DNS cache".
+      3. If not found, it asks the "configured DNS resolver" (usually your ISP).
+      4. Resolver contacts a "Root DNS Server" → Asks for ".com"
+      5. Root server replies: "Ask the TLD DNS server for .com"
+      6. Resolver contacts the ".com TLD server" → Asks for "example.com"
+      7. TLD replies: "Ask the Authoritative DNS server"
+      8. Resolver contacts the Authoritative DNS server → Gets IP for "www.example.com"
+      9. IP is returned to your browser → Browser connects to the IP
+
+
+Call flow:
+          Browser → Local Cache
+                 → ISP Resolver
+                   → Root DNS (.)
+                     → TLD Server (.com)
+                       → Authoritative Server (example.com)
+                         → Returns IP (93.184.216.34)
+          Browser → Connects to IP
+
+
+
+ Key Components in DNS
+         Component                 Description                                              
+         Resolver              Your system or ISP's DNS client that starts the query    
+         Recursive Resolver    Goes through multiple steps to get the IP                
+         Root DNS Server       Top-level server that knows about TLDs                   
+         TLD DNS Server        Servers that manage `.com`, `.org`, `.net`, etc.         
+         Authoritative Server  Final authority that holds actual records for the domain 
+
+
+
+DNS Record Types
+                   Record Type  Purpose                             
+                   A        Maps hostname to IPv4               
+                   AAAA     Maps hostname to IPv6               
+                   CNAME    Alias of another domain             
+                   MX       Mail exchange server info           
+                   NS       Nameserver for the domain           
+                   TXT      Text record (SPF, DKIM, etc.)       
+                   SOA      Start of Authority; domain settings 
+                   PTR      Reverse lookup (IP to domain)       
+
+         Record  Maps/Does What?        Example Use                         
+         A       Domain → IPv4          `example.com → 192.0.2.1`           
+         AAAA    Domain → IPv6          `example.com → ::1`                 
+         CNAME   Domain → Domain        `blog → medium.com`                 
+         MX      Mail Server routing    `gmail.com handles mail for domain` 
+         NS      Points to DNS server   `Cloudflare or GoDaddy`             
+         TXT     Meta info like SPF     `Email security, ownership`         
+         SOA     Zone authority info    `Primary DNS, refresh rate`         
+         PTR     IP → Domain (reverse)  `93.184.216.34 → example.com`       
+
+
+You visit: www.google.com
+                      Browser → checks local DNS cache
+                      Not found → asks 8.8.8.8 (Google’s public DNS resolver)
+                      8.8.8.8 asks root server
+                      Gets pointer to .com TLD server
+                      Gets pointer to google.com's authoritative server
+                      Gets A record → 142.250.183.132
+                      Your browser connects to that IP
+
+
+DNS Tools
+    nslookup — Check DNS resolution
+    dig — Detailed DNS query tool
+    host — Simple DNS lookup
+    Online tools: https://dnschecker.org
+
+
+Types of DNS Servers
+               Type                      Description                            
+               Caching DNS Resolver  Stores DNS results temporarily         
+               Authoritative DNS     Contains real data for domains         
+               Forwarder             Forwards queries to another DNS server 
+               Root / TLD Servers    Special purpose hierarchical servers   
+
+
+DNS Security Features
+                  DNSSEC – Prevents DNS spoofing by signing responses
+                  DoH (DNS over HTTPS) – Encrypts DNS queries
+                  DoT (DNS over TLS) – Also encrypts DNS queries over TLS
+
