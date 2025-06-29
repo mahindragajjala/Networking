@@ -1,0 +1,48 @@
+                            NAT (Network Address Translation)
+
+
+          NAT (Network Address Translation) is a method used in computer networks to map 
+          private IP addresses to a public IP address (or addresses) before transferring 
+          the information to another network—typically the internet.
+
+- It plays a crucial role in IPv4 networks where IP addresses are limited. 
+- NAT enables multiple devices in a private network to access the internet 
+  using a single public IP address.
+
+
+
+Why NAT is Needed
+IPv4 Address Exhaustion: There are only about 4.3 billion IPv4 
+                          addresses.
+
+Security: NAT hides internal network structure from outside world.
+
+Cost-Effective: Reduces the need for each internal device 
+                to have its own public IP.
+
+
+Types of NAT
+ Type                                Description                                                                                              
+ Static NAT                      Maps one private IP to one public IP (1:1 mapping).                                                      
+ Dynamic NAT                     Maps a private IP to any available public IP from a pool (not always same).                              
+ PAT (Port Address Translation)  Also called NAT Overload, maps many private IPs to one public IP using different ports. Most common. 
+
+
+
+How NAT Works
+            Let’s say you have a device in your home network with the 
+            private IP: 192.168.0.10, and it wants to access 
+            https://example.com.
+
+Without NAT:
+            Private IP 192.168.0.10 tries to talk directly to the 
+            internet—won’t work, because private IPs are non-routable 
+            over the internet.
+
+With NAT (PAT):
+        Router replaces source IP (192.168.0.10) with its 
+        public IP (e.g., 203.0.113.5) and adds a unique source port.
+        
+        When a reply comes back, the router uses the port to 
+        translate back to the correct internal IP and port.
+
