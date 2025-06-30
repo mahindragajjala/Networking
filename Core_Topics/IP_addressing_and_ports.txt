@@ -1,0 +1,59 @@
+IP addressing and ports
+
+
+                        What is an IP Address?
+An IP address is a unique identifier assigned to each device connected 
+to a network that uses the Internet Protocol to communicate.
+
+
+
+                          Types of IP Addresses
+ Type            Description                              Example                 
+ IPv4        32-bit numeric address (4 octets)        `192.168.0.1`           
+ IPv6        128-bit alphanumeric address             `2001:0db8::1`          
+ Public IP   Used over the internet; unique globally  `103.21.244.1`          
+ Private IP  Used inside local/private networks       `192.168.x.x`           
+ Static IP   Manually assigned; doesn't change        Server IPs              
+ Dynamic IP  Assigned via DHCP; can change            Home WiFi devices       
+ Loopback    Refers to the device itself              `127.0.0.1` (localhost) 
+ APIPA       Auto-assigned if DHCP fails              `169.254.x.x`           
+
+
+
+1. ✅ What is a Port?
+                  A port is a logical endpoint for communication. 
+                  It allows multiple services to run on a single IP 
+                  address by identifying different applications.
+                  IP Address + Port Number = Socket
+                  Range: 0 - 65535
+
+
+
+
+                              Port Number Ranges
+           Range          Type              Examples                          
+           0 - 1023       Well-known Ports  HTTP (80), HTTPS (443), SSH (22)  
+           1024 - 49151   Registered Ports  MySQL (3306), Postgres (5432)     
+           49152 - 65535  Dynamic/Private   Temporary client-side connections 
+
+
+
+
+                  Common Protocols and Ports
+               Protocol  Port   Description               
+               HTTP      80     Web browsing (non-secure) 
+               HTTPS     443    Secure web browsing       
+               FTP       21     File Transfer             
+               SSH       22     Secure Shell              
+               DNS       53     Domain name resolution    
+               SMTP      25     Email sending             
+               DHCP      67/68  IP address assignment     
+               SNMP      161    Network management        
+
+
+
+ IP Address  Address of device on network          192.168.0.1            
+ Port        Endpoint for app-level communication  Port 80 for HTTP       
+ Socket      IP + Port                             192.168.0.1:80         
+ NAT         Maps private IPs to public IPs        192.168.x.x → 49.x.x.x 
+ Subnetting  Splits networks                       192.168.1.0/24         
