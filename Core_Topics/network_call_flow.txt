@@ -1,0 +1,76 @@
+[End User PC]
+ +---------------------------------+
+ | App (Browser)                   |
+ | IP: 192.168.1.10 (Private IP)   |
+ | MAC: AA:BB:CC:DD:EE:01          |
+ +----------------+----------------+
+                  |
+                  |   NIC (Ethernet/Wi-Fi)
+                  V
+            [Network Switch]
+                  |
+                  V
+           [Home Router/Gateway]
+        +--------------------------+
+        | NAT Translates IP        |
+        | Private → Public IP      |
+        | Public IP: 203.0.113.5   |
+        +-----------+--------------+
+                    |
+                    V
+            [Internet Backbone]
+                    |
+                    V
+            [DNS Resolver Server]
+                    |
+                    V
+             [Google Web Server]
+           IP: 142.250.190.132
+
+
+
+Step 1: User types https://www.google.com in browser
+        Component: Application (Browser)
+        Protocol: HTTP/HTTPS (Layer 7)
+        → Requests DNS resolution
+Step 2: DNS Query to resolve www.google.com
+        Component: OS Resolver → Router → DNS Server
+        Protocol: DNS (Layer 7, UDP/TCP on port 53)
+        NIC sends the request with:
+                        MAC: AA:BB:CC:DD:EE:01
+                        Private IP: 192.168.1.10
+                        Destination IP: e.g., 8.8.8.8 (Google DNS)
+Step 3: Packet goes to Switch
+        Switch Role: Forwards Ethernet frames using MAC table (Layer 2)
+        → Forwards to Router
+Step 4: Router forwards using IP
+        Identifies destination is outside local network
+        Performs NAT
+ Step 5: NAT (Network Address Translation)
+        Replaces Private IP 192.168.1.10 with Public IP 203.0.113.5
+        Adds mapping in NAT table for response routing
+Step 6: Request travels to DNS server
+        DNS responds with 142.250.190.132 for google.com
+Step 7: Browser creates HTTPS Request to 142.250.190.132
+        TCP 3-Way Handshake (Layer 4)
+        TLS Handshake (Layer 6/7)
+        HTTP GET Request (Layer 7)
+Step 8: Google Server responds → Router → Switch → NIC → Browser
+
+
+
+
+
+
+                      OSL layer functionalities
+ Component        Role/Function                                      OSI Layer                               
+ End User     Application initiator (e.g., browser)              Layer 7                                 
+ NIC          Hardware to transmit bits, uses MAC address        Layer 1 (Physical), Layer 2 (Data Link) 
+ MAC Address  Hardware address for device identification in LAN  Layer 2                                 
+ Private IP   IP assigned within LAN (e.g., 192.168.x.x)         Layer 3                                 
+ Public IP    IP on the Internet (e.g., 203.0.x.x)               Layer 3                                 
+ Switch       Forwards based on MAC address                      Layer 2                                 
+ Router       Routes packets across networks using IP            Layer 3                                 
+ NAT          Translates private ↔ public IP                     Layer 3 (extra function of router)      
+ DNS          Resolves domain names to IP addresses              Layer 7                                 
+ Protocols    E.g., TCP, UDP, HTTP, HTTPS, DNS, ARP              Layers 2–7                              
