@@ -1,0 +1,170 @@
+Ping, Traceroute, Netstat, and Telnet 
+— four essential tools in networking, used for diagnostics, connectivity
+  checks, and troubleshooting.
+
+Ping:
+      Purpose: Test network connectivity between your system and another host 
+              (IP or domain name).
+      How it works:
+          - Uses the ICMP (Internet Control Message Protocol) 
+            Echo Request and Echo Reply.
+          - Sends a packet to the destination and waits for a reply.
+          - Measures round-trip time and packet loss.
+
+      Packet flow:
+      You (192.168.1.10) ──→ ICMP Echo Request ──→ google.com (142.250.182.206)
+                               ←── ICMP Echo Reply ──←
+
+      CMD : ping google.com
+            📤 Output:
+                      Packets sent/received
+                      Time (latency) in ms
+                      Packet loss %
+      ✅ Use Cases:
+                Check if a remote host is up
+                Diagnose packet loss or latency
+
+
+
+Traceroute
+    Purpose: Shows the path (route) packets take from your system 
+             to a destination.
+        How it works:
+        - Sends UDP (Linux) or ICMP (Windows) packets with incrementally 
+          increasing TTL (Time to Live).
+        - Each router along the path decrements TTL by 1.
+        - When TTL = 0, the router returns an ICMP Time Exceeded.
+    - This process identifies each hop between source and destination.
+    
+    Packet Flow:
+        You ── TTL=1 → Router1 → TTL=0 (ICMP Time Exceeded)
+        You ── TTL=2 → Router2 → TTL=0 (ICMP Time Exceeded)
+        ...
+        You ── TTL=n → Destination → (ICMP Echo Reply)
+    
+    CMD :
+        traceroute google.com    # Linux
+        tracert google.com       # Windows
+
+    use cases:
+            Locate slow or failed routers
+            Understand network path to a host
+            Troubleshoot routing problems
+
+      root@DESKTOP-J9T1JA9:/home/mahindra# traceroute google.com
+      traceroute to google.com (172.217.174.238), 30 hops max, 60 byte packets
+       1  DESKTOP-J9T1JA9.mshome.net (172.20.64.1)  0.674 ms  0.620 ms  0.592 ms
+       2  192.168.1.1 (192.168.1.1)  5.222 ms  5.816 ms  5.794 ms
+       3  hyd-tdc-bngs-11 (110.235.231.73)  5.890 ms  5.868 ms  5.845 ms
+       4  110.235.231.1 (110.235.231.1)  8.492 ms  5.864 ms  7.868 ms
+       5  144.48.72.160 (144.48.72.160)  7.759 ms  7.177 ms  7.713 ms
+       6  10.240.248.100 (10.240.248.100)  5.755 ms  5.719 ms  3.646 ms
+       7  10.240.248.1 (10.240.248.1)  10.539 ms  6.046 ms  12.245 ms
+       8  110.235.231.210 (110.235.231.210)  15.796 ms  17.385 ms  16.818 ms
+       9  142.250.166.160 (142.250.166.160)  16.785 ms  15.667 ms  15.637 ms
+      10  * * *
+      11  142.250.214.112 (142.250.214.112)  17.967 ms 72.14.239.246 (72.14.239.246)  19.612 ms 216.239.54.146 (216.239.54.146)  17.178 ms
+      12  142.250.60.135 (142.250.60.135)  18.447 ms 216.239.50.167 (216.239.50.167)  17.163 ms 142.250.208.226 (142.250.208.226)  16.996 ms
+      13  192.178.110.107 (192.178.110.107)  16.298 ms 192.178.110.207 (192.178.110.207)  16.127 ms bom12s03-in-f14.1e100.net (172.217.174.238)  15.928 ms
+
+Netstat (Network Statistics)
+        Purpose: Display network connections, routing tables, interface stats, etc.
+        🔧 What it shows:
+                          All active TCP/UDP connections
+                          Listening ports
+                          IP addresses, protocols
+                          PID/programs using the ports
+        
+        Common Commands:
+              netstat -an            # All connections and listening ports
+              netstat -tuln          # Linux: TCP/UDP Listening ports only
+              netstat -p             # Show PID/program using the connection
+              netstat -r             # Show routing table
+
+        Use Cases:
+                  Find which ports are open
+                  Check for unauthorized connections
+                  Debug application binding issues
+        🧠 Tip: On modern Linux, netstat is replaced by ss for better 
+                performance.
+                ss -tuln
+
+
+
+
+Telnet
+      Purpose: Used to manually test connectivity to a specific port 
+               on a remote server 
+              (e.g., port 80 for HTTP, port 22 for SSH).
+      
+      🔧 How it works:
+      - Opens a TCP connection to a specified IP/hostname and port.
+      - If the connection is successful, it means the port is
+        reachable and open.
+      
+      📘 Example:
+              telnet google.com 80
+              Output:
+              If successful, you'll see a connected message.
+              If failed, you'll see a timeout or connection refused.
+      
+      ✅ Use Cases:
+      Test if a specific port is open
+      Simulate an application-layer request (like HTTP)
+      Debug firewall or ACL issues
+      🔒 Note: Telnet is not secure (plaintext). 
+        Use ssh for secure remote login.
+      
+
+
+ Tool          Protocol  Purpose                                 Layer  Example Usage           
+ `ping`        ICMP      Check host reachability & latency       3      `ping google.com`       
+ `traceroute`  ICMP/UDP  Trace the path of packets               3      `traceroute google.com` 
+ `netstat`     TCP/UDP   View active connections and ports       4      `netstat -an`           
+ `telnet`      TCP       Connect to a port to test availability  7      `telnet example.com 80` 
+
+
+
+
+
+ COMMANDS:
+ Command                  OS                Description                                                  Example Usage                                 
+ ping                     All               Test reachability and round-trip time to a host              ping google.com                               
+ ip a / ifconfig          Linux             Show IP address, network interface status                    ip a / ifconfig                               
+ ip r / route             Linux             Show or manipulate routing table                             ip r                                          
+ ip link                  Linux             Show or configure network interfaces                         ip link set eth0 up                           
+ traceroute / tracert     Linux / Windows   Trace packet path to destination host                        traceroute google.com                         
+ netstat                  All               Show network connections, ports, stats                       netstat -an                                   
+ ss                       Linux             Modern alternative to netstat                                ss -tuln                                      
+ hostname                 All               Show system’s hostname                                       hostname                                      
+ telnet                   All               Test TCP connectivity to a port                              telnet example.com 80                         
+ nslookup                 All               Query DNS to resolve hostnames/IPs                           nslookup google.com                           
+ dig                      Linux             Detailed DNS lookups                                         dig google.com                                
+ curl                     All               Fetch/send data using HTTP, FTP, etc.                        curl https://example.com                      
+ wget                     All               Download files via HTTP/HTTPS/FTP                            wget https://file.com/file.zip                
+ ethtool                  Linux             Display/change Ethernet device settings                      ethtool eth0                                  
+ nmcli                    Linux             NetworkManager CLI                                           nmcli device show                             
+ iwconfig                 Linux             Wireless interface configuration                             iwconfig wlan0                                
+ arp                      All               Display or modify ARP table                                  arp -a                                        
+ ip neigh                 Linux             Show ARP entries (replaces arp)                              ip neigh                                      
+ tcpdump                  Linux             Packet analyzer/capture tool                                 tcpdump -i eth0                               
+ nmap                     All               Scan networks for open ports/services                        nmap 192.168.1.1                              
+ whois                    Linux             Get domain registration info                                 whois example.com                             
+ lsof -i                  Linux             List open network sockets/files                              lsof -i :80                                   
+ ssh / sshd               All               Secure shell remote login                                    ssh user@remote-ip                            
+ iptables / nft           Linux             Packet filtering/firewall configuration                      iptables -L / nft list ruleset                
+ firewalld-cmd            Linux             Manage firewall zones/rules                                  firewall-cmd --list-all                       
+ tcpdump (advanced)       Linux             Advanced packet filtering                                    tcpdump -i eth0 port 80                       
+ wireshark                All               GUI packet analyzer                                          (Run GUI and select interface)                
+ bmon                     Linux             Real-time bandwidth monitor                                  bmon                                          
+ iperf3                   All               Measure network bandwidth                                    iperf3 -s / iperf3 -c server-ip               
+ mtr                      Linux             Combines ping and traceroute                                 mtr google.com                                
+ tc                       Linux             Traffic control (QoS, shaping)                               tc qdisc show dev eth0                        
+ vnstat                   Linux             Show historical bandwidth stats                              vnstat -d                                     
+ brctl / bridge           Linux             Manage bridge devices                                        brctl show / bridge link                      
+ tshark                   Linux             CLI version of Wireshark                                     tshark -i eth0                                
+ nc (netcat)              All               TCP/UDP read/write (debugging tool)                          nc -l 1234 / nc host 1234                     
+ socat                    Linux             Multipurpose relay tool                                      socat TCP4-LISTEN:1234,reuseaddr ...          
+ iftop                    Linux             Real-time bandwidth by connection                            iftop -i eth0                                 
+ resolvectl               Linux             Query/control DNS resolution (systemd)                       resolvectl status                             
+ systemd-resolve          Linux             Show DNS resolution config (systemd)                         systemd-resolve --status                      
