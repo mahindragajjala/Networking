@@ -1,5 +1,11 @@
                             NAT (Network Address Translation)
 
+A software-based functionality that can be run on a networking device such as:
+                A router
+                A firewall
+                A dedicated NAT gateway
+Even a host machine (like Linux with iptables or Windows with Internet Connection Sharing)
+
 
           NAT (Network Address Translation) is a method used in computer networks to map 
           private IP addresses to a public IP address (or addresses) before transferring 
@@ -45,4 +51,56 @@ With NAT (PAT):
         
         When a reply comes back, the router uses the port to 
         translate back to the correct internal IP and port.
+
+
+[ User Device (Laptop) ]
+┌──────────────────────────────┐
+│ IP: 192.168.0.10             │
+│ Request: example.com         │
+│ Destination IP: 93.184.216.34│
+│ Source Port: 45678           │
+└────────────┬─────────────────┘
+             │  (Private network - input)
+             ▼
+┌──────────────────────────────┐
+│ NAT Router                   │
+│ Private IP: 192.168.0.1      │
+│ Public IP: 203.0.113.5       │
+│ NAT Table:                   │
+│ 203.0.113.5:50001 <->        │
+│ 192.168.0.10:45678           │
+└────────────┬─────────────────┘
+             │  (Internet-facing - output)
+             ▼
+[ Internet - Public Network ]
+             │
+             ▼
+┌──────────────────────────────┐
+│ Web Server (example.com)     │
+│ IP: 93.184.216.34            │
+│ Port: 443 (HTTPS)            │
+│ Receives:                    │
+│ Src IP: 203.0.113.5:50001    │
+│ Dst IP: 93.184.216.34:443    │
+└────────────┬─────────────────┘
+             │  (Response - output)
+             ▼
+[ Internet - Public Network ]
+             │
+             ▼
+┌──────────────────────────────┐
+│ NAT Router                   │
+│ Sees response to:            │
+│ 203.0.113.5:50001            │
+│ Finds mapping:               │
+│ → 192.168.0.10:45678         │
+└────────────┬─────────────────┘
+             │  (Private network - input)
+             ▼
+┌──────────────────────────────┐
+│ User Device (Laptop)         │
+│ Gets response from example.com│
+│ To: 192.168.0.10:45678       │
+│ HTTPS page content loaded    │
+└──────────────────────────────┘
 
