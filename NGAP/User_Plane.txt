@@ -1,0 +1,17 @@
+Used to carry user data (like web traffic, videos, etc.)
+
+UE ↔ gNB ↔ UPF (User Plane Function in Core)
+
+ Layer         Function                                                         
+ IP (App)  Application traffic (HTTP, VoIP, etc.)                           
+ PDCP      Packet Data Convergence Protocol (header compression, ciphering) 
+ RLC       Radio Link Control (error correction, retransmission)            
+ MAC       Medium Access Control (scheduling, multiplexing)                 
+ PHY       Physical Layer (modulation, transmission over air)               
+
+
+gNB ↔ UPF over N3 Interface:
+ Layer      Function                             
+ GTP-U  GPRS Tunneling Protocol - User plane 
+ UDP    User Datagram Protocol               
+ IP     Internet Protocol                    
