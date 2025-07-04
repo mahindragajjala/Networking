@@ -1,0 +1,50 @@
+NGAP (NG Application Protocol) is a control plane protocol used in the 5G system between the gNB (next-generation NodeB) and the AMF (Access and Mobility Management Function) over the N2 interface.
+
+It handles control signaling — meaning it does not deal with user data, but manages connections, sessions, handovers, and mobility.
+
+
+Where is NGAP Used?
+                    Interface: N2
+                    Between: gNB (Radio Access Network) ↔️ AMF (Core Network)
+
+Protocol Stack:
+                Application Layer: NGAP  
+                Transport Layer: SCTP  
+                Network Layer: IP  
+                Data Link & Physical: Ethernet/Optical (etc.)
+Protocol Stack of NGAP:
+                      NGAP (Application Layer)
+                      ↑
+                      SCTP (Stream Control Transmission Protocol)
+                      ↑
+                      IP (Usually IPv4/IPv6)
+
+
+ Main Functions / Use-Cases of NGAP:
+ Function                            Description                                                          
+ UE Registration                 Helps establish connection when a UE wants to register with the 5G network 
+ UE Context Management           Create, update, and release UE context information at AMF                  
+ PDU Session Management          Initiates or releases data sessions via the SMF                            
+ Paging                          AMF can page the UE via NGAP if it is in idle mode                         
+ Handover Control                Handles intra-5G or inter-RAT handovers                                    
+ NAS Transport                   Carries NAS messages from UE to AMF and vice versa                         
+ UE Mobility Event Notification  Notifies AMF of UE mobility-related events                                 
+ Error Indication & Reporting    Reports errors, unexpected states, and failures                            
+
+
+UE Registration Flow (Simplified)
+                                UE → gNB → AMF (via NGAP: InitialUEMessage)
+                                AMF → gNB (via NGAP: InitialContextSetupRequest)
+                                gNB → UE (includes NAS message)
+
+UE Handover Flow
+                gNB → AMF (HandoverRequired)
+                AMF → target gNB (HandoverRequest)
+                Target gNB → AMF (HandoverRequestAcknowledge)
+                AMF → source gNB (HandoverCommand)
+
+PDU Session Establishment
+                          UE → gNB → AMF (InitialUEMessage with NAS PDU)
+                          AMF → SMF (via N11)
+                          SMF → AMF (session setup response)
+                          AMF → gNB (NGAP: InitialContextSetupRequest)
