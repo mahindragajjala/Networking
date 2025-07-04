@@ -13,7 +13,10 @@
 +------------------+     +------------------+     +------------------+
 |      UE          | <-> |      gNB         | <-> |     5G Core      |
 +------------------+     +------------------+     +------------------+
-        RAN (Radio Access Network)                  Core Network
+
+        
+        
+RAN (Radio Access Network) Core Network
 There are two main planes in the 5G protocol stack:
 User Plane (UP): For actual user data (like video, audio, browsing).
 Control Plane (CP): For signaling messages used to establish, maintain, and release connections.
