@@ -1,0 +1,71 @@
+The Stream Control Transmission Protocol (SCTP) is a Layer 4 (Transport Layer) protocol, 
+just like TCP and UDP. 
+
+It fits within the TCP/IP and OSI network models.
+
+WITH OSL LAYER
+ OSI Layer               Protocol/Technology        SCTP Stack Equivalent                    Notes                                                                               
+ Layer 7 – Application   HTTP, NGAP, SIP, Diameter  NGAP, XnAP, Diameter, etc.   SCTP transports these signaling protocols.                                          
+ Layer 6 – Presentation  Encoding formats, SSL      —                                        Handled by the application protocol.                                                
+ Layer 5 – Session       Session mgmt, dialogs      —                                        Typically managed at the application level.                                         
+ Layer 4 – Transport     TCP, UDP, SCTP             SCTP                                 Provides reliable, message-oriented delivery with multi-streaming and multi-homing. 
+ Layer 3 – Network       IP, ICMP                   IPv4 / IPv6                          SCTP runs on top of IP.                                                             
+ Layer 2 – Data Link     Ethernet, PPP              Ethernet, Frame Relay, etc.          Used to transmit IP packets.                                                        
+ Layer 1 – Physical      Cables, Optical Fiber      Physical mediums like fiber, copper  Just the medium for sending bits.                                                   
+
+
+                  +---------------------------+    <== OSI Layer 7 – Application
+                   NGAP, Diameter, SIP           
+                  +---------------------------+
+                           (Optional)            <== Presentation/Session
+                  +---------------------------+
+                           SCTP                  <== OSI Layer 4 – Transport
+                  +---------------------------+
+                          IPv4 / IPv6            <== OSI Layer 3 – Network
+                  +---------------------------+
+                       Ethernet, PPP, etc.       <== OSI Layer 2 – Data Link
+                  +---------------------------+
+                    Physical Media (Fiber)       <== OSI Layer 1 – Physical
+                  +---------------------------+
+
+SCTP Instead of TCP/UDP
+ Feature                TCP          UDP  SCTP                                 
+ Connection-based       Yes          No   Yes                                  
+ Reliable delivery      Yes          No   Yes                                  
+ Message-based          No (stream)  Yes  Yes                                  
+ Multi-streaming        No           No   ✅ Yes (independent streams)          
+ Multi-homing           No           No   ✅ Yes (fault tolerance & redundancy) 
+ Built-in security      No           No   Partially (via cookie handshake)     
+ Head-of-line blocking  Yes          No   ❌ Avoided using streams              
+
+
+
+In 5G architecture, the NGAP protocol (Application layer) runs over SCTP, which runs over IP:
+                                      NGAP (App Layer)
+                                        ↓
+                                      SCTP (Transport Layer)
+                                        ↓
+                                      IPv4/IPv6 (Network Layer)
+                                        ↓
+                                      Ethernet/Other (Link Layer)
+
+
+
+
+
+
+
+Chunk Types
+ Chunk Type (Hex)  Name           Description                                   
+ `0x01`            INIT           Starts association                            
+ `0x02`            INIT ACK       Response to INIT                              
+ `0x03`            SACK           Selective ACK for DATA chunks                 
+ `0x04`            HEARTBEAT      Probes the reachability                       
+ `0x05`            HEARTBEAT ACK  Acknowledges heartbeat                        
+ `0x06`            ABORT          Abruptly ends association                     
+ `0x07`            SHUTDOWN       Starts graceful shutdown                      
+ `0x08`            SHUTDOWN ACK   Acknowledges shutdown                         
+ `0x09`            ERROR          Reports error                                 
+ `0x0A`            COOKIE ECHO    Completes INIT handshake                      
+ `0x0B`            COOKIE ACK     Acknowledges COOKIE ECHO                      
+ `0x00`            DATA           Contains actual application data (e.g., NGAP) 
