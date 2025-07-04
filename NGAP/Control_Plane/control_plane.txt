@@ -1,0 +1,18 @@
+Control Plane Protocol Stack
+Used for signaling and management between UE ↔ gNB ↔ AMF (in 5GC)
+
+
+UE ↔ gNB ↔ AMF (over N1 and N2)
+ Layer          Function                                                                  
+ NAS        Non-Access Stratum: UE ↔ AMF messages (e.g., registration, session setup) 
+ NGAP       NG Application Protocol: gNB ↔ AMF communication                          
+ SCTP       Transport for NGAP messages                                               
+ IP         Internet Protocol                                                         
+ Data Link  Ethernet, etc.                                                            
+ Physical   Physical media                                                            
+
+
+Notes:
+      NAS is not terminated at gNB; it passes transparently to AMF.
+      NGAP is between gNB and AMF only, not seen by UE.
+
