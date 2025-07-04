@@ -1,0 +1,87 @@
+What is NAS in 5G?
+NAS (Non-Access Stratum) is a control plane protocol in 5G used for communication between the UE (User Equipment) 
+and the AMF (Access and Mobility Management Function).
+
+Main Use: It carries 
+                    mobility management, 
+                    session management, 
+                    authentication, and 
+                    security-related signaling between UE and 5G Core (AMF).
+
+Where does NAS operate?
+                      Between:
+                              📱 UE ⟷ AMF
+                      
+                      Transmitted via:
+                                      🚪 gNB (RAN) using the NGAP protocol (on N2 interface)
+                      
+                      Transport path:
+                                    UE (NAS message) → gNB (encapsulates in NGAP) → AMF
+                      
+
+NAS in Protocol Stack:
+                      UE           gNB             AMF
+                       |            |               |
+                       |--- NAS ----|--- NGAP ----->|
+                        * NAS is independent of the access network (RAN).
+                        * It’s carried as payload inside NGAP messages.
+
+
+  Main Functions / Use Cases of NAS:
+                                     NAS Function                     Description                                                  
+                                     🔐 Authentication            Helps establish mutual trust between UE and network          
+                                     🔐 Security Mode Control     Negotiates and activates encryption and integrity protection 
+                                     🪪 UE Registration (Attach)  UE registers with 5GC using NAS messages                     
+                                     🔄 Mobility Management       Handles tracking area updates, idle ↔ connected transitions  
+                                     🌐 PDU Session Management    Establishes and manages data sessions with SMF               
+                                     📴 Deregistration (Detach)   Allows UE to gracefully disconnect from the network          
+                                     📑 Configuration Updates     Updates UE with changes in AMF or network settings           
+
+
+  Examples of NAS Messages:
+                           Message Type                         Purpose                           
+                           `RegistrationRequest`                Sent by UE to begin registration  
+                           `AuthenticationRequest/Response`     Authentication process            
+                           `SecurityModeCommand/Complete`       Activate ciphering/integrity      
+                           `RegistrationAccept/Complete`        Confirms successful registration  
+                           `PDU Session Establishment Request`  UE requests internet/data session 
+                           `PDU Session Release Request`        UE ends data session              
+                           `DeregistrationRequest`              Disconnects from network          
+
+
+NAS Call Flow – UE Registration:
+                                UE                                    gNB                          AMF
+                                 |                                    |                             |
+                                 |-- NAS: Registration Req ---------->|                             |
+                                 |                                    |-- NGAP: InitialUEMessage -->|
+                                 |                                    |                             |
+                                 |                                    |<-- NGAP: Auth Req (NAS) ----|
+                                 |<-- NAS: Authentication Request ----|                             |
+                                 |-- NAS: Authentication Response --->|                             |
+                                 |                                    |                             |
+                                 |<-- NAS: Security Mode Command ---->|                             |
+                                 |-- NAS: Security Mode Complete ---->|                             |
+                                 |<-- NAS: Registration Accept ------>|                             |
+                                 |-- NAS: Registration Complete ----->|                             |
+
+
+
+
+
+NAS is responsible for setting up security keys used by both RAN (AS layer) and Core (NAS layer).
+Two layers of security:
+                      AS Security: Between UE ↔ gNB
+                      NAS Security: Between UE ↔ AMF
+Ensures:
+        Message confidentiality (encryption)
+        Integrity (tamper detection)
+
+
+
+
+  NGAP vs NAS:
+             Aspect        NAS                                   NGAP                                        
+             Used Between  UE ↔ AMF                              gNB ↔ AMF                                   
+             Purpose       UE registration, session, mobility    Transport signaling and UE context handling 
+             Transports    Mobility/session/authentication info  NAS messages and gNB-side signaling         
+             Layer         Application (Control)                 Application (Transport for NAS)             
