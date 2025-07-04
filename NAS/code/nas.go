@@ -80,3 +80,4 @@ func main() {
 
 	fmt.Println("✅ NAS .pcap file created: dummy_nas_trace.pcap")
 }
+//udp.port == 38412 && frame contains 7e
