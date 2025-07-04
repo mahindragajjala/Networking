@@ -1,0 +1,76 @@
+UE Power ON and Initial Registration (Control Plane)
+Purpose:
+        UE identifies itself
+        Connects to the network (AMF via gNB)
+        Gets authorized
+        Sets up signaling
+
+
+
+                      UE                   gNB                       AMF
+                       |                    |                         |
+                       |<--- System Info ---|                         |  <-- BCCH, RRC Broadcast
+                       |                    |                         |
+                       |-- RRC Connection Request -->                 |
+                       |                    |                         |
+                       |<-- RRC Connection Setup --                   |
+                       |                    |                         |
+                       |-- RRC Connection Setup Complete ------------>|
+                       |       + Initial NAS (Reg Req)                |
+                       |                    |------ NGAP Initial UE Message --->|
+                       |                    |                         |
+                       |                    |<----- NGAP Identity Req -----------|
+                       |                    |----- Identity Response ----------->|
+                       |                    |<----- Authentication Request ------|
+                       |                    |----- Authentication Response ----->|
+                       |                    |<----- Security Mode Command -------|
+                       |                    |----- Security Mode Complete ------>|
+                       |                    |<----- Registration Accept ---------|
+                       |                    |----- Registration Complete ------->|
+
+call flow in detail
+                   Step  Layer     Protocol  Description                                                    
+                   1     PHY/MAC   -         gNB broadcasts system info, UE listens.                        
+                   2     RRC       RRC       UE sends RRC Connection Request to gNB.                        
+                   3     RRC       RRC       gNB responds with Connection Setup.                            
+                   4     RRC+NAS   RRC+NAS   UE sends Connection Setup Complete + NAS Registration Request. 
+                   5     NGAP      NGAP      gNB forwards NAS to AMF (Initial UE Msg).                      
+                   6     NAS       NAS       AMF sends Identity, Auth, Security, and Accept messages.       
+                   7     NGAP+NAS  NGAP/NAS  gNB just transports NAS messages using NGAP.                   
+
+
+
+PDU Session Establishment (For Browsing Data)
+To allow UE to access the internet (user plane)
+Setup tunnel between UE ↔ gNB ↔ UPF
+
+
+UE                   gNB                       AMF                     SMF                  UPF
+ |                    |                         |                       |                    |
+ |--NAS PDU Session Request-------------------->|                       |                    |
+ |                    |----NGAP UL NAS -------->|                       |                    |
+ |                    |                         |--SM Context Create-->|                    |
+ |                    |                         |                       |--GTP Tunnel Setup->|
+ |                    |                         |                       |<--Tunnel Resp------|
+ |                    |<---NAS PDU Accept-------|<--SM Context Resp-----|                    |
+ |<--RRC Reconfig------|                         |                                        |
+ |------RRC Complete-->|                         |                                        |
+
+
+
+Call flow in detail
+                  Step  Layer     Protocol   Description                                                    
+                   1     NAS       NAS        UE sends PDU Session Establishment Request to get data access. 
+                   2     NGAP      NGAP       gNB forwards NAS to AMF.                                       
+                   3     N11       HTTP/JSON  AMF contacts SMF to manage session.                            
+                   4     N4        GTP-U      SMF creates tunnel with UPF for user data.                     
+                   5     NGAP+RRC  NGAP/RRC   AMF replies back; gNB sends RRC Reconfiguration to UE.         
+                   6                          Now UE can send/receive internet data.                         
+
+Actual Data Browsing (User Plane Path)
+Once all above is completed, the user plane (data path) is active:
+                        UE <----> gNB <----> UPF <----> Internet
+                               (GTP-U Tunnel)
+Protocols used:
+                Between UE ↔ gNB: PDCP → RLC → MAC → PHY
+                Between gNB ↔ UPF: GTP-U over UDP/IP
