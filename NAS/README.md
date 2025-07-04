@@ -1,3 +1,79 @@
+# 5G UE Registration Call Flow (ASCII)
+
++--------+                +--------+                 +--------+
+|   UE   |                |  RAN   |                 |  AMF   |
++--------+                +--------+                 +--------+
+     |                         |                          |
+     | 1. Power ON             |                          |
+     |------------------------>|                          |
+     |                         |                          |
+     | 2. RRC Connection Req   |                          |
+     |------------------------>|                          |
+     |                         |                          |
+     | 3. RRC Setup            |                          |
+     |<------------------------|                          |
+     |                         |                          |
+     | 4. RRC Setup Complete + NAS Registration Request   |
+     |------------------------>|                          |
+     |                         |                          |
+     |                         | 5. NGAP Initial UE Msg   |
+     |                         |    + NAS Registration Req|
+     |                         |------------------------->|
+     |                         |                          |
+     |                         |     6. NAS Auth Request  |
+     |                         |<-------------------------|
+     |                         |                          |
+     | 7. RRC DL Info Transfer + NAS Auth Request         |
+     |<------------------------|                          |
+     |                         |                          |
+     | 8. NAS Auth Response    |                          |
+     |------------------------>|                          |
+     |                         |                          |
+     |                         | 9. NGAP Uplink NAS Msg   |
+     |                         |    + NAS Auth Response   |
+     |                         |------------------------->|
+     |                         |                          |
+     |                         |     10. NAS Sec Mode Cmd |
+     |                         |<-------------------------|
+     |                         |                          |
+     | 11. RRC DL Info Transfer + NAS Sec Mode Command    |
+     |<------------------------|                          |
+     |                         |                          |
+     | 12. NAS Sec Mode Complete                          |
+     |------------------------>|                          |
+     |                         |                          |
+     |                         | 13. NGAP Uplink NAS Msg  |
+     |                         |     + Sec Mode Complete  |
+     |                         |------------------------->|
+     |                         |                          |
+     |                         |     14. NAS Reg Accept   |
+     |                         |<-------------------------|
+     |                         |                          |
+     | 15. RRC DL Info Transfer + NAS Registration Accept |
+     |<------------------------|                          |
+     |                         |                          |
+     | 16. NAS Registration Complete                     |
+     |------------------------>|                          |
+     |                         |                          |
+     |                         | 17. NGAP Uplink NAS Msg  |
+     |                         |     + Reg Complete       |
+     |                         |------------------------->|
+     |                         |                          |
+     |                         | 18. NGAP Initial Ctx Setup Req (AMF → RAN)  
+     |                         |------------------------->|
+     |                         |                          |
+     | 19. RRC Reconfig        |                          |
+     |<------------------------|                          |
+     |                         |                          |
+     | 20. RRC Reconfig Complete                          |
+     |------------------------>|                          |
+     |                         |                          |
+     |                         | 21. Initial Ctx Setup Rsp|
+     |                         |------------------------->|
+     |                         |                          |
+     |<====== UE Registered, PDU Session Setup Can Follow ======>|
+
+
 # 📡 NAS Protocol During Initial Registration (UE ⇄ RAN ⇄ AMF)
 
 This document explains how the **NAS (Non-Access Stratum) protocol** functions during the **initial registration procedure** in a 5G network between the **UE (User Equipment)** and the **AMF (Access and Mobility Management Function)**, with the **RAN (gNB)** acting as a transparent forwarder.
