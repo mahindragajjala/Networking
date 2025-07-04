@@ -72,3 +72,68 @@
      |                         |------------------------->|
      |                         |                          |
      |<==== UE Successfully Registered with AMF ========>|
+
+
+
+
+
+
+
+
+
++-----------+        +-----------+         +-----------+         +-----------+
+|    UE     |        |    RAN    |         |   NGAP    |         |   AMF     |
++-----------+        +-----------+         +-----------+         +-----------+
+
+     |                     |                      |                    |
+     |<---- Power ON ------|                      |                    |
+     |                     |                      |                    |
+     |-- RRC Setup Req --> |                      |                    |
+     |                     |                      |                    |
+     |<- RRC Setup ------  |                      |                    |
+     |                     |                      |                    |
+     |-- RRC Setup Comp -->|                      |                    |
+     |                     |                      |                    |
+     |-- NAS: Reg Req ---->|                      |                    |
+     |                     |                      |                    |
+     |      Encapsulate in NGAP Initial UE Message -->               |
+     |                     |--------------------->|---->             |
+     |                     |                      | Initial UE Msg   |
+     |                     |                      |--> AMF Selection |
+     |                     |                      |                  |
+     |                     |                      |<-- Authentication|
+     |                     |<---------------------|<---- NGAP Msg     |
+     |<-- NAS: Auth Req ---|                      |                  |
+     |-- NAS: Auth Resp -->|                      |                  |
+     |                     |----> Encapsulated -->|                  |
+     |                     |                      |                  |
+     |                     |                      |-- Verify Auth -->|
+     |                     |                      |                  |
+     |                     |<-- Sec Mode Cmd -----|                  |
+     |<-- NAS: Sec Cmd ----|                      |                  |
+     |-- NAS: Sec Comp --->|                      |                  |
+     |                     |                      |                  |
+     |-- NAS: Reg Update ->|                      |                  |
+     |                     | Encapsulated NGAP -->|                  |
+     |                     |                      |                  |
+     |                     |                      |-- Reg Accept --> |
+     |                     |<-- NAS: Reg Accept --|                  |
+     |<-- NAS: Reg Accept -|                      |                  |
+     |-- NAS: Reg Comp --->|                      |                  |
+     |                     |-- Encapsulated ----->|                  |
+     |                     |                      |                  |
+     |                     |                      |-- Context Setup -|
+     |                     |<-- NGAP: Ctx Setup --|                  |
+     |<-- RRC: Ctx Setup --|                      |                  |
+     |-- PDU Session Req -->|                     |                  |
+     |                     |                      |                  |
+     |                     |-- NAS: PDU Sess Req -> AMF              |
+     |                     |                      |                  |
+     |                     |                      |-- SMF Selection -|
+     |                     |                      |-- PFCP setup --->|
+     |                     |                      |                  |
+     |                     |<-- NAS: PDU Sess Accept  <--------------|
+     |<-- NAS: Sess Accept -|                      |                  |
+     |                     |                      |                  |
+     |========= UE is Registered & Data Ready ======================|
+
